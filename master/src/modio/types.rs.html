@@ -546,6 +546,27 @@
 <span id="546">546</span>
 <span id="547">547</span>
 <span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
@@ -838,8 +859,6 @@
         <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">deserialize_with</span> <span class="op">=</span> <span class="string">&quot;deserialize_modfile&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">modfile</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">File</span><span class="op">&gt;</span>,
         <span class="kw">pub</span> <span class="ident">media</span>: <span class="ident">Media</span>,
-        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;rating_summary&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">ratings</span>: <span class="ident">Ratings</span>,
         <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;metadata_kvp&quot;</span>, <span class="ident">deserialize_with</span> <span class="op">=</span> <span class="string">&quot;deserialize_kvp&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">MetadataMap</span>,
         <span class="kw">pub</span> <span class="ident">tags</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Tag</span><span class="op">&gt;</span>,
@@ -875,18 +894,41 @@
         <span class="kw">pub</span> <span class="ident">thumb_320x180</span>: <span class="ident">Url</span>,
     }
 
-    <span class="doccomment">/// See the [Rating Summary Object](https://docs.mod.io/#rating-summary-object) docs for more</span>
+    <span class="doccomment">/// See the [Statistics Object](https://docs.mod.io/#stats-object) docs for more</span>
     <span class="doccomment">/// informations.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Statistics</span> {
+        <span class="kw">pub</span> <span class="ident">mod_id</span>: <span class="ident">u32</span>,
+        <span class="kw">pub</span> <span class="ident">downloads_total</span>: <span class="ident">u32</span>,
+        <span class="kw">pub</span> <span class="ident">subscribers_total</span>: <span class="ident">u32</span>,
+        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">flatten</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">popularity</span>: <span class="ident">Popularity</span>,
+        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">flatten</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">ratings</span>: <span class="ident">Ratings</span>,
+        <span class="kw">pub</span> <span class="ident">date_expires</span>: <span class="ident">u64</span>,
+    }
+
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Popularity</span> {
+        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;popularity_rank_position&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">rank_position</span>: <span class="ident">u32</span>,
+        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;popularity_rank_total_mods&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">rank_total</span>: <span class="ident">u32</span>,
+    }
+
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Ratings</span> {
-        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;total_ratings&quot;</span>)]</span>
+        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;ratings_total&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">total</span>: <span class="ident">u32</span>,
-        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;positive_ratings&quot;</span>)]</span>
+        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;ratings_positive&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">positive</span>: <span class="ident">u32</span>,
-        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;negative_ratings&quot;</span>)]</span>
+        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;ratings_negative&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">negative</span>: <span class="ident">u32</span>,
+        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;ratings_percentage_positive&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">percentage_positive</span>: <span class="ident">u32</span>,
+        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;ratings_weighted_aggregate&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">weighted_aggregate</span>: <span class="ident">f32</span>,
+        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;ratings_display_text&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">display_text</span>: <span class="ident">String</span>,
     }
 
