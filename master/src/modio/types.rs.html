@@ -630,6 +630,7 @@
 <span id="630">630</span>
 <span id="631">631</span>
 <span id="632">632</span>
+<span id="633">633</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
@@ -928,6 +929,7 @@
         <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;metadata_kvp&quot;</span>, <span class="ident">deserialize_with</span> <span class="op">=</span> <span class="string">&quot;deserialize_kvp&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">MetadataMap</span>,
         <span class="kw">pub</span> <span class="ident">tags</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Tag</span><span class="op">&gt;</span>,
+        <span class="kw">pub</span> <span class="ident">stats</span>: <span class="ident">Statistics</span>,
     }
 
     <span class="doccomment">/// See the [Mod Dependency Object](https://docs.mod.io/#mod-dependencies-object) docs for more</span>
