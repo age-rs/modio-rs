@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["DownloadAction","Defines the action that is performed for `Modio::download`."],["ResolvePolicy","Defines the policy for `DownloadAction::Version` when multiple files are found."]]});
