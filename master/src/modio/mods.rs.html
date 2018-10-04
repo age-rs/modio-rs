@@ -875,7 +875,7 @@
 <span class="kw">use</span> <span class="ident">hyper_multipart</span>::<span class="ident">client</span>::<span class="ident">multipart</span>;
 <span class="kw">use</span> <span class="ident">url</span>::{<span class="ident">form_urlencoded</span>, <span class="ident">Url</span>};
 
-<span class="kw">use</span> <span class="ident">error</span>::<span class="ident">Error</span>;
+<span class="kw">use</span> <span class="ident">error</span>::{<span class="ident">ErrorKind</span>, <span class="prelude-ty">Result</span>};
 <span class="kw">use</span> <span class="ident">files</span>::{<span class="ident">FileRef</span>, <span class="ident">Files</span>};
 <span class="kw">use</span> <span class="ident">metadata</span>::<span class="ident">Metadata</span>;
 <span class="kw">use</span> <span class="ident">teams</span>::<span class="ident">Members</span>;
@@ -1079,12 +1079,12 @@
             <span class="self">self</span>.<span class="ident">modio</span>
                 .<span class="ident">post</span>::<span class="op">&lt;</span><span class="ident">ModioMessage</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">path</span>(<span class="string">&quot;/ratings&quot;</span>), <span class="ident">params</span>)
                 .<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ())
-                .<span class="ident">or_else</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">err</span> {
-                    <span class="ident">Error</span>::<span class="ident">Fault</span> {
+                .<span class="ident">or_else</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">err</span>.<span class="ident">kind</span>() {
+                    <span class="ident">ErrorKind</span>::<span class="ident">Fault</span> {
                         <span class="ident">code</span>: <span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>,
                         ..
                     } <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
-                    <span class="ident">otherwise</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">otherwise</span>),
+                    <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>),
                 }),
         )
     }
@@ -1095,12 +1095,12 @@
             <span class="self">self</span>.<span class="ident">modio</span>
                 .<span class="ident">post</span>::<span class="op">&lt;</span><span class="ident">Mod</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">path</span>(<span class="string">&quot;/subscribe&quot;</span>), <span class="ident">Vec</span>::<span class="ident">new</span>())
                 .<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ())
-                .<span class="ident">or_else</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">err</span> {
-                    <span class="ident">Error</span>::<span class="ident">Fault</span> {
+                .<span class="ident">or_else</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">err</span>.<span class="ident">kind</span>() {
+                    <span class="ident">ErrorKind</span>::<span class="ident">Fault</span> {
                         <span class="ident">code</span>: <span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>,
                         ..
                     } <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
-                    <span class="ident">otherwise</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">otherwise</span>),
+                    <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>),
                 }),
         )
     }
@@ -1110,12 +1110,12 @@
         <span class="ident">Box</span>::<span class="ident">new</span>(
             <span class="self">self</span>.<span class="ident">modio</span>
                 .<span class="ident">delete</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">path</span>(<span class="string">&quot;/subscribe&quot;</span>), <span class="ident">Vec</span>::<span class="ident">new</span>())
-                .<span class="ident">or_else</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">err</span> {
-                    <span class="ident">Error</span>::<span class="ident">Fault</span> {
+                .<span class="ident">or_else</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">err</span>.<span class="ident">kind</span>() {
+                    <span class="ident">ErrorKind</span>::<span class="ident">Fault</span> {
                         <span class="ident">code</span>: <span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>,
                         ..
                     } <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
-                    <span class="ident">otherwise</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">otherwise</span>),
+                    <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>),
                 }),
         )
     }
@@ -1242,7 +1242,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">MultipartForm</span> <span class="kw">for</span> <span class="ident">AddModOptions</span> {
-    <span class="kw">fn</span> <span class="ident">to_form</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">multipart</span>::<span class="ident">Form</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">to_form</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">multipart</span>::<span class="ident">Form</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">form</span> <span class="op">=</span> <span class="ident">multipart</span>::<span class="ident">Form</span>::<span class="ident">default</span>();
 
         <span class="ident">form</span>.<span class="ident">add_text</span>(<span class="string">&quot;name&quot;</span>, <span class="self">self</span>.<span class="ident">name</span>.<span class="ident">clone</span>());
@@ -1537,7 +1537,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">MultipartForm</span> <span class="kw">for</span> <span class="ident">AddMediaOptions</span> {
-    <span class="kw">fn</span> <span class="ident">to_form</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">multipart</span>::<span class="ident">Form</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">to_form</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">multipart</span>::<span class="ident">Form</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">form</span> <span class="op">=</span> <span class="ident">multipart</span>::<span class="ident">Form</span>::<span class="ident">default</span>();
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">logo</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">logo</span> {
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span> <span class="ident">form</span>.<span class="ident">add_file</span>(<span class="string">&quot;logo&quot;</span>, <span class="ident">logo</span>) {
