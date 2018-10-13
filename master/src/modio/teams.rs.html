@@ -207,10 +207,12 @@
 <span id="207">207</span>
 <span id="208">208</span>
 <span id="209">209</span>
+<span id="210">210</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Team members interface</span>
 
 <span class="kw">use</span> <span class="ident">hyper</span>::<span class="ident">client</span>::<span class="ident">connect</span>::<span class="ident">Connect</span>;
+<span class="kw">use</span> <span class="ident">hyper</span>::<span class="ident">Body</span>;
 <span class="kw">use</span> <span class="ident">url</span>::<span class="ident">form_urlencoded</span>;
 
 <span class="kw">use</span> <span class="ident">Future</span>;
@@ -269,7 +271,7 @@
     <span class="doccomment">/// Delete a team member by id.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">delete</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">modio</span>
-            .<span class="ident">delete</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">path</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;/{}&quot;</span>, <span class="ident">id</span>)), <span class="ident">Vec</span>::<span class="ident">new</span>())
+            .<span class="ident">delete</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">path</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;/{}&quot;</span>, <span class="ident">id</span>)), <span class="ident">Body</span>::<span class="ident">empty</span>())
     }
 }
 

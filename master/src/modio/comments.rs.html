@@ -104,10 +104,12 @@
 <span id="104">104</span>
 <span id="105">105</span>
 <span id="106">106</span>
+<span id="107">107</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Mod comments interface</span>
 
 <span class="kw">use</span> <span class="ident">hyper</span>::<span class="ident">client</span>::<span class="ident">connect</span>::<span class="ident">Connect</span>;
+<span class="kw">use</span> <span class="ident">hyper</span>::<span class="ident">Body</span>;
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">types</span>::<span class="ident">mods</span>::<span class="ident">Comment</span>;
 <span class="kw">use</span> <span class="ident">Future</span>;
@@ -155,7 +157,7 @@
     <span class="doccomment">/// Delete a comment by id.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">delete</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">modio</span>
-            .<span class="ident">delete</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">path</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;/{}&quot;</span>, <span class="ident">id</span>)), <span class="ident">Vec</span>::<span class="ident">new</span>())
+            .<span class="ident">delete</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">path</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;/{}&quot;</span>, <span class="ident">id</span>)), <span class="ident">Body</span>::<span class="ident">empty</span>())
     }
 }
 
