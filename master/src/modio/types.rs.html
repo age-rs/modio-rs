@@ -640,6 +640,9 @@
 <span id="640">640</span>
 <span id="641">641</span>
 <span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
@@ -944,7 +947,10 @@
         <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">deserialize_with</span> <span class="op">=</span> <span class="string">&quot;deserialize_modfile&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">modfile</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">File</span><span class="op">&gt;</span>,
         <span class="kw">pub</span> <span class="ident">media</span>: <span class="ident">Media</span>,
-        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;metadata_kvp&quot;</span>, <span class="ident">deserialize_with</span> <span class="op">=</span> <span class="string">&quot;deserialize_kvp&quot;</span>)]</span>
+        <span class="attribute">#[<span class="ident">serde</span>(
+            <span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;metadata_kvp&quot;</span>,
+            <span class="ident">deserialize_with</span> <span class="op">=</span> <span class="string">&quot;deserialize_kvp&quot;</span>
+        )]</span>
         <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">MetadataMap</span>,
         <span class="kw">pub</span> <span class="ident">tags</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Tag</span><span class="op">&gt;</span>,
         <span class="kw">pub</span> <span class="ident">stats</span>: <span class="ident">Statistics</span>,

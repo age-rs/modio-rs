@@ -917,8 +917,6 @@
 <span id="917">917</span>
 <span id="918">918</span>
 <span id="919">919</span>
-<span id="920">920</span>
-<span id="921">921</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Mods Interface</span>
 
@@ -1466,8 +1464,7 @@
                 <span class="self">self</span>.<span class="ident">maturity_option</span>
                     .<span class="ident">iter</span>()
                     .<span class="ident">map</span>(<span class="op">|</span><span class="ident">m</span><span class="op">|</span> (<span class="string">&quot;maturity_option&quot;</span>, <span class="ident">m</span>.<span class="ident">to_string</span>())),
-            )
-            .<span class="ident">extend_pairs</span>(<span class="self">self</span>.<span class="ident">metadata_blob</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">m</span><span class="op">|</span> (<span class="string">&quot;metadata_blob&quot;</span>, <span class="ident">m</span>)))
+            ).<span class="ident">extend_pairs</span>(<span class="self">self</span>.<span class="ident">metadata_blob</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">m</span><span class="op">|</span> (<span class="string">&quot;metadata_blob&quot;</span>, <span class="ident">m</span>)))
             .<span class="ident">finish</span>()
     }
 }
@@ -1574,8 +1571,7 @@
                 <span class="self">self</span>.<span class="ident">dependencies</span>
                     .<span class="ident">iter</span>()
                     .<span class="ident">map</span>(<span class="op">|</span><span class="ident">d</span><span class="op">|</span> (<span class="string">&quot;dependencies[]&quot;</span>, <span class="ident">d</span>.<span class="ident">to_string</span>())),
-            )
-            .<span class="ident">finish</span>()
+            ).<span class="ident">finish</span>()
     }
 }
 
