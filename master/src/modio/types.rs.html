@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/types.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>types.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/types.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>types.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -643,7 +643,41 @@
 <span id="643">643</span>
 <span id="644">644</span>
 <span id="645">645</span>
-</pre><pre class="rust ">
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+</pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::<span class="ident">Index</span>;
@@ -652,7 +686,7 @@
 <span class="kw">use</span> <span class="ident">url</span>::<span class="ident">Url</span>;
 <span class="kw">use</span> <span class="ident">url_serde</span>;
 
-<span class="doccomment">/// See the [Message Object](https://docs.mod.io/#message-object) docs for more informations.</span>
+<span class="doccomment">/// See the [Message Object](https://docs.mod.io/#message-object) docs for more information.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ModioMessage</span> {
     <span class="kw">pub</span> <span class="ident">code</span>: <span class="ident">u16</span>,
@@ -660,7 +694,7 @@
 }
 
 <span class="doccomment">/// See the [Multiple Item Response](https://docs.mod.io/#response-formats) docs for more</span>
-<span class="doccomment">/// informations.</span>
+<span class="doccomment">/// information.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ModioListResponse</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="kw">pub</span> <span class="ident">data</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
@@ -700,14 +734,14 @@
     }
 }
 
-<span class="doccomment">/// See the [Error Object](https://docs.mod.io/#error-object) docs for more informations.</span>
+<span class="doccomment">/// See the [Error Object](https://docs.mod.io/#error-object) docs for more information.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ModioErrorResponse</span> {
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;error&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">error</span>: <span class="ident">ClientError</span>,
 }
 
-<span class="doccomment">/// See the [Error Object](https://docs.mod.io/#error-object) docs for more informations.</span>
+<span class="doccomment">/// See the [Error Object](https://docs.mod.io/#error-object) docs for more information.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ClientError</span> {
     <span class="kw">pub</span> <span class="ident">code</span>: <span class="ident">u16</span>,
@@ -715,7 +749,7 @@
     <span class="kw">pub</span> <span class="ident">errors</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">String</span><span class="op">&gt;&gt;</span>,
 }
 
-<span class="doccomment">/// See the [User Object](https://docs.mod.io/#user-object) docs for more informations.</span>
+<span class="doccomment">/// See the [User Object](https://docs.mod.io/#user-object) docs for more information.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">User</span> {
     <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">u32</span>,
@@ -730,7 +764,7 @@
     <span class="kw">pub</span> <span class="ident">profile_url</span>: <span class="ident">Url</span>,
 }
 
-<span class="doccomment">/// See the [Avatar Object](https://docs.mod.io/#avatar-object) docs for more informations.</span>
+<span class="doccomment">/// See the [Avatar Object](https://docs.mod.io/#avatar-object) docs for more information.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Avatar</span> {
     <span class="kw">pub</span> <span class="ident">filename</span>: <span class="ident">String</span>,
@@ -742,7 +776,7 @@
     <span class="kw">pub</span> <span class="ident">thumb_100x100</span>: <span class="ident">Url</span>,
 }
 
-<span class="doccomment">/// See the [Logo Object](https://docs.mod.io/#logo-object) docs for more informations.</span>
+<span class="doccomment">/// See the [Logo Object](https://docs.mod.io/#logo-object) docs for more information.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Logo</span> {
     <span class="kw">pub</span> <span class="ident">filename</span>: <span class="ident">String</span>,
@@ -756,10 +790,11 @@
     <span class="kw">pub</span> <span class="ident">thumb_1280x720</span>: <span class="ident">Url</span>,
 }
 
-<span class="doccomment">/// See the [Event Object](https://docs.mod.io/#event-object) docs for more informations.</span>
+<span class="doccomment">/// See the [User Event Object](https://docs.mod.io/#user-event-object) docs for more information.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Event</span> {
     <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">u32</span>,
+    <span class="kw">pub</span> <span class="ident">game_id</span>: <span class="ident">u32</span>,
     <span class="kw">pub</span> <span class="ident">mod_id</span>: <span class="ident">u32</span>,
     <span class="kw">pub</span> <span class="ident">user_id</span>: <span class="ident">u32</span>,
     <span class="kw">pub</span> <span class="ident">date_added</span>: <span class="ident">u64</span>,
@@ -769,18 +804,6 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
 <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;SCREAMING_SNAKE_CASE&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">EventType</span> {
-    <span class="doccomment">/// Primary file changed, the mod should be updated.</span>
-    <span class="ident">ModfileChanged</span>,
-    <span class="doccomment">/// Mod is marked as accepted and public.</span>
-    <span class="ident">ModAvailable</span>,
-    <span class="doccomment">/// Mod is marked as not accepted, deleted or hidden.</span>
-    <span class="ident">ModUnavailable</span>,
-    <span class="doccomment">/// Mod has been updated.</span>
-    <span class="ident">ModEdited</span>,
-    <span class="doccomment">/// Mod has been permanently deleted.</span>
-    <span class="ident">ModDeleted</span>,
-    <span class="doccomment">/// User has joined or left the mod team.</span>
-    <span class="ident">ModTeamChanged</span>,
     <span class="doccomment">/// User has joined a team.</span>
     <span class="ident">UserTeamJoin</span>,
     <span class="doccomment">/// User has left a team.</span>
@@ -792,19 +815,14 @@
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">EventType</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">EventType</span>::<span class="ident">ModfileChanged</span> <span class="op">=&gt;</span> <span class="string">&quot;MODFILE_CHANGED&quot;</span>,
-            <span class="ident">EventType</span>::<span class="ident">ModAvailable</span> <span class="op">=&gt;</span> <span class="string">&quot;MOD_AVAILABLE&quot;</span>,
-            <span class="ident">EventType</span>::<span class="ident">ModUnavailable</span> <span class="op">=&gt;</span> <span class="string">&quot;MOD_UNAVAILABLE&quot;</span>,
-            <span class="ident">EventType</span>::<span class="ident">ModEdited</span> <span class="op">=&gt;</span> <span class="string">&quot;MOD_EDITED&quot;</span>,
-            <span class="ident">EventType</span>::<span class="ident">ModDeleted</span> <span class="op">=&gt;</span> <span class="string">&quot;MOD_DELETED&quot;</span>,
-            <span class="ident">EventType</span>::<span class="ident">ModTeamChanged</span> <span class="op">=&gt;</span> <span class="string">&quot;MOD_TEAM_CHANGED&quot;</span>,
             <span class="ident">EventType</span>::<span class="ident">UserTeamJoin</span> <span class="op">=&gt;</span> <span class="string">&quot;USER_TEAM_JOIN&quot;</span>,
             <span class="ident">EventType</span>::<span class="ident">UserTeamLeave</span> <span class="op">=&gt;</span> <span class="string">&quot;USER_TEAM_LEAVE&quot;</span>,
             <span class="ident">EventType</span>::<span class="ident">UserSubscribe</span> <span class="op">=&gt;</span> <span class="string">&quot;USER_SUBSCRIBE&quot;</span>,
             <span class="ident">EventType</span>::<span class="ident">UserUnsubscribe</span> <span class="op">=&gt;</span> <span class="string">&quot;USER_UNSUBSCRIBE&quot;</span>,
-        }.<span class="ident">fmt</span>(<span class="ident">fmt</span>)
+        }
+        .<span class="ident">fmt</span>(<span class="ident">fmt</span>)
     }
 }
 
@@ -819,7 +837,7 @@
     <span class="kw">match</span> <span class="ident">Avatar</span>::<span class="ident">deserialize</span>(<span class="ident">deserializer</span>) {
         <span class="prelude-val">Ok</span>(<span class="ident">avatar</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">avatar</span>)),
         <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> {
-            <span class="kw">let</span> <span class="ident">err_s</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">err</span>);
+            <span class="kw">let</span> <span class="ident">err_s</span> <span class="op">=</span> <span class="ident">err</span>.<span class="ident">to_string</span>();
             <span class="kw">if</span> <span class="ident">err_s</span>.<span class="ident">starts_with</span>(<span class="string">&quot;missing field `filename`&quot;</span>)
                 <span class="op">||</span> <span class="ident">err_s</span>.<span class="ident">starts_with</span>(<span class="string">&quot;invalid type: null&quot;</span>)
             {
@@ -835,7 +853,7 @@
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
 
-    <span class="doccomment">/// See the [Game Object](https://docs.mod.io/#game-object) docs for more informations.</span>
+    <span class="doccomment">/// See the [Game Object](https://docs.mod.io/#game-object) docs for more information.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Game</span> {
         <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">u32</span>,
@@ -866,7 +884,7 @@
         <span class="kw">pub</span> <span class="ident">tag_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">TagOption</span><span class="op">&gt;</span>,
     }
 
-    <span class="doccomment">/// See the [Icon Object](https://docs.mod.io/#icon-object) docs for more informations.</span>
+    <span class="doccomment">/// See the [Icon Object](https://docs.mod.io/#icon-object) docs for more information.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Icon</span> {
         <span class="kw">pub</span> <span class="ident">filename</span>: <span class="ident">String</span>,
@@ -881,7 +899,7 @@
     }
 
     <span class="doccomment">/// See the [Header Image Object](https://docs.mod.io/#header-image-object) docs for more</span>
-    <span class="doccomment">/// informations.</span>
+    <span class="doccomment">/// information.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">HeaderImage</span> {
         <span class="kw">pub</span> <span class="ident">filename</span>: <span class="ident">String</span>,
@@ -890,7 +908,7 @@
     }
 
     <span class="doccomment">/// See the [Game Tag Option Object](https://docs.mod.io/#game-tag-option-object) docs for more</span>
-    <span class="doccomment">/// informations.</span>
+    <span class="doccomment">/// information.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TagOption</span> {
         <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">String</span>,
@@ -908,7 +926,7 @@
     }
 
     <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">TagType</span> {
-        <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">fmt</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">fmt</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
             <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
                 <span class="ident">TagType</span>::<span class="ident">Checkboxes</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;checkboxes&quot;</span>),
                 <span class="ident">TagType</span>::<span class="ident">Dropdown</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;dropdown&quot;</span>),
@@ -921,7 +939,7 @@
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">de</span>::{<span class="ident">Deserialize</span>, <span class="ident">Deserializer</span>};
 
-    <span class="doccomment">/// See the [Mod Object](https://docs.mod.io/#mod-object) docs for more informations.</span>
+    <span class="doccomment">/// See the [Mod Object](https://docs.mod.io/#mod-object) docs for more information.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Mod</span> {
         <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">u32</span>,
@@ -947,17 +965,67 @@
         <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">deserialize_with</span> <span class="op">=</span> <span class="string">&quot;deserialize_modfile&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">modfile</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">File</span><span class="op">&gt;</span>,
         <span class="kw">pub</span> <span class="ident">media</span>: <span class="ident">Media</span>,
-        <span class="attribute">#[<span class="ident">serde</span>(
-            <span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;metadata_kvp&quot;</span>,
-            <span class="ident">deserialize_with</span> <span class="op">=</span> <span class="string">&quot;deserialize_kvp&quot;</span>
-        )]</span>
+        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;metadata_kvp&quot;</span>, <span class="ident">deserialize_with</span> <span class="op">=</span> <span class="string">&quot;deserialize_kvp&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">metadata</span>: <span class="ident">MetadataMap</span>,
         <span class="kw">pub</span> <span class="ident">tags</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Tag</span><span class="op">&gt;</span>,
         <span class="kw">pub</span> <span class="ident">stats</span>: <span class="ident">Statistics</span>,
     }
 
+    <span class="doccomment">/// See the [Mod Event Object](https://docs.mod.io/#mod-event-object) docs for more information.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Event</span> {
+        <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">u32</span>,
+        <span class="kw">pub</span> <span class="ident">mod_id</span>: <span class="ident">u32</span>,
+        <span class="kw">pub</span> <span class="ident">user_id</span>: <span class="ident">u32</span>,
+        <span class="kw">pub</span> <span class="ident">date_added</span>: <span class="ident">u64</span>,
+        <span class="kw">pub</span> <span class="ident">event_type</span>: <span class="ident">EventType</span>,
+    }
+
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;SCREAMING_SNAKE_CASE&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">EventType</span> {
+        <span class="doccomment">/// Primary file changed, the mod should be updated.</span>
+        <span class="ident">ModfileChanged</span>,
+        <span class="doccomment">/// Mod is marked as accepted and public.</span>
+        <span class="ident">ModAvailable</span>,
+        <span class="doccomment">/// Mod is marked as not accepted, deleted or hidden.</span>
+        <span class="ident">ModUnavailable</span>,
+        <span class="doccomment">/// Mod has been updated.</span>
+        <span class="ident">ModEdited</span>,
+        <span class="doccomment">/// Mod has been permanently deleted.</span>
+        <span class="ident">ModDeleted</span>,
+        <span class="doccomment">/// User has joined or left the mod team.</span>
+        <span class="ident">ModTeamChanged</span>,
+        <span class="doccomment">/// User has joined a team.</span>
+        <span class="ident">UserTeamJoin</span>,
+        <span class="doccomment">/// User has left a team.</span>
+        <span class="ident">UserTeamLeave</span>,
+        <span class="doccomment">/// User has subscribed to a mod.</span>
+        <span class="ident">UserSubscribe</span>,
+        <span class="doccomment">/// User has unsubscribed to a mod.</span>
+        <span class="ident">UserUnsubscribe</span>,
+    }
+
+    <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">EventType</span> {
+        <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+            <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+                <span class="ident">EventType</span>::<span class="ident">ModfileChanged</span> <span class="op">=&gt;</span> <span class="string">&quot;MODFILE_CHANGED&quot;</span>,
+                <span class="ident">EventType</span>::<span class="ident">ModAvailable</span> <span class="op">=&gt;</span> <span class="string">&quot;MOD_AVAILABLE&quot;</span>,
+                <span class="ident">EventType</span>::<span class="ident">ModUnavailable</span> <span class="op">=&gt;</span> <span class="string">&quot;MOD_UNAVAILABLE&quot;</span>,
+                <span class="ident">EventType</span>::<span class="ident">ModEdited</span> <span class="op">=&gt;</span> <span class="string">&quot;MOD_EDITED&quot;</span>,
+                <span class="ident">EventType</span>::<span class="ident">ModDeleted</span> <span class="op">=&gt;</span> <span class="string">&quot;MOD_DELETED&quot;</span>,
+                <span class="ident">EventType</span>::<span class="ident">ModTeamChanged</span> <span class="op">=&gt;</span> <span class="string">&quot;MOD_TEAM_CHANGED&quot;</span>,
+                <span class="ident">EventType</span>::<span class="ident">UserTeamJoin</span> <span class="op">=&gt;</span> <span class="string">&quot;USER_TEAM_JOIN&quot;</span>,
+                <span class="ident">EventType</span>::<span class="ident">UserTeamLeave</span> <span class="op">=&gt;</span> <span class="string">&quot;USER_TEAM_LEAVE&quot;</span>,
+                <span class="ident">EventType</span>::<span class="ident">UserSubscribe</span> <span class="op">=&gt;</span> <span class="string">&quot;USER_SUBSCRIBE&quot;</span>,
+                <span class="ident">EventType</span>::<span class="ident">UserUnsubscribe</span> <span class="op">=&gt;</span> <span class="string">&quot;USER_UNSUBSCRIBE&quot;</span>,
+            }
+            .<span class="ident">fmt</span>(<span class="ident">fmt</span>)
+        }
+    }
+
     <span class="doccomment">/// See the [Mod Dependency Object](https://docs.mod.io/#mod-dependencies-object) docs for more</span>
-    <span class="doccomment">/// informations.</span>
+    <span class="doccomment">/// information.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Dependency</span> {
         <span class="kw">pub</span> <span class="ident">mod_id</span>: <span class="ident">u32</span>,
@@ -965,7 +1033,7 @@
     }
 
     <span class="doccomment">/// See the [Mod Media Object](https://docs.mod.io/#mod-media-object) docs for more</span>
-    <span class="doccomment">/// informations.</span>
+    <span class="doccomment">/// information.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Media</span> {
         <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span> <span class="op">=</span> <span class="string">&quot;Vec::new&quot;</span>)]</span>
@@ -976,7 +1044,7 @@
         <span class="kw">pub</span> <span class="ident">images</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Image</span><span class="op">&gt;</span>,
     }
 
-    <span class="doccomment">/// See the [Image Object](https://docs.mod.io/#image-object) docs for more informations.</span>
+    <span class="doccomment">/// See the [Image Object](https://docs.mod.io/#image-object) docs for more information.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Image</span> {
         <span class="kw">pub</span> <span class="ident">filename</span>: <span class="ident">String</span>,
@@ -987,7 +1055,7 @@
     }
 
     <span class="doccomment">/// See the [Statistics Object](https://docs.mod.io/#stats-object) docs for more</span>
-    <span class="doccomment">/// informations.</span>
+    <span class="doccomment">/// information.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Statistics</span> {
         <span class="kw">pub</span> <span class="ident">mod_id</span>: <span class="ident">u32</span>,
@@ -1024,7 +1092,7 @@
         <span class="kw">pub</span> <span class="ident">display_text</span>: <span class="ident">String</span>,
     }
 
-    <span class="doccomment">/// See the [Rating Object](https://docs.mod.io/#rating-object) docs for more informations.</span>
+    <span class="doccomment">/// See the [Rating Object](https://docs.mod.io/#rating-object) docs for more information.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
     <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Rating</span> {
         <span class="ident">Positive</span> {
@@ -1084,7 +1152,7 @@
         }
     }
 
-    <span class="doccomment">/// See the [Mod Tag Object](https://docs.mod.io/#mod-tag-object) docs for more informations.</span>
+    <span class="doccomment">/// See the [Mod Tag Object](https://docs.mod.io/#mod-tag-object) docs for more information.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Tag</span> {
         <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">String</span>,
@@ -1092,7 +1160,7 @@
     }
 
     <span class="doccomment">/// See the [Metadata KVP Object](https://docs.mod.io/#metadata-kvp-object) docs for more</span>
-    <span class="doccomment">/// informations.</span>
+    <span class="doccomment">/// information.</span>
     <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">MetadataMap</span> <span class="op">=</span> <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>;
 
     <span class="doccomment">/// Deserialize a sequence of key-value objects to a `MetadataMap`.</span>
@@ -1124,7 +1192,7 @@
         <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Visitor</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MetadataVisitor</span> {
             <span class="kw">type</span> <span class="ident">Value</span> <span class="op">=</span> <span class="ident">MetadataMap</span>;
 
-            <span class="kw">fn</span> <span class="ident">expecting</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">fmt</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+            <span class="kw">fn</span> <span class="ident">expecting</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">fmt</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
                 <span class="ident">fmt</span>.<span class="ident">write_str</span>(<span class="string">&quot;metadata kvp&quot;</span>)
             }
 
@@ -1147,7 +1215,7 @@
         <span class="ident">deserializer</span>.<span class="ident">deserialize_seq</span>(<span class="ident">MetadataVisitor</span>)
     }
 
-    <span class="doccomment">/// See the [Comment Object](https://docs.mod.io/#comment-object) docs for more informations.</span>
+    <span class="doccomment">/// See the [Comment Object](https://docs.mod.io/#comment-object) docs for more information.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Comment</span> {
         <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">u32</span>,
@@ -1161,7 +1229,7 @@
         <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">String</span>,
     }
 
-    <span class="doccomment">/// See the [Modfile Object](https://docs.mod.io/#modfile-object) docs for more informations.</span>
+    <span class="doccomment">/// See the [Modfile Object](https://docs.mod.io/#modfile-object) docs for more information.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">File</span> {
         <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">u32</span>,
@@ -1180,13 +1248,13 @@
         <span class="kw">pub</span> <span class="ident">download</span>: <span class="ident">Download</span>,
     }
 
-    <span class="doccomment">/// See the [Filehash Object](https://docs.mod.io/#filehash-object) docs for more informations.</span>
+    <span class="doccomment">/// See the [Filehash Object](https://docs.mod.io/#filehash-object) docs for more information.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FileHash</span> {
         <span class="kw">pub</span> <span class="ident">md5</span>: <span class="ident">String</span>,
     }
 
-    <span class="doccomment">/// See the [Download Object](https://docs.mod.io/#download-object) docs for more informations.</span>
+    <span class="doccomment">/// See the [Download Object](https://docs.mod.io/#download-object) docs for more information.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Download</span> {
         <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">with</span> <span class="op">=</span> <span class="string">&quot;url_serde&quot;</span>)]</span>
@@ -1195,7 +1263,7 @@
     }
 
     <span class="doccomment">/// See the [Team Member Object](https://docs.mod.io/#team-member-object) docs for more</span>
-    <span class="doccomment">/// informations.</span>
+    <span class="doccomment">/// information.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TeamMember</span> {
         <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">u32</span>,
@@ -1238,7 +1306,7 @@
             <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> ::<span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">Visitor</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Visitor</span> {
                 <span class="kw">type</span> <span class="ident">Value</span> <span class="op">=</span> <span class="ident">TeamLevel</span>;
 
-                <span class="kw">fn</span> <span class="ident">expecting</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> ::<span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> ::<span class="ident">std</span>::<span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+                <span class="kw">fn</span> <span class="ident">expecting</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> ::<span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> ::<span class="ident">std</span>::<span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
                     <span class="ident">fmt</span>.<span class="ident">write_str</span>(<span class="string">&quot;positive integer&quot;</span>)
                 }
 
@@ -1275,7 +1343,7 @@
         <span class="kw">match</span> <span class="ident">File</span>::<span class="ident">deserialize</span>(<span class="ident">deserializer</span>) {
             <span class="prelude-val">Ok</span>(<span class="ident">file</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">file</span>)),
             <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> {
-                <span class="kw">let</span> <span class="ident">err_s</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">err</span>);
+                <span class="kw">let</span> <span class="ident">err_s</span> <span class="op">=</span> <span class="ident">err</span>.<span class="ident">to_string</span>();
                 <span class="kw">if</span> <span class="ident">err_s</span>.<span class="ident">starts_with</span>(<span class="string">&quot;missing field `id`&quot;</span>)
                     <span class="op">||</span> <span class="ident">err_s</span>.<span class="ident">starts_with</span>(<span class="string">&quot;invalid type: null&quot;</span>)
                 {
@@ -1289,5 +1357,5 @@
 }
 
 <span class="comment">// vim: fdm=marker</span>
-</pre>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g. <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g. <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g. <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "modio";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script defer src="../../search-index.js"></script></body></html>
+</pre></div>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g. <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g. <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g. <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "modio";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-files.js"></script><script src="../../source-script.js"></script><script defer src="../../search-index.js"></script></body></html>
