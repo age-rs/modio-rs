@@ -257,22 +257,54 @@
 <span id="257">257</span>
 <span id="258">258</span>
 <span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Client errors</span>
 
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span> <span class="kw">as</span> <span class="ident">StdError</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Error</span> <span class="kw">as</span> <span class="ident">IoError</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">result</span>::<span class="prelude-ty">Result</span> <span class="kw">as</span> <span class="ident">StdResult</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">Duration</span>;
 
-<span class="kw">use</span> <span class="ident">failure</span>::<span class="ident">Backtrace</span>;
-<span class="kw">use</span> <span class="ident">failure</span>::<span class="ident">Context</span>;
-<span class="kw">use</span> <span class="ident">failure</span>::<span class="ident">Fail</span>;
 <span class="kw">use</span> <span class="ident">http</span>::<span class="ident">uri</span>::<span class="ident">InvalidUri</span>;
 <span class="kw">use</span> <span class="ident">http</span>::<span class="ident">Error</span> <span class="kw">as</span> <span class="ident">HttpError</span>;
 <span class="kw">use</span> <span class="ident">hyper</span>::<span class="ident">Error</span> <span class="kw">as</span> <span class="ident">HyperError</span>;
 <span class="kw">use</span> <span class="ident">hyper</span>::<span class="ident">StatusCode</span>;
-<span class="kw">use</span> <span class="ident">serde_json</span>::<span class="ident">Error</span> <span class="kw">as</span> <span class="ident">SerdeError</span>;
+<span class="kw">use</span> <span class="ident">serde_json</span>::<span class="ident">Error</span> <span class="kw">as</span> <span class="ident">JsonError</span>;
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">ClientError</span>;
 
@@ -286,16 +318,20 @@
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Error</span> {
-    <span class="ident">inner</span>: <span class="ident">Context</span><span class="op">&lt;</span><span class="ident">ErrorKind</span><span class="op">&gt;</span>,
+    <span class="ident">inner</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">ErrorKind</span><span class="op">&gt;</span>,
 }
 
-<span class="kw">impl</span> <span class="ident">Fail</span> <span class="kw">for</span> <span class="ident">Error</span> {
-    <span class="kw">fn</span> <span class="ident">cause</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">Fail</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">cause</span>()
-    }
-
-    <span class="kw">fn</span> <span class="ident">backtrace</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Backtrace</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">backtrace</span>()
+<span class="kw">impl</span> <span class="ident">StdError</span> <span class="kw">for</span> <span class="ident">Error</span> {
+    <span class="kw">fn</span> <span class="ident">source</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>(<span class="kw">dyn</span> <span class="ident">StdError</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>)<span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">inner</span> {
+            <span class="ident">ErrorKind</span>::<span class="ident">Download</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">e</span>),
+            <span class="ident">ErrorKind</span>::<span class="ident">Fault</span> { <span class="kw-2">ref</span> <span class="ident">error</span>, .. } <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">error</span>),
+            <span class="ident">ErrorKind</span>::<span class="ident">Http</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">e</span>),
+            <span class="ident">ErrorKind</span>::<span class="ident">Hyper</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">e</span>),
+            <span class="ident">ErrorKind</span>::<span class="ident">Io</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">e</span>),
+            <span class="ident">ErrorKind</span>::<span class="ident">Uri</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">e</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+        }
     }
 }
 
@@ -307,62 +343,59 @@
 
 <span class="kw">impl</span> <span class="ident">Error</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">kind</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">ErrorKind</span> {
-        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">get_context</span>()
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">inner</span>
     }
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">ErrorKind</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Error</span> {
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">kind</span>: <span class="ident">ErrorKind</span>) <span class="op">-&gt;</span> <span class="ident">Error</span> {
         <span class="ident">Error</span> {
-            <span class="ident">inner</span>: <span class="ident">Context</span>::<span class="ident">new</span>(<span class="ident">kind</span>),
+            <span class="ident">inner</span>: <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">kind</span>),
         }
     }
 }
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&lt;</span><span class="ident">ErrorKind</span><span class="op">&gt;&gt;</span> <span class="kw">for</span> <span class="ident">Error</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">inner</span>: <span class="ident">Context</span><span class="op">&lt;</span><span class="ident">ErrorKind</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Error</span> {
-        <span class="ident">Error</span> { <span class="ident">inner</span> }
-    }
-}
-
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Fail</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ErrorKind</span> {
-    <span class="attribute">#[<span class="ident">fail</span>(<span class="ident">display</span> <span class="op">=</span> <span class="string">&quot;{}&quot;</span>, <span class="ident">_0</span>)]</span>
     <span class="ident">Message</span>(<span class="ident">String</span>),
-    <span class="attribute">#[<span class="ident">fail</span>(<span class="ident">display</span> <span class="op">=</span> <span class="string">&quot;{}: {}&quot;</span>, <span class="ident">code</span>, <span class="ident">error</span>)]</span>
     <span class="ident">Fault</span> {
         <span class="ident">code</span>: <span class="ident">StatusCode</span>,
         <span class="ident">error</span>: <span class="ident">ClientError</span>,
     },
-    <span class="attribute">#[<span class="ident">fail</span>(<span class="ident">display</span> <span class="op">=</span> <span class="string">&quot;API rate limit reached. Try again in {:?}.&quot;</span>, <span class="ident">reset</span>)]</span>
-    <span class="ident">RateLimit</span> { <span class="ident">reset</span>: <span class="ident">Duration</span> },
-    <span class="attribute">#[<span class="ident">fail</span>(<span class="ident">display</span> <span class="op">=</span> <span class="string">&quot;Download failed: {}&quot;</span>, <span class="ident">_0</span>)]</span>
-    <span class="ident">Download</span>(<span class="attribute">#[<span class="ident">fail</span>(<span class="ident">cause</span>)]</span> <span class="ident">DownloadError</span>),
-    <span class="attribute">#[<span class="ident">fail</span>(<span class="ident">display</span> <span class="op">=</span> <span class="string">&quot;Serde Error: {}&quot;</span>, <span class="ident">_0</span>)]</span>
-    <span class="ident">Codec</span>(<span class="attribute">#[<span class="ident">fail</span>(<span class="ident">cause</span>)]</span> <span class="ident">SerdeError</span>),
-    <span class="attribute">#[<span class="ident">fail</span>(<span class="ident">display</span> <span class="op">=</span> <span class="string">&quot;Failed to create http request: {}&quot;</span>, <span class="ident">_0</span>)]</span>
-    <span class="ident">Http</span>(<span class="attribute">#[<span class="ident">fail</span>(<span class="ident">cause</span>)]</span> <span class="ident">HttpError</span>),
-    <span class="attribute">#[<span class="ident">fail</span>(<span class="ident">display</span> <span class="op">=</span> <span class="string">&quot;{}&quot;</span>, <span class="ident">_0</span>)]</span>
-    <span class="ident">Hyper</span>(<span class="attribute">#[<span class="ident">fail</span>(<span class="ident">cause</span>)]</span> <span class="ident">HyperError</span>),
-    <span class="attribute">#[<span class="ident">fail</span>(<span class="ident">display</span> <span class="op">=</span> <span class="string">&quot;IO Error: {}&quot;</span>, <span class="ident">_0</span>)]</span>
-    <span class="ident">Io</span>(<span class="attribute">#[<span class="ident">fail</span>(<span class="ident">cause</span>)]</span> <span class="ident">IoError</span>),
-    <span class="attribute">#[<span class="ident">fail</span>(<span class="ident">display</span> <span class="op">=</span> <span class="string">&quot;Invalid Uri: {}&quot;</span>, <span class="ident">_0</span>)]</span>
-    <span class="ident">Uri</span>(<span class="attribute">#[<span class="ident">fail</span>(<span class="ident">cause</span>)]</span> <span class="ident">InvalidUri</span>),
+    <span class="ident">RateLimit</span> {
+        <span class="ident">reset</span>: <span class="ident">Duration</span>,
+    },
+    <span class="ident">Download</span>(<span class="ident">DownloadError</span>),
+    <span class="ident">Json</span>(<span class="ident">JsonError</span>),
+    <span class="ident">Http</span>(<span class="ident">HttpError</span>),
+    <span class="ident">Hyper</span>(<span class="ident">HyperError</span>),
+    <span class="ident">Io</span>(<span class="ident">IoError</span>),
+    <span class="ident">Uri</span>(<span class="ident">InvalidUri</span>),
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Fail</span>)]</span>
+<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">ErrorKind</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="kw">match</span> <span class="self">self</span> {
+            <span class="ident">ErrorKind</span>::<span class="ident">Message</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> <span class="ident">msg</span>.<span class="ident">fmt</span>(<span class="ident">fmt</span>),
+            <span class="ident">ErrorKind</span>::<span class="ident">Fault</span> { <span class="ident">code</span>, <span class="ident">error</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;{}: {}&quot;</span>, <span class="ident">code</span>, <span class="ident">error</span>),
+            <span class="ident">ErrorKind</span>::<span class="ident">RateLimit</span> { <span class="ident">reset</span> } <span class="op">=&gt;</span> {
+                <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;API rate limit reached. Try again in {:?}.&quot;</span>, <span class="ident">reset</span>)
+            }
+            <span class="ident">ErrorKind</span>::<span class="ident">Download</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;Download failed: {}&quot;</span>, <span class="ident">e</span>),
+            <span class="ident">ErrorKind</span>::<span class="ident">Json</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="ident">e</span>.<span class="ident">fmt</span>(<span class="ident">fmt</span>),
+            <span class="ident">ErrorKind</span>::<span class="ident">Http</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;Failed to create http request: {}&quot;</span>, <span class="ident">e</span>),
+            <span class="ident">ErrorKind</span>::<span class="ident">Hyper</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="ident">e</span>.<span class="ident">fmt</span>(<span class="ident">fmt</span>),
+            <span class="ident">ErrorKind</span>::<span class="ident">Io</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="ident">e</span>.<span class="ident">fmt</span>(<span class="ident">fmt</span>),
+            <span class="ident">ErrorKind</span>::<span class="ident">Uri</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="ident">e</span>.<span class="ident">fmt</span>(<span class="ident">fmt</span>),
+        }
+    }
+}
+
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DownloadError</span> {
     <span class="doccomment">/// The mod has no primary file.</span>
-    <span class="attribute">#[<span class="ident">fail</span>(
-        <span class="ident">display</span> <span class="op">=</span> <span class="string">&quot;Mod {{id: {1}, game_id: {0}}}: Mod has no primary file.&quot;</span>,
-        <span class="ident">game_id</span>, <span class="ident">mod_id</span>
-    )]</span>
     <span class="ident">NoPrimaryFile</span> { <span class="ident">game_id</span>: <span class="ident">u32</span>, <span class="ident">mod_id</span>: <span class="ident">u32</span> },
     <span class="doccomment">/// The specific file of a mod was not found.</span>
-    <span class="attribute">#[<span class="ident">fail</span>(
-        <span class="ident">display</span> <span class="op">=</span> <span class="string">&quot;Mod {{id: {1}, game_id: {0}}}: File {{ id: {2} }} not found.&quot;</span>,
-        <span class="ident">game_id</span>, <span class="ident">mod_id</span>, <span class="ident">file_id</span>
-    )]</span>
     <span class="ident">FileNotFound</span> {
         <span class="ident">game_id</span>: <span class="ident">u32</span>,
         <span class="ident">mod_id</span>: <span class="ident">u32</span>,
@@ -370,26 +403,61 @@
     },
     <span class="doccomment">/// Multiple files for a given version were found and the policy was set to</span>
     <span class="doccomment">/// [`ResolvePolicy::Fail`](../download/enum.ResolvePolicy.html#variant.Fail).</span>
-    <span class="attribute">#[<span class="ident">fail</span>(
-        <span class="ident">display</span> <span class="op">=</span> <span class="string">&quot;Mod {{id: {1}, game_id: {0}}}: Multiple files found for version &#39;{2}&#39;.&quot;</span>,
-        <span class="ident">game_id</span>, <span class="ident">mod_id</span>, <span class="ident">version</span>
-    )]</span>
     <span class="ident">MultipleFilesFound</span> {
         <span class="ident">game_id</span>: <span class="ident">u32</span>,
         <span class="ident">mod_id</span>: <span class="ident">u32</span>,
         <span class="ident">version</span>: <span class="ident">String</span>,
     },
     <span class="doccomment">/// No file for a given version was found.</span>
-    <span class="attribute">#[<span class="ident">fail</span>(
-        <span class="ident">display</span> <span class="op">=</span> <span class="string">&quot;Mod {{id: {1}, game_id: {0}}}: No file with version &#39;{2}&#39; found.&quot;</span>,
-        <span class="ident">game_id</span>, <span class="ident">mod_id</span>, <span class="ident">version</span>
-    )]</span>
     <span class="ident">VersionNotFound</span> {
         <span class="ident">game_id</span>: <span class="ident">u32</span>,
         <span class="ident">mod_id</span>: <span class="ident">u32</span>,
         <span class="ident">version</span>: <span class="ident">String</span>,
     },
 }
+
+<span class="kw">impl</span> <span class="ident">StdError</span> <span class="kw">for</span> <span class="ident">DownloadError</span> {}
+
+<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">DownloadError</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="kw">match</span> <span class="self">self</span> {
+            <span class="ident">DownloadError</span>::<span class="ident">FileNotFound</span> {
+                <span class="ident">game_id</span>,
+                <span class="ident">mod_id</span>,
+                <span class="ident">file_id</span>,
+            } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+                <span class="ident">fmt</span>,
+                <span class="string">&quot;Mod {{id: {1}, game_id: {0}}}: File {{ id: {2} }} not found.&quot;</span>,
+                <span class="ident">game_id</span>, <span class="ident">mod_id</span>, <span class="ident">file_id</span>,
+            ),
+            <span class="ident">DownloadError</span>::<span class="ident">MultipleFilesFound</span> {
+                <span class="ident">game_id</span>,
+                <span class="ident">mod_id</span>,
+                <span class="ident">version</span>,
+            } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+                <span class="ident">fmt</span>,
+                <span class="string">&quot;Mod {{id: {1}, game_id: {0}}}: Multiple files found for version &#39;{2}&#39;.&quot;</span>,
+                <span class="ident">game_id</span>, <span class="ident">mod_id</span>, <span class="ident">version</span>,
+            ),
+            <span class="ident">DownloadError</span>::<span class="ident">NoPrimaryFile</span> { <span class="ident">game_id</span>, <span class="ident">mod_id</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+                <span class="ident">fmt</span>,
+                <span class="string">&quot;Mod {{id: {1}, game_id: {0}}} Mod has no primary file.&quot;</span>,
+                <span class="ident">game_id</span>, <span class="ident">mod_id</span>,
+            ),
+            <span class="ident">DownloadError</span>::<span class="ident">VersionNotFound</span> {
+                <span class="ident">game_id</span>,
+                <span class="ident">mod_id</span>,
+                <span class="ident">version</span>,
+            } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+                <span class="ident">fmt</span>,
+                <span class="string">&quot;Mod {{id: {1}, game_id: {0}}}: No file with version &#39;{2}&#39; found.&quot;</span>,
+                <span class="ident">game_id</span>, <span class="ident">mod_id</span>, <span class="ident">version</span>,
+            ),
+        }
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">StdError</span> <span class="kw">for</span> <span class="ident">ClientError</span> {}
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">ClientError</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
@@ -457,9 +525,9 @@
     }
 }
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">SerdeError</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Error</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span>: <span class="ident">SerdeError</span>) <span class="op">-&gt;</span> <span class="ident">Error</span> {
-        <span class="ident">ErrorKind</span>::<span class="ident">Codec</span>(<span class="ident">err</span>).<span class="ident">into</span>()
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">JsonError</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Error</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span>: <span class="ident">JsonError</span>) <span class="op">-&gt;</span> <span class="ident">Error</span> {
+        <span class="ident">ErrorKind</span>::<span class="ident">Json</span>(<span class="ident">err</span>).<span class="ident">into</span>()
     }
 }
 
