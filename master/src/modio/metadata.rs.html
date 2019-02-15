@@ -71,25 +71,13 @@
 <span id="71">71</span>
 <span id="72">72</span>
 <span id="73">73</span>
-<span id="74">74</span>
-<span id="75">75</span>
-<span id="76">76</span>
-<span id="77">77</span>
-<span id="78">78</span>
-<span id="79">79</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Mod metadata KVP interface</span>
 
-<span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">Future</span> <span class="kw">as</span> <span class="ident">StdFuture</span>;
-<span class="kw">use</span> <span class="ident">hyper</span>::<span class="ident">client</span>::<span class="ident">connect</span>::<span class="ident">Connect</span>;
 <span class="kw">use</span> <span class="ident">url</span>::<span class="ident">form_urlencoded</span>;
 
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">mods</span>::<span class="ident">MetadataMap</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Future</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">List</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Modio</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">ModioMessage</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">QueryParams</span>;
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Metadata</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>
 <span class="kw">where</span>

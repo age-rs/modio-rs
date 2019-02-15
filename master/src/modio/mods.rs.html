@@ -933,20 +933,12 @@
 <span id="933">933</span>
 <span id="934">934</span>
 <span id="935">935</span>
-<span id="936">936</span>
-<span id="937">937</span>
-<span id="938">938</span>
-<span id="939">939</span>
-<span id="940">940</span>
-<span id="941">941</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Mods Interface</span>
 
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>::<span class="ident">Path</span>;
 
-<span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">Future</span> <span class="kw">as</span> <span class="ident">StdFuture</span>;
-<span class="kw">use</span> <span class="ident">hyper</span>::<span class="ident">client</span>::<span class="ident">connect</span>::<span class="ident">Connect</span>;
-<span class="kw">use</span> <span class="ident">hyper</span>::{<span class="ident">Body</span>, <span class="ident">StatusCode</span>};
+<span class="kw">use</span> <span class="ident">hyper</span>::<span class="ident">StatusCode</span>;
 <span class="kw">use</span> <span class="ident">mime</span>::{<span class="ident">APPLICATION_OCTET_STREAM</span>, <span class="ident">IMAGE_STAR</span>};
 <span class="kw">use</span> <span class="ident">url</span>::{<span class="ident">form_urlencoded</span>, <span class="ident">Url</span>};
 
@@ -954,18 +946,14 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">files</span>::{<span class="ident">FileRef</span>, <span class="ident">Files</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">metadata</span>::<span class="ident">Metadata</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">multipart</span>::{<span class="ident">FileSource</span>, <span class="ident">FileStream</span>, <span class="ident">MultipartForm</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">teams</span>::<span class="ident">Members</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Comments</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Endpoint</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">EventListOptions</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">List</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Modio</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">ModioMessage</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">AddOptions</span>, <span class="ident">DeleteOptions</span>, <span class="ident">QueryParams</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Future</span>, <span class="ident">Stream</span>};
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">mods</span>::{
-    <span class="ident">Dependency</span>, <span class="ident">Event</span>, <span class="ident">EventType</span>, <span class="ident">Image</span>, <span class="ident">Media</span>, <span class="ident">MetadataMap</span>, <span class="ident">Mod</span>, <span class="ident">Popularity</span>, <span class="ident">Ratings</span>, <span class="ident">Statistics</span>, <span class="ident">Tag</span>,
+    <span class="ident">Dependency</span>, <span class="ident">Event</span>, <span class="ident">EventType</span>, <span class="ident">Image</span>, <span class="ident">Media</span>, <span class="ident">MetadataMap</span>, <span class="ident">Mod</span>, <span class="ident">Popularity</span>, <span class="ident">Ratings</span>, <span class="ident">Statistics</span>,
+    <span class="ident">Tag</span>,
 };
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">Logo</span>;
 

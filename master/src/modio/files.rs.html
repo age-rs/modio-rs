@@ -394,16 +394,11 @@
 <span id="394">394</span>
 <span id="395">395</span>
 <span id="396">396</span>
-<span id="397">397</span>
-<span id="398">398</span>
-<span id="399">399</span>
-<span id="400">400</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Modfile interface</span>
 
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>::<span class="ident">Path</span>;
 
-<span class="kw">use</span> <span class="ident">hyper</span>::<span class="ident">client</span>::<span class="ident">connect</span>::<span class="ident">Connect</span>;
 <span class="kw">use</span> <span class="ident">hyper</span>::<span class="ident">Body</span>;
 <span class="kw">use</span> <span class="ident">url</span>::<span class="ident">form_urlencoded</span>;
 
@@ -411,10 +406,7 @@
 <span class="kw">use</span> <span class="ident">tokio_io</span>::<span class="ident">AsyncRead</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">multipart</span>::{<span class="ident">FileSource</span>, <span class="ident">FileStream</span>, <span class="ident">MultipartForm</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">List</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Modio</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">QueryParams</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Future</span>, <span class="ident">Stream</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">mods</span>::{<span class="ident">Download</span>, <span class="ident">File</span>, <span class="ident">FileHash</span>};
 

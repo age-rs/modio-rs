@@ -212,24 +212,12 @@
 <span id="212">212</span>
 <span id="213">213</span>
 <span id="214">214</span>
-<span id="215">215</span>
-<span id="216">216</span>
-<span id="217">217</span>
-<span id="218">218</span>
-<span id="219">219</span>
-<span id="220">220</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Team members interface</span>
 
-<span class="kw">use</span> <span class="ident">hyper</span>::<span class="ident">client</span>::<span class="ident">connect</span>::<span class="ident">Connect</span>;
-<span class="kw">use</span> <span class="ident">hyper</span>::<span class="ident">Body</span>;
 <span class="kw">use</span> <span class="ident">url</span>::<span class="ident">form_urlencoded</span>;
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">List</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Modio</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">ModioMessage</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">QueryParams</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Future</span>, <span class="ident">Stream</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">mods</span>::{<span class="ident">TeamLevel</span>, <span class="ident">TeamMember</span>};
 

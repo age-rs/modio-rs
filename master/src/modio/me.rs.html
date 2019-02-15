@@ -182,24 +182,16 @@
 <span id="182">182</span>
 <span id="183">183</span>
 <span id="184">184</span>
-<span id="185">185</span>
-<span id="186">186</span>
-<span id="187">187</span>
-<span id="188">188</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Me interface</span>
-
-<span class="kw">use</span> <span class="ident">hyper</span>::<span class="ident">client</span>::<span class="ident">connect</span>::<span class="ident">Connect</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">files</span>::<span class="ident">MyFiles</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">games</span>::<span class="ident">MyGames</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">mods</span>::<span class="ident">MyMods</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">mods</span>::<span class="ident">Mod</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">User</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">EventListOptions</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Modio</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">QueryParams</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Future</span>, <span class="ident">Stream</span>};
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">mods</span>::<span class="ident">Rating</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::{<span class="ident">Event</span>, <span class="ident">EventType</span>};
