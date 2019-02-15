@@ -105,6 +105,16 @@
 <span id="105">105</span>
 <span id="106">106</span>
 <span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Mod comments interface</span>
 
@@ -112,10 +122,10 @@
 <span class="kw">use</span> <span class="ident">hyper</span>::<span class="ident">Body</span>;
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">mods</span>::<span class="ident">Comment</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Future</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">List</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Modio</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">ModioListResponse</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">QueryParams</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Future</span>, <span class="ident">Stream</span>};
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Comments</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>
 <span class="kw">where</span>
@@ -140,13 +150,23 @@
     }
 
     <span class="doccomment">/// List all comments.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">CommentsListOptions</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">ModioListResponse</span><span class="op">&lt;</span><span class="ident">Comment</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">CommentsListOptions</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">List</span><span class="op">&lt;</span><span class="ident">Comment</span><span class="op">&gt;&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">uri</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="self">self</span>.<span class="ident">path</span>(<span class="string">&quot;&quot;</span>)];
         <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_query_params</span>();
         <span class="kw">if</span> <span class="op">!</span><span class="ident">query</span>.<span class="ident">is_empty</span>() {
             <span class="ident">uri</span>.<span class="ident">push</span>(<span class="ident">query</span>);
         }
         <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">uri</span>.<span class="ident">join</span>(<span class="string">&quot;?&quot;</span>))
+    }
+
+    <span class="doccomment">/// Provides a stream over all comments of the mod.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">CommentsListOptions</span>) <span class="op">-&gt;</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Comment</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">uri</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="self">self</span>.<span class="ident">path</span>(<span class="string">&quot;&quot;</span>)];
+        <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_query_params</span>();
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">query</span>.<span class="ident">is_empty</span>() {
+            <span class="ident">uri</span>.<span class="ident">push</span>(<span class="ident">query</span>);
+        }
+        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">stream</span>(<span class="kw-2">&amp;</span><span class="ident">uri</span>.<span class="ident">join</span>(<span class="string">&quot;?&quot;</span>))
     }
 
     <span class="doccomment">/// Return comment by id.</span>

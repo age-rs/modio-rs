@@ -919,6 +919,26 @@
 <span id="919">919</span>
 <span id="920">920</span>
 <span id="921">921</span>
+<span id="922">922</span>
+<span id="923">923</span>
+<span id="924">924</span>
+<span id="925">925</span>
+<span id="926">926</span>
+<span id="927">927</span>
+<span id="928">928</span>
+<span id="929">929</span>
+<span id="930">930</span>
+<span id="931">931</span>
+<span id="932">932</span>
+<span id="933">933</span>
+<span id="934">934</span>
+<span id="935">935</span>
+<span id="936">936</span>
+<span id="937">937</span>
+<span id="938">938</span>
+<span id="939">939</span>
+<span id="940">940</span>
+<span id="941">941</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Mods Interface</span>
 
@@ -938,11 +958,11 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Comments</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Endpoint</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">EventListOptions</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Future</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">List</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Modio</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">ModioListResponse</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">ModioMessage</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">AddOptions</span>, <span class="ident">DeleteOptions</span>, <span class="ident">QueryParams</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Future</span>, <span class="ident">Stream</span>};
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">mods</span>::{
     <span class="ident">Dependency</span>, <span class="ident">Event</span>, <span class="ident">EventType</span>, <span class="ident">Image</span>, <span class="ident">Media</span>, <span class="ident">MetadataMap</span>, <span class="ident">Mod</span>, <span class="ident">Popularity</span>, <span class="ident">Ratings</span>, <span class="ident">Statistics</span>, <span class="ident">Tag</span>,
@@ -963,13 +983,23 @@
     }
 
     <span class="doccomment">/// List all mods the authenticated user added or is team member of.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">ModsListOptions</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">ModioListResponse</span><span class="op">&lt;</span><span class="ident">Mod</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">ModsListOptions</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">List</span><span class="op">&lt;</span><span class="ident">Mod</span><span class="op">&gt;&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">uri</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;/me/mods&quot;</span>.<span class="ident">to_owned</span>()];
         <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_query_params</span>();
         <span class="kw">if</span> <span class="op">!</span><span class="ident">query</span>.<span class="ident">is_empty</span>() {
             <span class="ident">uri</span>.<span class="ident">push</span>(<span class="ident">query</span>);
         }
-        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">get</span>::<span class="op">&lt;</span><span class="ident">ModioListResponse</span><span class="op">&lt;</span><span class="ident">Mod</span><span class="op">&gt;&gt;</span>(<span class="kw-2">&amp;</span><span class="ident">uri</span>.<span class="ident">join</span>(<span class="string">&quot;?&quot;</span>))
+        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">uri</span>.<span class="ident">join</span>(<span class="string">&quot;?&quot;</span>))
+    }
+
+    <span class="doccomment">/// Provides a stream over mods the authenticated user added or is team member of.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">ModsListOptions</span>) <span class="op">-&gt;</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Mod</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">uri</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;/me/mods&quot;</span>.<span class="ident">to_owned</span>()];
+        <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_query_params</span>();
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">query</span>.<span class="ident">is_empty</span>() {
+            <span class="ident">uri</span>.<span class="ident">push</span>(<span class="ident">query</span>);
+        }
+        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">stream</span>(<span class="kw-2">&amp;</span><span class="ident">uri</span>.<span class="ident">join</span>(<span class="string">&quot;?&quot;</span>))
     }
 }
 
@@ -999,14 +1029,24 @@
         <span class="ident">ModRef</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">clone</span>(), <span class="self">self</span>.<span class="ident">game</span>, <span class="ident">id</span>)
     }
 
-    <span class="doccomment">/// List all games.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">ModsListOptions</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">ModioListResponse</span><span class="op">&lt;</span><span class="ident">Mod</span><span class="op">&gt;&gt;</span> {
+    <span class="doccomment">/// List all mods.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">ModsListOptions</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">List</span><span class="op">&lt;</span><span class="ident">Mod</span><span class="op">&gt;&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">uri</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="self">self</span>.<span class="ident">path</span>(<span class="string">&quot;&quot;</span>)];
         <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_query_params</span>();
         <span class="kw">if</span> <span class="op">!</span><span class="ident">query</span>.<span class="ident">is_empty</span>() {
             <span class="ident">uri</span>.<span class="ident">push</span>(<span class="ident">query</span>);
         }
-        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">get</span>::<span class="op">&lt;</span><span class="ident">ModioListResponse</span><span class="op">&lt;</span><span class="ident">Mod</span><span class="op">&gt;&gt;</span>(<span class="kw-2">&amp;</span><span class="ident">uri</span>.<span class="ident">join</span>(<span class="string">&quot;?&quot;</span>))
+        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">uri</span>.<span class="ident">join</span>(<span class="string">&quot;?&quot;</span>))
+    }
+
+    <span class="doccomment">/// Provides a stream over all mods of the game.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">ModsListOptions</span>) <span class="op">-&gt;</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Mod</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">uri</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="self">self</span>.<span class="ident">path</span>(<span class="string">&quot;&quot;</span>)];
+        <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_query_params</span>();
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">query</span>.<span class="ident">is_empty</span>() {
+            <span class="ident">uri</span>.<span class="ident">push</span>(<span class="ident">query</span>);
+        }
+        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">stream</span>(<span class="kw-2">&amp;</span><span class="ident">uri</span>.<span class="ident">join</span>(<span class="string">&quot;?&quot;</span>))
     }
 
     <span class="doccomment">/// Add a mod and return the newly created Modio mod object.</span>
@@ -1014,24 +1054,24 @@
         <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">post_form</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">path</span>(<span class="string">&quot;&quot;</span>), <span class="ident">options</span>)
     }
 
-    <span class="doccomment">/// Return the statistics for all mods of a game.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">statistics</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">StatsListOptions</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">ModioListResponse</span><span class="op">&lt;</span><span class="ident">Statistics</span><span class="op">&gt;&gt;</span> {
+    <span class="doccomment">/// Provides a stream over the statistics for all mods of a game.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">statistics</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">StatsListOptions</span>) <span class="op">-&gt;</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Statistics</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">uri</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="self">self</span>.<span class="ident">path</span>(<span class="string">&quot;/stats&quot;</span>)];
         <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_query_params</span>();
         <span class="kw">if</span> <span class="op">!</span><span class="ident">query</span>.<span class="ident">is_empty</span>() {
             <span class="ident">uri</span>.<span class="ident">push</span>(<span class="ident">query</span>);
         }
-        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">uri</span>.<span class="ident">join</span>(<span class="string">&quot;?&quot;</span>))
+        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">stream</span>(<span class="kw-2">&amp;</span><span class="ident">uri</span>.<span class="ident">join</span>(<span class="string">&quot;?&quot;</span>))
     }
 
-    <span class="doccomment">/// Return the event log for all mods of a game sorted by latest event first.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">events</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">EventListOptions</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">ModioListResponse</span><span class="op">&lt;</span><span class="ident">Event</span><span class="op">&gt;&gt;</span> {
+    <span class="doccomment">/// Provides a stream over the event log for all mods of a game sorted by latest event first.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">events</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">EventListOptions</span>) <span class="op">-&gt;</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Event</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">uri</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="self">self</span>.<span class="ident">path</span>(<span class="string">&quot;/events&quot;</span>)];
         <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_query_params</span>();
         <span class="kw">if</span> <span class="op">!</span><span class="ident">query</span>.<span class="ident">is_empty</span>() {
             <span class="ident">uri</span>.<span class="ident">push</span>(<span class="ident">query</span>);
         }
-        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">uri</span>.<span class="ident">join</span>(<span class="string">&quot;?&quot;</span>))
+        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">stream</span>(<span class="kw-2">&amp;</span><span class="ident">uri</span>.<span class="ident">join</span>(<span class="string">&quot;?&quot;</span>))
     }
 }
 
@@ -1094,14 +1134,14 @@
         <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">path</span>(<span class="string">&quot;/stats&quot;</span>))
     }
 
-    <span class="doccomment">/// Return the event log for a mod sorted by latest event first.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">events</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">EventListOptions</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">ModioListResponse</span><span class="op">&lt;</span><span class="ident">Event</span><span class="op">&gt;&gt;</span> {
+    <span class="doccomment">/// Provides a stream over the event log for a mod sorted by latest event first.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">events</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">EventListOptions</span>) <span class="op">-&gt;</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Event</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">uri</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="self">self</span>.<span class="ident">path</span>(<span class="string">&quot;/events&quot;</span>)];
         <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_query_params</span>();
         <span class="kw">if</span> <span class="op">!</span><span class="ident">query</span>.<span class="ident">is_empty</span>() {
             <span class="ident">uri</span>.<span class="ident">push</span>(<span class="ident">query</span>);
         }
-        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">uri</span>.<span class="ident">join</span>(<span class="string">&quot;?&quot;</span>))
+        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">stream</span>(<span class="kw-2">&amp;</span><span class="ident">uri</span>.<span class="ident">join</span>(<span class="string">&quot;?&quot;</span>))
     }
 
     <span class="doccomment">/// Return a reference to an interface to manage team members of a mod.</span>
