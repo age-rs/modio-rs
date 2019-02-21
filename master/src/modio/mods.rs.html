@@ -908,44 +908,17 @@
 <span id="908">908</span>
 <span id="909">909</span>
 <span id="910">910</span>
-<span id="911">911</span>
-<span id="912">912</span>
-<span id="913">913</span>
-<span id="914">914</span>
-<span id="915">915</span>
-<span id="916">916</span>
-<span id="917">917</span>
-<span id="918">918</span>
-<span id="919">919</span>
-<span id="920">920</span>
-<span id="921">921</span>
-<span id="922">922</span>
-<span id="923">923</span>
-<span id="924">924</span>
-<span id="925">925</span>
-<span id="926">926</span>
-<span id="927">927</span>
-<span id="928">928</span>
-<span id="929">929</span>
-<span id="930">930</span>
-<span id="931">931</span>
-<span id="932">932</span>
-<span id="933">933</span>
-<span id="934">934</span>
-<span id="935">935</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Mods Interface</span>
-
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>::<span class="ident">Path</span>;
 
-<span class="kw">use</span> <span class="ident">hyper</span>::<span class="ident">StatusCode</span>;
 <span class="kw">use</span> <span class="ident">mime</span>::{<span class="ident">APPLICATION_OCTET_STREAM</span>, <span class="ident">IMAGE_STAR</span>};
 <span class="kw">use</span> <span class="ident">url</span>::{<span class="ident">form_urlencoded</span>, <span class="ident">Url</span>};
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::<span class="ident">ErrorKind</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">files</span>::{<span class="ident">FileRef</span>, <span class="ident">Files</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">metadata</span>::<span class="ident">Metadata</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">multipart</span>::{<span class="ident">FileSource</span>, <span class="ident">FileStream</span>, <span class="ident">MultipartForm</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">multipart</span>::{<span class="ident">FileSource</span>, <span class="ident">FileStream</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">teams</span>::<span class="ident">Members</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Comments</span>;
@@ -958,15 +931,12 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">Logo</span>;
 
 <span class="doccomment">/// Interface for mods the authenticated user added or is team member of.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MyMods</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">C</span>: <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">Connect</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">modio</span>: <span class="ident">Modio</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MyMods</span> {
+    <span class="ident">modio</span>: <span class="ident">Modio</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">Connect</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span> <span class="ident">MyMods</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">modio</span>: <span class="ident">Modio</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+<span class="kw">impl</span> <span class="ident">MyMods</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">modio</span>: <span class="ident">Modio</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> { <span class="ident">modio</span> }
     }
 
@@ -992,19 +962,13 @@
 }
 
 <span class="doccomment">/// Interface for mods of a game.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Mods</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">C</span>: <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">Connect</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">modio</span>: <span class="ident">Modio</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Mods</span> {
+    <span class="ident">modio</span>: <span class="ident">Modio</span>,
     <span class="ident">game</span>: <span class="ident">u32</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> <span class="ident">Mods</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">C</span>: <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">Connect</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">modio</span>: <span class="ident">Modio</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>, <span class="ident">game</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+<span class="kw">impl</span> <span class="ident">Mods</span> <span class="kw">where</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">modio</span>: <span class="ident">Modio</span>, <span class="ident">game</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> { <span class="ident">modio</span>, <span class="ident">game</span> }
     }
 
@@ -1013,7 +977,7 @@
     }
 
     <span class="doccomment">/// Return a reference to a mod.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">ModRef</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">ModRef</span> {
         <span class="ident">ModRef</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">clone</span>(), <span class="self">self</span>.<span class="ident">game</span>, <span class="ident">id</span>)
     }
 
@@ -1064,17 +1028,14 @@
 }
 
 <span class="doccomment">/// Reference interface of a mod.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ModRef</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">C</span>: <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">Connect</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">modio</span>: <span class="ident">Modio</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ModRef</span> {
+    <span class="ident">modio</span>: <span class="ident">Modio</span>,
     <span class="ident">game</span>: <span class="ident">u32</span>,
     <span class="ident">id</span>: <span class="ident">u32</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">Connect</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span> <span class="ident">ModRef</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">modio</span>: <span class="ident">Modio</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>, <span class="ident">game</span>: <span class="ident">u32</span>, <span class="ident">id</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+<span class="kw">impl</span> <span class="ident">ModRef</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">modio</span>: <span class="ident">Modio</span>, <span class="ident">game</span>: <span class="ident">u32</span>, <span class="ident">id</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> { <span class="ident">modio</span>, <span class="ident">game</span>, <span class="ident">id</span> }
     }
 
@@ -1088,32 +1049,32 @@
     }
 
     <span class="doccomment">/// Return a reference to an interface that provides access to the files of a mod.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">files</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Files</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">files</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Files</span> {
         <span class="ident">Files</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">clone</span>(), <span class="self">self</span>.<span class="ident">game</span>, <span class="self">self</span>.<span class="ident">id</span>)
     }
 
     <span class="doccomment">/// Return a reference to a file of a mod.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">file</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">FileRef</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">file</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">FileRef</span> {
         <span class="ident">FileRef</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">clone</span>(), <span class="self">self</span>.<span class="ident">game</span>, <span class="self">self</span>.<span class="ident">id</span>, <span class="ident">id</span>)
     }
 
     <span class="doccomment">/// Return a reference to an interface to manage metadata key value pairs of a mod.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">metadata</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Metadata</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">metadata</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Metadata</span> {
         <span class="ident">Metadata</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">clone</span>(), <span class="self">self</span>.<span class="ident">game</span>, <span class="self">self</span>.<span class="ident">id</span>)
     }
 
     <span class="doccomment">/// Return a reference to an interface to manage the tags of a mod.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">tags</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Endpoint</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">Tag</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">tags</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Endpoint</span><span class="op">&lt;</span><span class="ident">Tag</span><span class="op">&gt;</span> {
         <span class="ident">Endpoint</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">clone</span>(), <span class="self">self</span>.<span class="ident">path</span>(<span class="string">&quot;/tags&quot;</span>))
     }
 
     <span class="doccomment">/// Return a reference to an interface that provides access to the comments of a mod.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">comments</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Comments</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">comments</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Comments</span> {
         <span class="ident">Comments</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">clone</span>(), <span class="self">self</span>.<span class="ident">game</span>, <span class="self">self</span>.<span class="ident">id</span>)
     }
 
     <span class="doccomment">/// Return a reference to an interface to manage the dependencies of a mod.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dependencies</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Endpoint</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">Dependency</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dependencies</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Endpoint</span><span class="op">&lt;</span><span class="ident">Dependency</span><span class="op">&gt;</span> {
         <span class="ident">Endpoint</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">clone</span>(), <span class="self">self</span>.<span class="ident">path</span>(<span class="string">&quot;/dependencies&quot;</span>))
     }
 
@@ -1133,7 +1094,7 @@
     }
 
     <span class="doccomment">/// Return a reference to an interface to manage team members of a mod.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">members</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Members</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">members</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Members</span> {
         <span class="ident">Members</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">clone</span>(), <span class="self">self</span>.<span class="ident">game</span>, <span class="self">self</span>.<span class="ident">id</span>)
     }
 
@@ -1175,7 +1136,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">subscribe</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="ident">Box</span>::<span class="ident">new</span>(
             <span class="self">self</span>.<span class="ident">modio</span>
-                .<span class="ident">post</span>::<span class="op">&lt;</span><span class="ident">Mod</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">path</span>(<span class="string">&quot;/subscribe&quot;</span>), <span class="ident">Body</span>::<span class="ident">empty</span>())
+                .<span class="ident">post</span>::<span class="op">&lt;</span><span class="ident">Mod</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">path</span>(<span class="string">&quot;/subscribe&quot;</span>), <span class="ident">RequestBody</span>::<span class="ident">Empty</span>)
                 .<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ())
                 .<span class="ident">or_else</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">err</span>.<span class="ident">kind</span>() {
                     <span class="ident">ErrorKind</span>::<span class="ident">Fault</span> {
@@ -1191,7 +1152,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unsubscribe</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="ident">Box</span>::<span class="ident">new</span>(
             <span class="self">self</span>.<span class="ident">modio</span>
-                .<span class="ident">delete</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">path</span>(<span class="string">&quot;/subscribe&quot;</span>), <span class="ident">Body</span>::<span class="ident">empty</span>())
+                .<span class="ident">delete</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">path</span>(<span class="string">&quot;/subscribe&quot;</span>), <span class="ident">RequestBody</span>::<span class="ident">Empty</span>)
                 .<span class="ident">or_else</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">err</span>.<span class="ident">kind</span>() {
                     <span class="ident">ErrorKind</span>::<span class="ident">Fault</span> {
                         <span class="ident">code</span>: <span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>,
@@ -1337,45 +1298,39 @@
 }
 
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">AddModOptions</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MultipartForm</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">opts</span>: <span class="ident">AddModOptions</span>) <span class="op">-&gt;</span> <span class="ident">MultipartForm</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mpart</span> <span class="op">=</span> <span class="ident">MultipartForm</span>::<span class="ident">default</span>();
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">AddModOptions</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Form</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">opts</span>: <span class="ident">AddModOptions</span>) <span class="op">-&gt;</span> <span class="ident">Form</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">form</span> <span class="op">=</span> <span class="ident">Form</span>::<span class="ident">new</span>();
 
-        <span class="ident">mpart</span>.<span class="ident">add_field</span>(<span class="string">&quot;name&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">opts</span>.<span class="ident">name</span>);
-        <span class="ident">mpart</span>.<span class="ident">add_field</span>(<span class="string">&quot;summary&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">opts</span>.<span class="ident">summary</span>);
+        <span class="ident">form</span> <span class="op">=</span> <span class="ident">form</span>.<span class="ident">text</span>(<span class="string">&quot;name&quot;</span>, <span class="ident">opts</span>.<span class="ident">name</span>).<span class="ident">text</span>(<span class="string">&quot;summary&quot;</span>, <span class="ident">opts</span>.<span class="ident">summary</span>);
+
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">visible</span>) <span class="op">=</span> <span class="ident">opts</span>.<span class="ident">visible</span> {
-            <span class="ident">mpart</span>.<span class="ident">add_field</span>(<span class="string">&quot;visible&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">visible</span>.<span class="ident">to_string</span>());
+            <span class="ident">form</span> <span class="op">=</span> <span class="ident">form</span>.<span class="ident">text</span>(<span class="string">&quot;visible&quot;</span>, <span class="ident">visible</span>.<span class="ident">to_string</span>());
         }
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">name_id</span>) <span class="op">=</span> <span class="ident">opts</span>.<span class="ident">name_id</span> {
-            <span class="ident">mpart</span>.<span class="ident">add_field</span>(<span class="string">&quot;name_id&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">name_id</span>);
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">name_id</span>) <span class="op">=</span> <span class="ident">opts</span>.<span class="ident">name_id</span> {
+            <span class="ident">form</span> <span class="op">=</span> <span class="ident">form</span>.<span class="ident">text</span>(<span class="string">&quot;name_id&quot;</span>, <span class="ident">name_id</span>);
         }
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">desc</span>) <span class="op">=</span> <span class="ident">opts</span>.<span class="ident">description</span> {
-            <span class="ident">mpart</span>.<span class="ident">add_field</span>(<span class="string">&quot;description&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">desc</span>);
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">desc</span>) <span class="op">=</span> <span class="ident">opts</span>.<span class="ident">description</span> {
+            <span class="ident">form</span> <span class="op">=</span> <span class="ident">form</span>.<span class="ident">text</span>(<span class="string">&quot;description&quot;</span>, <span class="ident">desc</span>);
         }
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">url</span>) <span class="op">=</span> <span class="ident">opts</span>.<span class="ident">homepage_url</span> {
-            <span class="ident">mpart</span>.<span class="ident">add_field</span>(<span class="string">&quot;homepage_url&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">url</span>.<span class="ident">to_string</span>());
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">url</span>) <span class="op">=</span> <span class="ident">opts</span>.<span class="ident">homepage_url</span> {
+            <span class="ident">form</span> <span class="op">=</span> <span class="ident">form</span>.<span class="ident">text</span>(<span class="string">&quot;homepage_url&quot;</span>, <span class="ident">url</span>.<span class="ident">to_string</span>());
         }
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">stock</span>) <span class="op">=</span> <span class="ident">opts</span>.<span class="ident">stock</span> {
-            <span class="ident">mpart</span>.<span class="ident">add_field</span>(<span class="string">&quot;stock&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">stock</span>.<span class="ident">to_string</span>());
+            <span class="ident">form</span> <span class="op">=</span> <span class="ident">form</span>.<span class="ident">text</span>(<span class="string">&quot;stock&quot;</span>, <span class="ident">stock</span>.<span class="ident">to_string</span>());
         }
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">maturity_option</span>) <span class="op">=</span> <span class="ident">opts</span>.<span class="ident">maturity_option</span> {
-            <span class="ident">mpart</span>.<span class="ident">add_field</span>(<span class="string">&quot;maturity_option&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">maturity_option</span>.<span class="ident">to_string</span>());
+            <span class="ident">form</span> <span class="op">=</span> <span class="ident">form</span>.<span class="ident">text</span>(<span class="string">&quot;maturity_option&quot;</span>, <span class="ident">maturity_option</span>.<span class="ident">to_string</span>());
         }
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">metadata_blob</span>) <span class="op">=</span> <span class="ident">opts</span>.<span class="ident">metadata_blob</span> {
-            <span class="ident">mpart</span>.<span class="ident">add_field</span>(<span class="string">&quot;metadata_blob&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">metadata_blob</span>);
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">metadata_blob</span>) <span class="op">=</span> <span class="ident">opts</span>.<span class="ident">metadata_blob</span> {
+            <span class="ident">form</span> <span class="op">=</span> <span class="ident">form</span>.<span class="ident">text</span>(<span class="string">&quot;metadata_blob&quot;</span>, <span class="ident">metadata_blob</span>);
         }
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">tags</span>) <span class="op">=</span> <span class="ident">opts</span>.<span class="ident">tags</span> {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">tags</span>) <span class="op">=</span> <span class="ident">opts</span>.<span class="ident">tags</span> {
             <span class="kw">for</span> <span class="ident">tag</span> <span class="kw">in</span> <span class="ident">tags</span> {
-                <span class="ident">mpart</span>.<span class="ident">add_field</span>(<span class="string">&quot;tags[]&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">tag</span>);
+                <span class="ident">form</span> <span class="op">=</span> <span class="ident">form</span>.<span class="ident">text</span>(<span class="string">&quot;tags[]&quot;</span>, <span class="ident">tag</span>);
             }
         }
-        <span class="ident">mpart</span>.<span class="ident">add_stream</span>(
-            <span class="string">&quot;logo&quot;</span>,
-            <span class="kw-2">&amp;</span><span class="ident">opts</span>.<span class="ident">logo</span>.<span class="ident">filename</span>,
-            <span class="kw-2">&amp;</span><span class="ident">opts</span>.<span class="ident">logo</span>.<span class="ident">mime</span>.<span class="ident">to_string</span>(),
-            <span class="ident">opts</span>.<span class="ident">logo</span>.<span class="ident">inner</span>,
-        );
-        <span class="ident">mpart</span>
+        <span class="ident">form</span>.<span class="ident">part</span>(<span class="string">&quot;logo&quot;</span>, <span class="ident">opts</span>.<span class="ident">logo</span>.<span class="ident">into</span>())
     }
 }
 
@@ -1644,36 +1599,31 @@
 }
 
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">AddMediaOptions</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MultipartForm</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">opts</span>: <span class="ident">AddMediaOptions</span>) <span class="op">-&gt;</span> <span class="ident">MultipartForm</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mpart</span> <span class="op">=</span> <span class="ident">MultipartForm</span>::<span class="ident">default</span>();
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">AddMediaOptions</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Form</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">opts</span>: <span class="ident">AddMediaOptions</span>) <span class="op">-&gt;</span> <span class="ident">Form</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">form</span> <span class="op">=</span> <span class="ident">Form</span>::<span class="ident">new</span>();
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">logo</span>) <span class="op">=</span> <span class="ident">opts</span>.<span class="ident">logo</span> {
-            <span class="ident">mpart</span>.<span class="ident">add_stream</span>(<span class="string">&quot;logo&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">logo</span>.<span class="ident">filename</span>, <span class="kw-2">&amp;</span><span class="ident">logo</span>.<span class="ident">mime</span>.<span class="ident">to_string</span>(), <span class="ident">logo</span>.<span class="ident">inner</span>);
+            <span class="ident">form</span> <span class="op">=</span> <span class="ident">form</span>.<span class="ident">part</span>(<span class="string">&quot;logo&quot;</span>, <span class="ident">logo</span>.<span class="ident">into</span>());
         }
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">zip</span>) <span class="op">=</span> <span class="ident">opts</span>.<span class="ident">images_zip</span> {
-            <span class="ident">mpart</span>.<span class="ident">add_stream</span>(<span class="string">&quot;images&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">zip</span>.<span class="ident">filename</span>, <span class="kw-2">&amp;</span><span class="ident">zip</span>.<span class="ident">mime</span>.<span class="ident">to_string</span>(), <span class="ident">zip</span>.<span class="ident">inner</span>);
+            <span class="ident">form</span> <span class="op">=</span> <span class="ident">form</span>.<span class="ident">part</span>(<span class="string">&quot;images&quot;</span>, <span class="ident">zip</span>.<span class="ident">into</span>());
         }
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">images</span>) <span class="op">=</span> <span class="ident">opts</span>.<span class="ident">images</span> {
             <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">image</span>) <span class="kw">in</span> <span class="ident">images</span>.<span class="ident">into_iter</span>().<span class="ident">enumerate</span>() {
-                <span class="ident">mpart</span>.<span class="ident">add_stream</span>(
-                    <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;image{}&quot;</span>, <span class="ident">i</span>),
-                    <span class="ident">image</span>.<span class="ident">filename</span>,
-                    <span class="ident">image</span>.<span class="ident">mime</span>.<span class="ident">to_string</span>(),
-                    <span class="ident">image</span>.<span class="ident">inner</span>,
-                );
+                <span class="ident">form</span> <span class="op">=</span> <span class="ident">form</span>.<span class="ident">part</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;image{}&quot;</span>, <span class="ident">i</span>), <span class="ident">image</span>.<span class="ident">into</span>());
             }
         }
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">youtube</span>) <span class="op">=</span> <span class="ident">opts</span>.<span class="ident">youtube</span> {
             <span class="kw">for</span> <span class="ident">url</span> <span class="kw">in</span> <span class="ident">youtube</span> {
-                <span class="ident">mpart</span>.<span class="ident">add_field</span>(<span class="string">&quot;youtube[]&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">url</span>);
+                <span class="ident">form</span> <span class="op">=</span> <span class="ident">form</span>.<span class="ident">text</span>(<span class="string">&quot;youtube[]&quot;</span>, <span class="ident">url</span>);
             }
         }
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">sketchfab</span>) <span class="op">=</span> <span class="ident">opts</span>.<span class="ident">sketchfab</span> {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">sketchfab</span>) <span class="op">=</span> <span class="ident">opts</span>.<span class="ident">sketchfab</span> {
             <span class="kw">for</span> <span class="ident">url</span> <span class="kw">in</span> <span class="ident">sketchfab</span> {
-                <span class="ident">mpart</span>.<span class="ident">add_field</span>(<span class="string">&quot;sketchfab[]&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">url</span>);
+                <span class="ident">form</span> <span class="op">=</span> <span class="ident">form</span>.<span class="ident">text</span>(<span class="string">&quot;sketchfab[]&quot;</span>, <span class="ident">url</span>);
             }
         }
-        <span class="ident">mpart</span>
+        <span class="ident">form</span>
     }
 }
 

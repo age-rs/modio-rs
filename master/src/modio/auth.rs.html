@@ -99,17 +99,9 @@
 <span id="99"> 99</span>
 <span id="100">100</span>
 <span id="101">101</span>
-<span id="102">102</span>
-<span id="103">103</span>
-<span id="104">104</span>
-<span id="105">105</span>
-<span id="106">106</span>
-<span id="107">107</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Authentication Flow interface</span>
-
 <span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">Future</span> <span class="kw">as</span> <span class="ident">StdFuture</span>;
-<span class="kw">use</span> <span class="ident">hyper</span>::<span class="ident">client</span>::<span class="ident">connect</span>::<span class="ident">Connect</span>;
 <span class="kw">use</span> <span class="ident">url</span>::<span class="ident">form_urlencoded</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Future</span>;
@@ -143,16 +135,15 @@
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// fn main() -&gt; Result&lt;(), Error&gt; {</span>
-<span class="doccomment">///     let mut rt = Runtime::new()?;</span>
+<span class="doccomment">///     let mut rt = Runtime::new().expect(&quot;new rt&quot;);</span>
 <span class="doccomment">///     let modio = Modio::new(</span>
-<span class="doccomment">///         &quot;user-agent-name/1.0&quot;,</span>
 <span class="doccomment">///         Credentials::ApiKey(String::from(&quot;api-key&quot;)),</span>
-<span class="doccomment">///     );</span>
+<span class="doccomment">///     )?;</span>
 <span class="doccomment">///</span>
-<span class="doccomment">///     let email = prompt(&quot;Enter email: &quot;)?;</span>
+<span class="doccomment">///     let email = prompt(&quot;Enter email: &quot;).expect(&quot;read email&quot;);</span>
 <span class="doccomment">///     rt.block_on(modio.auth().request_code(&amp;email))?;</span>
 <span class="doccomment">///</span>
-<span class="doccomment">///     let code = prompt(&quot;Enter security code: &quot;)?;</span>
+<span class="doccomment">///     let code = prompt(&quot;Enter security code: &quot;).expect(&quot;read code&quot;);</span>
 <span class="doccomment">///     let token = rt.block_on(modio.auth().security_code(&amp;code))?;</span>
 <span class="doccomment">///</span>
 <span class="doccomment">///     // Consume the endpoint and create an endpoint with new credentials.</span>
@@ -161,11 +152,8 @@
 <span class="doccomment">///     Ok(())</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Auth</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">C</span>: <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">Connect</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">modio</span>: <span class="ident">Modio</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Auth</span> {
+    <span class="ident">modio</span>: <span class="ident">Modio</span>,
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>)]</span>
@@ -173,8 +161,8 @@
     <span class="ident">access_token</span>: <span class="ident">String</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">Connect</span><span class="op">&gt;</span> <span class="ident">Auth</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">modio</span>: <span class="ident">Modio</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+<span class="kw">impl</span> <span class="ident">Auth</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">modio</span>: <span class="ident">Modio</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> { <span class="ident">modio</span> }
     }
 

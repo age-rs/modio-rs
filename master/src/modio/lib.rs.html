@@ -848,6 +848,93 @@
 <span id="848">848</span>
 <span id="849">849</span>
 <span id="850">850</span>
+<span id="851">851</span>
+<span id="852">852</span>
+<span id="853">853</span>
+<span id="854">854</span>
+<span id="855">855</span>
+<span id="856">856</span>
+<span id="857">857</span>
+<span id="858">858</span>
+<span id="859">859</span>
+<span id="860">860</span>
+<span id="861">861</span>
+<span id="862">862</span>
+<span id="863">863</span>
+<span id="864">864</span>
+<span id="865">865</span>
+<span id="866">866</span>
+<span id="867">867</span>
+<span id="868">868</span>
+<span id="869">869</span>
+<span id="870">870</span>
+<span id="871">871</span>
+<span id="872">872</span>
+<span id="873">873</span>
+<span id="874">874</span>
+<span id="875">875</span>
+<span id="876">876</span>
+<span id="877">877</span>
+<span id="878">878</span>
+<span id="879">879</span>
+<span id="880">880</span>
+<span id="881">881</span>
+<span id="882">882</span>
+<span id="883">883</span>
+<span id="884">884</span>
+<span id="885">885</span>
+<span id="886">886</span>
+<span id="887">887</span>
+<span id="888">888</span>
+<span id="889">889</span>
+<span id="890">890</span>
+<span id="891">891</span>
+<span id="892">892</span>
+<span id="893">893</span>
+<span id="894">894</span>
+<span id="895">895</span>
+<span id="896">896</span>
+<span id="897">897</span>
+<span id="898">898</span>
+<span id="899">899</span>
+<span id="900">900</span>
+<span id="901">901</span>
+<span id="902">902</span>
+<span id="903">903</span>
+<span id="904">904</span>
+<span id="905">905</span>
+<span id="906">906</span>
+<span id="907">907</span>
+<span id="908">908</span>
+<span id="909">909</span>
+<span id="910">910</span>
+<span id="911">911</span>
+<span id="912">912</span>
+<span id="913">913</span>
+<span id="914">914</span>
+<span id="915">915</span>
+<span id="916">916</span>
+<span id="917">917</span>
+<span id="918">918</span>
+<span id="919">919</span>
+<span id="920">920</span>
+<span id="921">921</span>
+<span id="922">922</span>
+<span id="923">923</span>
+<span id="924">924</span>
+<span id="925">925</span>
+<span id="926">926</span>
+<span id="927">927</span>
+<span id="928">928</span>
+<span id="929">929</span>
+<span id="930">930</span>
+<span id="931">931</span>
+<span id="932">932</span>
+<span id="933">933</span>
+<span id="934">934</span>
+<span id="935">935</span>
+<span id="936">936</span>
+<span id="937">937</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Modio provides a set of building blocks for interacting with the [mod.io](https://mod.io) API.</span>
 <span class="doccomment">//!</span>
@@ -881,11 +968,10 @@
 <span class="doccomment">//! use tokio::runtime::Runtime;</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! fn main() -&gt; Result&lt;(), Error&gt; {</span>
-<span class="doccomment">//!     let mut rt = Runtime::new()?;</span>
+<span class="doccomment">//!     let mut rt = Runtime::new().expect(&quot;new rt&quot;);</span>
 <span class="doccomment">//!     let modio = Modio::new(</span>
-<span class="doccomment">//!         &quot;user-agent-name/1.0&quot;,</span>
 <span class="doccomment">//!         Credentials::ApiKey(String::from(&quot;user-or-game-api-key&quot;)),</span>
-<span class="doccomment">//!     );</span>
+<span class="doccomment">//!     )?;</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!     // create some tasks and execute them</span>
 <span class="doccomment">//!     // let result = rt.block_on(task)?;</span>
@@ -904,11 +990,10 @@
 <span class="doccomment">//! use tokio::runtime::Runtime;</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! fn main() -&gt; Result&lt;(), Error&gt; {</span>
-<span class="doccomment">//!     let mut rt = Runtime::new()?;</span>
+<span class="doccomment">//!     let mut rt = Runtime::new().expect(&quot;new rt&quot;);</span>
 <span class="doccomment">//!     let modio = Modio::new(</span>
-<span class="doccomment">//!         &quot;user-agent-name/1.0&quot;,</span>
 <span class="doccomment">//!         Credentials::ApiKey(String::from(&quot;user-or-game-api-key&quot;)),</span>
-<span class="doccomment">//!     );</span>
+<span class="doccomment">//!     )?;</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!     // OpenXcom: The X-Com Files</span>
 <span class="doccomment">//!     let modref = modio.mod_(51, 158);</span>
@@ -947,12 +1032,11 @@
 <span class="doccomment">//! use tokio::runtime::Runtime;</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! fn main() -&gt; Result&lt;(), Error&gt; {</span>
-<span class="doccomment">//!     let mut rt = Runtime::new()?;</span>
+<span class="doccomment">//!     let mut rt = Runtime::new().expect(&quot;new rt&quot;);</span>
 <span class="doccomment">//!     let modio = Modio::new(</span>
-<span class="doccomment">//!         &quot;user-agent-name/1.0&quot;,</span>
 <span class="doccomment">//!         Credentials::ApiKey(String::from(&quot;user-or-game-api-key&quot;)),</span>
-<span class="doccomment">//!     );</span>
-<span class="doccomment">//!     let out = File::open(&quot;mod.zip&quot;)?;</span>
+<span class="doccomment">//!     )?;</span>
+<span class="doccomment">//!     let out = File::create(&quot;mod.zip&quot;).expect(&quot;new file&quot;);</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!     // Download the primary file of a mod.</span>
 <span class="doccomment">//!     let action = DownloadAction::Primary {</span>
@@ -993,18 +1077,14 @@
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">marker</span>::<span class="ident">PhantomData</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">Duration</span>;
 
 <span class="kw">use</span> <span class="ident">futures</span>::{<span class="ident">future</span>, <span class="ident">stream</span>, <span class="ident">Future</span> <span class="kw">as</span> <span class="ident">StdFuture</span>, <span class="ident">IntoFuture</span>, <span class="ident">Stream</span> <span class="kw">as</span> <span class="ident">StdStream</span>};
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">hyper</span>::<span class="ident">client</span>::<span class="ident">connect</span>::<span class="ident">Connect</span>;
-<span class="kw">use</span> <span class="ident">hyper</span>::<span class="ident">client</span>::<span class="ident">HttpConnector</span>;
-<span class="kw">use</span> <span class="ident">hyper</span>::<span class="ident">header</span>::{<span class="ident">AUTHORIZATION</span>, <span class="ident">CONTENT_TYPE</span>, <span class="ident">LOCATION</span>, <span class="ident">USER_AGENT</span>};
-<span class="kw">use</span> <span class="ident">hyper</span>::{<span class="ident">Body</span>, <span class="ident">Client</span>, <span class="ident">Method</span>, <span class="ident">Request</span>, <span class="ident">StatusCode</span>, <span class="ident">Uri</span>};
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rustls&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">hyper_rustls</span>::<span class="ident">HttpsConnector</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tls&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">hyper_tls</span>::<span class="ident">HttpsConnector</span>;
 <span class="kw">use</span> <span class="ident">mime</span>::<span class="ident">Mime</span>;
+<span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">header</span>::{<span class="ident">HeaderMap</span>, <span class="ident">HeaderValue</span>};
+<span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">header</span>::{<span class="ident">AUTHORIZATION</span>, <span class="ident">CONTENT_TYPE</span>, <span class="ident">USER_AGENT</span>};
+<span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">r#async</span>::<span class="ident">multipart</span>::<span class="ident">Form</span>;
+<span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">r#async</span>::{<span class="ident">Body</span>, <span class="ident">Client</span>};
+<span class="kw">use</span> <span class="ident">reqwest</span>::{<span class="ident">Method</span>, <span class="ident">StatusCode</span>};
 <span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">DeserializeOwned</span>;
 <span class="kw">use</span> <span class="ident">url</span>::<span class="ident">Url</span>;
 
@@ -1031,7 +1111,6 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">games</span>::{<span class="ident">GameRef</span>, <span class="ident">Games</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">me</span>::<span class="ident">Me</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">mods</span>::{<span class="ident">ModRef</span>, <span class="ident">Mods</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">multipart</span>::<span class="ident">MultipartForm</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">reports</span>::<span class="ident">Reports</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">users</span>::<span class="ident">Users</span>;
 
@@ -1039,8 +1118,11 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">download</span>::<span class="ident">DownloadAction</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::{<span class="ident">Error</span>, <span class="prelude-ty">Result</span>};
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::{<span class="ident">ModioErrorResponse</span>, <span class="ident">ModioListResponse</span>, <span class="ident">ModioMessage</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">Proxy</span>;
 
 <span class="kw">const</span> <span class="ident">DEFAULT_HOST</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;https://api.mod.io/v1&quot;</span>;
+<span class="kw">const</span> <span class="ident">TEST_HOST</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;https://api.test.mod.io/v1&quot;</span>;
+<span class="kw">const</span> <span class="ident">DEFAULT_AGENT</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="macro">concat</span><span class="macro">!</span>(<span class="macro">env</span><span class="macro">!</span>(<span class="string">&quot;CARGO_PKG_NAME&quot;</span>), <span class="string">&#39;/&#39;</span>, <span class="macro">env</span><span class="macro">!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>));
 
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">StdFuture</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">T</span>, <span class="ident">Error</span> <span class="op">=</span> <span class="ident">Error</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;</span>;
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">StdStream</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">T</span>, <span class="ident">Error</span> <span class="op">=</span> <span class="ident">Error</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;</span>;
@@ -1048,13 +1130,15 @@
 
 <span class="kw">mod</span> <span class="ident">prelude</span> {
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">futures</span>::{<span class="ident">Future</span> <span class="kw">as</span> <span class="ident">StdFuture</span>, <span class="ident">Stream</span> <span class="kw">as</span> <span class="ident">StdStream</span>};
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">hyper</span>::<span class="ident">client</span>::<span class="ident">connect</span>::<span class="ident">Connect</span>;
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">hyper</span>::<span class="ident">Body</span>;
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">r#async</span>::<span class="ident">multipart</span>::{<span class="ident">Form</span>, <span class="ident">Part</span>};
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">r#async</span>::<span class="ident">Body</span>;
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">StatusCode</span>;
 
     <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">List</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Modio</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">ModioMessage</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">QueryParams</span>;
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">RequestBody</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">AddOptions</span>, <span class="ident">DeleteOptions</span>, <span class="ident">Endpoint</span>};
     <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Future</span>, <span class="ident">Stream</span>};
 }
@@ -1064,63 +1148,177 @@
 <span class="kw">const</span> <span class="ident">X_RATELIMIT_REMAINING</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;x-ratelimit-remaining&quot;</span>;
 <span class="kw">const</span> <span class="ident">X_RATELIMIT_RETRY_AFTER</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;x-ratelimit-retryafter&quot;</span>;
 
+<span class="doccomment">/// A `Builder` can be used to create a `Modio` client with custom configuration.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Builder</span> {
+    <span class="ident">config</span>: <span class="ident">Config</span>,
+}
+
+<span class="kw">struct</span> <span class="ident">Config</span> {
+    <span class="ident">host</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="ident">agent</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="ident">credentials</span>: <span class="ident">Credentials</span>,
+    <span class="ident">proxies</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Proxy</span><span class="op">&gt;</span>,
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tls&quot;</span>)]</span>
+    <span class="ident">tls</span>: <span class="ident">TlsBackend</span>,
+}
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tls&quot;</span>)]</span>
+<span class="kw">enum</span> <span class="ident">TlsBackend</span> {
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;default-tls&quot;</span>)]</span>
+    <span class="ident">Default</span>,
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rustls-tls&quot;</span>)]</span>
+    <span class="ident">Rustls</span>,
+}
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tls&quot;</span>)]</span>
+<span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">TlsBackend</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="ident">TlsBackend</span> {
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;default-tls&quot;</span>)]</span>
+        {
+            <span class="ident">TlsBackend</span>::<span class="ident">Default</span>
+        }
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rustls-tls&quot;</span>, <span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;default-tls&quot;</span>)))]</span>
+        {
+            <span class="ident">TlsBackend</span>::<span class="ident">Rustls</span>
+        }
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">Builder</span> {
+    <span class="doccomment">/// Constructs a new `Builder`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This is the same as `Modio::builder(credentials)`.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Credentials</span><span class="op">&gt;&gt;</span>(<span class="ident">credentials</span>: <span class="ident">C</span>) <span class="op">-&gt;</span> <span class="ident">Builder</span> {
+        <span class="ident">Builder</span> {
+            <span class="ident">config</span>: <span class="ident">Config</span> {
+                <span class="ident">host</span>: <span class="prelude-val">None</span>,
+                <span class="ident">agent</span>: <span class="prelude-val">None</span>,
+                <span class="ident">credentials</span>: <span class="ident">credentials</span>.<span class="ident">into</span>(),
+                <span class="ident">proxies</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
+                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tls&quot;</span>)]</span>
+                <span class="ident">tls</span>: <span class="ident">TlsBackend</span>::<span class="ident">default</span>(),
+            },
+        }
+    }
+
+    <span class="doccomment">/// Returns a `Modio` client that uses this `Builder` configuration.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">build</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Modio</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">config</span>;
+        <span class="kw">let</span> <span class="ident">host</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">host</span>.<span class="ident">unwrap_or_else</span>(<span class="op">||</span> <span class="ident">DEFAULT_HOST</span>.<span class="ident">to_string</span>());
+        <span class="kw">let</span> <span class="ident">credentials</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">credentials</span>;
+
+        <span class="kw">let</span> <span class="ident">client</span> <span class="op">=</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">builder</span> <span class="op">=</span> {
+                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tls&quot;</span>)]</span>
+                <span class="kw">match</span> <span class="ident">config</span>.<span class="ident">tls</span> {
+                    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;default-tls&quot;</span>)]</span>
+                    <span class="ident">TlsBackend</span>::<span class="ident">Default</span> <span class="op">=&gt;</span> <span class="ident">Client</span>::<span class="ident">builder</span>().<span class="ident">use_default_tls</span>(),
+                    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rustls-tls&quot;</span>)]</span>
+                    <span class="ident">TlsBackend</span>::<span class="ident">Rustls</span> <span class="op">=&gt;</span> <span class="ident">Client</span>::<span class="ident">builder</span>().<span class="ident">use_rustls_tls</span>(),
+                }
+
+                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tls&quot;</span>))]</span>
+                <span class="ident">Client</span>::<span class="ident">builder</span>()
+            };
+
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">headers</span> <span class="op">=</span> <span class="ident">HeaderMap</span>::<span class="ident">new</span>();
+            <span class="kw">let</span> <span class="ident">agent</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">config</span>.<span class="ident">agent</span> {
+                <span class="prelude-val">Some</span>(<span class="ident">agent</span>) <span class="op">=&gt;</span> <span class="ident">HeaderValue</span>::<span class="ident">from_str</span>(<span class="kw-2">&amp;</span><span class="ident">agent</span>).<span class="ident">map_err</span>(<span class="ident">error</span>::<span class="ident">from</span>)<span class="question-mark">?</span>,
+                <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="ident">DEFAULT_AGENT</span>),
+            };
+            <span class="ident">headers</span>.<span class="ident">insert</span>(<span class="ident">USER_AGENT</span>, <span class="ident">agent</span>);
+
+            <span class="kw">for</span> <span class="ident">proxy</span> <span class="kw">in</span> <span class="ident">config</span>.<span class="ident">proxies</span> {
+                <span class="ident">builder</span> <span class="op">=</span> <span class="ident">builder</span>.<span class="ident">proxy</span>(<span class="ident">proxy</span>);
+            }
+
+            <span class="ident">builder</span>
+                .<span class="ident">default_headers</span>(<span class="ident">headers</span>)
+                .<span class="ident">build</span>()
+                .<span class="ident">map_err</span>(<span class="ident">error</span>::<span class="ident">from</span>)<span class="question-mark">?</span>
+        };
+
+        <span class="prelude-val">Ok</span>(<span class="ident">Modio</span> {
+            <span class="ident">host</span>,
+            <span class="ident">credentials</span>,
+            <span class="ident">client</span>,
+        })
+    }
+
+    <span class="doccomment">/// Set the mod.io api host.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Defaults to `&quot;https://api.mod.io/v1&quot;`</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">host</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">host</span>: <span class="ident">S</span>) <span class="op">-&gt;</span> <span class="ident">Builder</span> {
+        <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">host</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">host</span>.<span class="ident">into</span>());
+        <span class="self">self</span>
+    }
+
+    <span class="doccomment">/// Use the mod.io api test host.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">use_test</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Builder</span> {
+        <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">host</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">TEST_HOST</span>.<span class="ident">into</span>());
+        <span class="self">self</span>
+    }
+
+    <span class="doccomment">/// Set the user agent used for every request.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Defaults to `&quot;modio/{version}&quot;`</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">agent</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">agent</span>: <span class="ident">S</span>) <span class="op">-&gt;</span> <span class="ident">Builder</span> {
+        <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">agent</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">agent</span>.<span class="ident">into</span>());
+        <span class="self">self</span>
+    }
+
+    <span class="doccomment">/// Add a `Proxy` to the list of proxies the client will use.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">proxy</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">proxy</span>: <span class="ident">Proxy</span>) <span class="op">-&gt;</span> <span class="ident">Builder</span> {
+        <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">proxies</span>.<span class="ident">push</span>(<span class="ident">proxy</span>);
+        <span class="self">self</span>
+    }
+
+    <span class="doccomment">/// Use native TLS backend.</span>
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;default-tls&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">use_default_tls</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Builder</span> {
+        <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">tls</span> <span class="op">=</span> <span class="ident">TlsBackend</span>::<span class="ident">Default</span>;
+        <span class="self">self</span>
+    }
+
+    <span class="doccomment">/// Use rustls TLS backend.</span>
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rustls-tls&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">use_rustls_tls</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Builder</span> {
+        <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">tls</span> <span class="op">=</span> <span class="ident">TlsBackend</span>::<span class="ident">Rustls</span>;
+        <span class="self">self</span>
+    }
+}
+
 <span class="doccomment">/// Endpoint interface to interacting with the [mod.io](https://mod.io) API.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Modio</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">C</span>: <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">Connect</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Modio</span> {
     <span class="ident">host</span>: <span class="ident">String</span>,
-    <span class="ident">agent</span>: <span class="ident">String</span>,
-    <span class="ident">client</span>: <span class="ident">Client</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>,
+    <span class="ident">client</span>: <span class="ident">Client</span>,
     <span class="ident">credentials</span>: <span class="ident">Credentials</span>,
 }
 
-<span class="kw">impl</span> <span class="ident">Modio</span><span class="op">&lt;</span><span class="ident">HttpsConnector</span><span class="op">&lt;</span><span class="ident">HttpConnector</span><span class="op">&gt;&gt;</span> {
+<span class="kw">impl</span> <span class="ident">Modio</span> {
+    <span class="doccomment">/// Constructs a new `Builder` to configure a `Modio` client.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This is the same as `Builder::new(credentials)`.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">builder</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Credentials</span><span class="op">&gt;&gt;</span>(<span class="ident">credentials</span>: <span class="ident">C</span>) <span class="op">-&gt;</span> <span class="ident">Builder</span> {
+        <span class="ident">Builder</span>::<span class="ident">new</span>(<span class="ident">credentials</span>)
+    }
+
     <span class="doccomment">/// Create an endpoint to [https://api.mod.io/v1](https://docs.mod.io/#mod-io-api-v1).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">C</span><span class="op">&gt;</span>(<span class="ident">agent</span>: <span class="ident">A</span>, <span class="ident">credentials</span>: <span class="ident">C</span>) <span class="op">-&gt;</span> <span class="self">Self</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>(<span class="ident">credentials</span>: <span class="ident">C</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>
     <span class="kw">where</span>
-        <span class="ident">A</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
         <span class="ident">C</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Credentials</span><span class="op">&gt;</span>,
     {
-        <span class="self">Self</span>::<span class="ident">host</span>(<span class="ident">DEFAULT_HOST</span>, <span class="ident">agent</span>, <span class="ident">credentials</span>)
+        <span class="ident">Builder</span>::<span class="ident">new</span>(<span class="ident">credentials</span>).<span class="ident">build</span>()
     }
 
     <span class="doccomment">/// Create an endpoint to a different host.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">host</span><span class="op">&lt;</span><span class="ident">H</span>, <span class="ident">A</span>, <span class="ident">C</span><span class="op">&gt;</span>(<span class="ident">host</span>: <span class="ident">H</span>, <span class="ident">agent</span>: <span class="ident">A</span>, <span class="ident">credentials</span>: <span class="ident">C</span>) <span class="op">-&gt;</span> <span class="self">Self</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">host</span><span class="op">&lt;</span><span class="ident">H</span>, <span class="ident">C</span><span class="op">&gt;</span>(<span class="ident">host</span>: <span class="ident">H</span>, <span class="ident">credentials</span>: <span class="ident">C</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">H</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
-        <span class="ident">A</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
         <span class="ident">C</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Credentials</span><span class="op">&gt;</span>,
     {
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rustls&quot;</span>)]</span>
-        <span class="kw">let</span> <span class="ident">connector</span> <span class="op">=</span> <span class="ident">HttpsConnector</span>::<span class="ident">new</span>(<span class="number">4</span>);
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tls&quot;</span>)]</span>
-        <span class="kw">let</span> <span class="ident">connector</span> <span class="op">=</span> <span class="ident">HttpsConnector</span>::<span class="ident">new</span>(<span class="number">4</span>).<span class="ident">unwrap</span>();
-
-        <span class="kw">let</span> <span class="ident">client</span> <span class="op">=</span> <span class="ident">Client</span>::<span class="ident">builder</span>().<span class="ident">keep_alive</span>(<span class="bool-val">true</span>).<span class="ident">build</span>(<span class="ident">connector</span>);
-
-        <span class="self">Self</span>::<span class="ident">custom</span>(<span class="ident">host</span>, <span class="ident">agent</span>, <span class="ident">credentials</span>, <span class="ident">client</span>)
-    }
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> <span class="ident">Modio</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">C</span>: <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">Connect</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="doccomment">/// Create an endpoint with a custom hyper client.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">custom</span><span class="op">&lt;</span><span class="ident">H</span>, <span class="ident">A</span>, <span class="ident">CR</span><span class="op">&gt;</span>(<span class="ident">host</span>: <span class="ident">H</span>, <span class="ident">agent</span>: <span class="ident">A</span>, <span class="ident">credentials</span>: <span class="ident">CR</span>, <span class="ident">client</span>: <span class="ident">Client</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span>
-    <span class="kw">where</span>
-        <span class="ident">H</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
-        <span class="ident">A</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
-        <span class="ident">CR</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Credentials</span><span class="op">&gt;</span>,
-    {
-        <span class="self">Self</span> {
-            <span class="ident">host</span>: <span class="ident">host</span>.<span class="ident">into</span>(),
-            <span class="ident">agent</span>: <span class="ident">agent</span>.<span class="ident">into</span>(),
-            <span class="ident">client</span>,
-            <span class="ident">credentials</span>: <span class="ident">credentials</span>.<span class="ident">into</span>(),
-        }
+        <span class="ident">Builder</span>::<span class="ident">new</span>(<span class="ident">credentials</span>).<span class="ident">host</span>(<span class="ident">host</span>).<span class="ident">build</span>()
     }
 
     <span class="doccomment">/// Consume the endpoint and create an endpoint with new credentials.</span>
@@ -1130,29 +1328,28 @@
     {
         <span class="self">Self</span> {
             <span class="ident">host</span>: <span class="self">self</span>.<span class="ident">host</span>,
-            <span class="ident">agent</span>: <span class="self">self</span>.<span class="ident">agent</span>,
             <span class="ident">client</span>: <span class="self">self</span>.<span class="ident">client</span>,
             <span class="ident">credentials</span>: <span class="ident">credentials</span>.<span class="ident">into</span>(),
         }
     }
 
     <span class="doccomment">/// Return a reference to an interface for requesting access tokens.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">auth</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Auth</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">auth</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Auth</span> {
         <span class="ident">Auth</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">clone</span>())
     }
 
     <span class="doccomment">/// Return a reference to an interface that provides access to game information.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">games</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Games</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">games</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Games</span> {
         <span class="ident">Games</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">clone</span>())
     }
 
     <span class="doccomment">/// Return a reference to a game.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">game</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">game_id</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">GameRef</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">game</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">game_id</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">GameRef</span> {
         <span class="ident">GameRef</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">clone</span>(), <span class="ident">game_id</span>)
     }
 
     <span class="doccomment">/// Return a reference to a mod.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mod_</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">game_id</span>: <span class="ident">u32</span>, <span class="ident">mod_id</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">ModRef</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mod_</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">game_id</span>: <span class="ident">u32</span>, <span class="ident">mod_id</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">ModRef</span> {
         <span class="ident">ModRef</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">clone</span>(), <span class="ident">game_id</span>, <span class="ident">mod_id</span>)
     }
 
@@ -1169,12 +1366,11 @@
     <span class="doccomment">/// use tokio::runtime::Runtime;</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// fn main() -&gt; Result&lt;(), Error&gt; {</span>
-    <span class="doccomment">///     let mut rt = Runtime::new()?;</span>
+    <span class="doccomment">///     let mut rt = Runtime::new().expect(&quot;new rt&quot;);</span>
     <span class="doccomment">///     let modio = Modio::new(</span>
-    <span class="doccomment">///         &quot;user-agent-name/1.0&quot;,</span>
     <span class="doccomment">///         Credentials::ApiKey(String::from(&quot;user-or-game-api-key&quot;)),</span>
-    <span class="doccomment">///     );</span>
-    <span class="doccomment">///     let out = File::open(&quot;mod.zip&quot;)?;</span>
+    <span class="doccomment">///     )?;</span>
+    <span class="doccomment">///     let out = File::create(&quot;mod.zip&quot;).expect(&quot;new file&quot;);</span>
     <span class="doccomment">///</span>
     <span class="doccomment">///     // Download the primary file of a mod.</span>
     <span class="doccomment">///     let action = DownloadAction::Primary {</span>
@@ -1287,63 +1483,60 @@
 
     <span class="doccomment">/// Return a reference to an interface that provides access to resources owned by the user</span>
     <span class="doccomment">/// associated with the current authentication credentials.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">me</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Me</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">me</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Me</span> {
         <span class="ident">Me</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">clone</span>())
     }
 
     <span class="doccomment">/// Return a reference to an interface that provides access to user information.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">users</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Users</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">users</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Users</span> {
         <span class="ident">Users</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">clone</span>())
     }
 
     <span class="doccomment">/// Return a reference to an interface to report games, mods and users.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reports</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Reports</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reports</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Reports</span> {
         <span class="ident">Reports</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">clone</span>())
     }
 
-    <span class="kw">fn</span> <span class="ident">request</span><span class="op">&lt;</span><span class="ident">B</span>, <span class="ident">Out</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">method</span>: <span class="ident">Method</span>, <span class="ident">uri</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">body</span>: <span class="ident">B</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span>(<span class="ident">Uri</span>, <span class="ident">Out</span>)<span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">request</span><span class="op">&lt;</span><span class="ident">B</span>, <span class="ident">Out</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">method</span>: <span class="ident">Method</span>, <span class="ident">uri</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">body</span>: <span class="ident">B</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span>(<span class="ident">Url</span>, <span class="ident">Out</span>)<span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">B</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">RequestBody</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">Send</span>,
         <span class="ident">Out</span>: <span class="ident">DeserializeOwned</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">Send</span>,
     {
         <span class="kw">let</span> <span class="ident">url</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Credentials</span>::<span class="ident">ApiKey</span>(<span class="kw-2">ref</span> <span class="ident">api_key</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">credentials</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">parsed</span> <span class="op">=</span> <span class="ident">Url</span>::<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">uri</span>).<span class="ident">unwrap</span>();
-            <span class="ident">parsed</span>.<span class="ident">query_pairs_mut</span>().<span class="ident">append_pair</span>(<span class="string">&quot;api_key&quot;</span>, <span class="ident">api_key</span>);
-            <span class="ident">parsed</span>.<span class="ident">to_string</span>().<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">Uri</span><span class="op">&gt;</span>().<span class="ident">into_future</span>()
+            <span class="ident">Url</span>::<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">uri</span>)
+                .<span class="ident">map</span>(<span class="op">|</span><span class="kw-2">mut</span> <span class="ident">url</span><span class="op">|</span> {
+                    <span class="ident">url</span>.<span class="ident">query_pairs_mut</span>().<span class="ident">append_pair</span>(<span class="string">&quot;api_key&quot;</span>, <span class="ident">api_key</span>);
+                    <span class="ident">url</span>
+                })
+                .<span class="ident">map_err</span>(<span class="ident">error</span>::<span class="ident">from</span>)
+                .<span class="ident">into_future</span>()
         } <span class="kw">else</span> {
-            <span class="ident">uri</span>.<span class="ident">parse</span>().<span class="ident">into_future</span>()
+            <span class="ident">uri</span>.<span class="ident">parse</span>().<span class="ident">map_err</span>(<span class="ident">error</span>::<span class="ident">from</span>).<span class="ident">into_future</span>()
         };
 
         <span class="kw">let</span> <span class="ident">instance</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">clone</span>();
 
-        <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">url</span>.<span class="ident">map_err</span>(<span class="ident">Error</span>::<span class="ident">from</span>).<span class="ident">and_then</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">url</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">Request</span>::<span class="ident">builder</span>();
-            <span class="ident">req</span>.<span class="ident">method</span>(<span class="ident">method</span>)
-                .<span class="ident">uri</span>(<span class="kw-2">&amp;</span><span class="ident">url</span>)
-                .<span class="ident">header</span>(<span class="ident">USER_AGENT</span>, <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">instance</span>.<span class="ident">agent</span>);
+        <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">url</span>.<span class="ident">and_then</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">url</span><span class="op">|</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">instance</span>.<span class="ident">client</span>.<span class="ident">request</span>(<span class="ident">method</span>, <span class="ident">url</span>.<span class="ident">clone</span>());
 
             <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Credentials</span>::<span class="ident">Token</span>(<span class="kw-2">ref</span> <span class="ident">token</span>) <span class="op">=</span> <span class="ident">instance</span>.<span class="ident">credentials</span> {
-                <span class="ident">req</span>.<span class="ident">header</span>(<span class="ident">AUTHORIZATION</span>, <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Bearer {}&quot;</span>, <span class="ident">token</span>));
+                <span class="ident">req</span> <span class="op">=</span> <span class="ident">req</span>.<span class="ident">header</span>(<span class="ident">AUTHORIZATION</span>, <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Bearer {}&quot;</span>, <span class="ident">token</span>));
             }
 
-            <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">body</span>.<span class="ident">into</span>() {
+            <span class="kw">match</span> <span class="ident">body</span>.<span class="ident">into</span>() {
                 <span class="ident">RequestBody</span>::<span class="ident">Body</span>(<span class="ident">body</span>, <span class="ident">mime</span>) <span class="op">=&gt;</span> {
                     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">mime</span>) <span class="op">=</span> <span class="ident">mime</span> {
-                        <span class="ident">req</span>.<span class="ident">header</span>(<span class="ident">CONTENT_TYPE</span>, <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">mime</span>.<span class="ident">to_string</span>());
+                        <span class="ident">req</span> <span class="op">=</span> <span class="ident">req</span>.<span class="ident">header</span>(<span class="ident">CONTENT_TYPE</span>, <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">mime</span>.<span class="ident">to_string</span>());
                     }
-                    <span class="ident">req</span>.<span class="ident">body</span>(<span class="ident">body</span>).<span class="ident">map_err</span>(<span class="ident">Error</span>::<span class="ident">from</span>)
+                    <span class="ident">req</span> <span class="op">=</span> <span class="ident">req</span>.<span class="ident">body</span>(<span class="ident">body</span>);
                 }
-                <span class="ident">RequestBody</span>::<span class="ident">Form</span>(<span class="ident">mpart</span>) <span class="op">=&gt;</span> {
-                    <span class="ident">req</span>.<span class="ident">header</span>(
-                        <span class="ident">CONTENT_TYPE</span>,
-                        <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;multipart/form-data; boundary={}&quot;</span>, <span class="ident">mpart</span>.<span class="ident">get_boundary</span>()),
-                    );
-                    <span class="ident">req</span>.<span class="ident">body</span>(<span class="ident">Body</span>::<span class="ident">wrap_stream</span>(<span class="ident">mpart</span>)).<span class="ident">map_err</span>(<span class="ident">Error</span>::<span class="ident">from</span>)
+                <span class="ident">RequestBody</span>::<span class="ident">Form</span>(<span class="ident">form</span>) <span class="op">=&gt;</span> {
+                    <span class="ident">req</span> <span class="op">=</span> <span class="ident">req</span>.<span class="ident">multipart</span>(<span class="ident">form</span>);
                 }
-            };
-
-            <span class="ident">req</span>.<span class="ident">into_future</span>()
-                .<span class="ident">and_then</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">req</span><span class="op">|</span> <span class="ident">instance</span>.<span class="ident">client</span>.<span class="ident">request</span>(<span class="ident">req</span>).<span class="ident">map_err</span>(<span class="ident">Error</span>::<span class="ident">from</span>))
+                <span class="kw">_</span> <span class="op">=&gt;</span> {}
+            }
+            <span class="ident">req</span>.<span class="ident">send</span>()
+                .<span class="ident">map_err</span>(<span class="ident">error</span>::<span class="ident">from</span>)
                 .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">res</span><span class="op">|</span> <span class="prelude-val">Ok</span>((<span class="ident">url</span>, <span class="ident">res</span>)))
         });
 
@@ -1364,29 +1557,24 @@
                 <span class="ident">response</span>
                     .<span class="ident">into_body</span>()
                     .<span class="ident">concat2</span>()
-                    .<span class="ident">map_err</span>(<span class="ident">Error</span>::<span class="ident">from</span>)
+                    .<span class="ident">map_err</span>(<span class="ident">error</span>::<span class="ident">from</span>)
                     .<span class="ident">and_then</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">response_body</span><span class="op">|</span> {
                         <span class="kw">if</span> <span class="ident">status</span>.<span class="ident">is_success</span>() {
                             <span class="ident">serde_json</span>::<span class="ident">from_slice</span>::<span class="op">&lt;</span><span class="ident">Out</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="ident">response_body</span>)
                                 .<span class="ident">map</span>(<span class="op">|</span><span class="ident">out</span><span class="op">|</span> (<span class="ident">url</span>, <span class="ident">out</span>))
-                                .<span class="ident">map_err</span>(<span class="ident">Error</span>::<span class="ident">from</span>)
+                                .<span class="ident">map_err</span>(<span class="ident">error</span>::<span class="ident">from</span>)
                         } <span class="kw">else</span> {
-                            <span class="kw">let</span> <span class="ident">error</span> <span class="op">=</span> <span class="kw">match</span> (<span class="ident">remaining</span>, <span class="ident">reset</span>) {
+                            <span class="kw">match</span> (<span class="ident">remaining</span>, <span class="ident">reset</span>) {
                                 (<span class="prelude-val">Some</span>(<span class="ident">remaining</span>), <span class="prelude-val">Some</span>(<span class="ident">reset</span>)) <span class="kw">if</span> <span class="ident">remaining</span> <span class="op">==</span> <span class="number">0</span> <span class="op">=&gt;</span> {
-                                    <span class="ident">error</span>::<span class="ident">ErrorKind</span>::<span class="ident">RateLimit</span> {
-                                        <span class="ident">reset</span>: <span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="ident">reset</span> <span class="kw">as</span> <span class="ident">u64</span> <span class="op">*</span> <span class="number">60</span>),
-                                    }
+                                    <span class="prelude-val">Err</span>(<span class="ident">error</span>::<span class="ident">ratelimit</span>(<span class="ident">reset</span>))
                                 }
                                 <span class="kw">_</span> <span class="op">=&gt;</span> {
                                     <span class="kw">let</span> <span class="ident">mer</span>: <span class="ident">ModioErrorResponse</span> <span class="op">=</span>
-                                        <span class="ident">serde_json</span>::<span class="ident">from_slice</span>(<span class="kw-2">&amp;</span><span class="ident">response_body</span>)<span class="question-mark">?</span>;
-                                    <span class="ident">error</span>::<span class="ident">ErrorKind</span>::<span class="ident">Fault</span> {
-                                        <span class="ident">code</span>: <span class="ident">status</span>,
-                                        <span class="ident">error</span>: <span class="ident">mer</span>.<span class="ident">error</span>,
-                                    }
+                                        <span class="ident">serde_json</span>::<span class="ident">from_slice</span>(<span class="kw-2">&amp;</span><span class="ident">response_body</span>)
+                                            .<span class="ident">map_err</span>(<span class="ident">error</span>::<span class="ident">from</span>)<span class="question-mark">?</span>;
+                                    <span class="prelude-val">Err</span>(<span class="ident">error</span>::<span class="ident">fault</span>(<span class="ident">status</span>, <span class="ident">mer</span>.<span class="ident">error</span>))
                                 }
-                            };
-                            <span class="prelude-val">Err</span>(<span class="ident">error</span>.<span class="ident">into</span>())
+                            }
                         }
                     }),
             )
@@ -1405,41 +1593,24 @@
     <span class="kw">where</span>
         <span class="ident">W</span>: <span class="ident">Write</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">Send</span>,
     {
-        <span class="kw">let</span> <span class="ident">uri</span> <span class="op">=</span> <span class="ident">uri</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">Uri</span><span class="op">&gt;</span>().<span class="ident">into_future</span>();
+        <span class="kw">let</span> <span class="ident">url</span> <span class="op">=</span> <span class="ident">Url</span>::<span class="ident">parse</span>(<span class="ident">uri</span>).<span class="ident">map_err</span>(<span class="ident">error</span>::<span class="ident">from</span>).<span class="ident">into_future</span>();
 
         <span class="kw">let</span> <span class="ident">instance</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">clone</span>();
-        <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">uri</span>.<span class="ident">map_err</span>(<span class="ident">Error</span>::<span class="ident">from</span>).<span class="ident">and_then</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">uri</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">Request</span>::<span class="ident">builder</span>();
-            <span class="ident">req</span>.<span class="ident">method</span>(<span class="ident">Method</span>::<span class="ident">GET</span>)
-                .<span class="ident">uri</span>(<span class="ident">uri</span>)
-                .<span class="ident">header</span>(<span class="ident">USER_AGENT</span>, <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">instance</span>.<span class="ident">agent</span>);
-            <span class="ident">req</span>.<span class="ident">body</span>(<span class="ident">Body</span>::<span class="ident">empty</span>())
-                .<span class="ident">into_future</span>()
-                .<span class="ident">map_err</span>(<span class="ident">Error</span>::<span class="ident">from</span>)
-                .<span class="ident">and_then</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">req</span><span class="op">|</span> <span class="ident">instance</span>.<span class="ident">client</span>.<span class="ident">request</span>(<span class="ident">req</span>).<span class="ident">map_err</span>(<span class="ident">Error</span>::<span class="ident">from</span>))
+        <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">url</span>.<span class="ident">and_then</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">url</span><span class="op">|</span> {
+            <span class="ident">instance</span>
+                .<span class="ident">client</span>
+                .<span class="ident">request</span>(<span class="ident">Method</span>::<span class="ident">GET</span>, <span class="ident">url</span>)
+                .<span class="ident">send</span>()
+                .<span class="ident">map_err</span>(<span class="ident">error</span>::<span class="ident">from</span>)
         });
 
-        <span class="kw">let</span> <span class="ident">instance2</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">clone</span>();
         <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">response</span>.<span class="ident">and_then</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">response</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">status</span> <span class="op">=</span> <span class="ident">response</span>.<span class="ident">status</span>();
-            <span class="kw">if</span> <span class="ident">StatusCode</span>::<span class="ident">MOVED_PERMANENTLY</span> <span class="op">==</span> <span class="ident">status</span>
-                <span class="op">||</span> <span class="ident">StatusCode</span>::<span class="ident">TEMPORARY_REDIRECT</span> <span class="op">==</span> <span class="ident">status</span>
-                <span class="op">||</span> <span class="ident">StatusCode</span>::<span class="ident">FOUND</span> <span class="op">==</span> <span class="ident">status</span>
-            {
-                <span class="kw">let</span> <span class="ident">location</span> <span class="op">=</span> <span class="ident">response</span>
-                    .<span class="ident">headers</span>()
-                    .<span class="ident">get</span>(<span class="ident">LOCATION</span>)
-                    .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">l</span><span class="op">|</span> <span class="ident">l</span>.<span class="ident">to_str</span>().<span class="ident">ok</span>());
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">location</span>) <span class="op">=</span> <span class="ident">location</span> {
-                    <span class="kw">return</span> <span class="ident">instance2</span>.<span class="ident">request_file</span>(<span class="kw-2">&amp;</span><span class="ident">location</span>.<span class="ident">to_string</span>(), <span class="ident">out</span>);
-                }
-            }
-            <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">response</span>.<span class="ident">into_body</span>().<span class="ident">map_err</span>(<span class="ident">Error</span>::<span class="ident">from</span>).<span class="ident">fold</span>(
+            <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">response</span>.<span class="ident">into_body</span>().<span class="ident">map_err</span>(<span class="ident">error</span>::<span class="ident">from</span>).<span class="ident">fold</span>(
                 (<span class="number">0</span>, <span class="ident">out</span>),
                 <span class="op">|</span>(<span class="ident">len</span>, <span class="kw-2">mut</span> <span class="ident">out</span>), <span class="ident">chunk</span><span class="op">|</span> {
                     <span class="ident">io</span>::<span class="ident">copy</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">io</span>::<span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">chunk</span>), <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">out</span>)
                         .<span class="ident">map</span>(<span class="op">|</span><span class="ident">n</span><span class="op">|</span> (<span class="ident">n</span> <span class="op">+</span> <span class="ident">len</span>, <span class="ident">out</span>))
-                        .<span class="ident">map_err</span>(<span class="ident">Error</span>::<span class="ident">from</span>)
+                        .<span class="ident">map_err</span>(<span class="ident">error</span>::<span class="ident">from</span>)
                         .<span class="ident">into_future</span>()
                 },
             ))
@@ -1454,7 +1625,7 @@
         <span class="kw">where</span>
             <span class="ident">D</span>: <span class="ident">DeserializeOwned</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">Send</span>,
         {
-            <span class="ident">uri</span>: <span class="ident">Uri</span>,
+            <span class="ident">uri</span>: <span class="ident">Url</span>,
             <span class="ident">items</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>,
             <span class="ident">offset</span>: <span class="ident">u32</span>,
             <span class="ident">limit</span>: <span class="ident">u32</span>,
@@ -1464,7 +1635,7 @@
         <span class="kw">let</span> <span class="ident">instance</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">clone</span>();
 
         <span class="ident">Box</span>::<span class="ident">new</span>(
-            <span class="self">self</span>.<span class="ident">request</span>::<span class="op">&lt;</span><span class="kw">_</span>, <span class="ident">List</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;&gt;</span>(<span class="ident">Method</span>::<span class="ident">GET</span>, <span class="kw-2">&amp;</span>(<span class="self">self</span>.<span class="ident">host</span>.<span class="ident">clone</span>() <span class="op">+</span> <span class="ident">uri</span>), <span class="ident">Body</span>::<span class="ident">empty</span>())
+            <span class="self">self</span>.<span class="ident">request</span>::<span class="op">&lt;</span><span class="kw">_</span>, <span class="ident">List</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;&gt;</span>(<span class="ident">Method</span>::<span class="ident">GET</span>, <span class="kw-2">&amp;</span>(<span class="self">self</span>.<span class="ident">host</span>.<span class="ident">clone</span>() <span class="op">+</span> <span class="ident">uri</span>), <span class="ident">RequestBody</span>::<span class="ident">Empty</span>)
                 .<span class="ident">map</span>(<span class="kw">move</span> <span class="op">|</span>(<span class="ident">uri</span>, <span class="ident">list</span>)<span class="op">|</span> {
                     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">State</span> {
                         <span class="ident">uri</span>,
@@ -1500,7 +1671,7 @@
                                             .<span class="ident">request</span>::<span class="op">&lt;</span><span class="kw">_</span>, <span class="ident">List</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;&gt;</span>(
                                                 <span class="ident">Method</span>::<span class="ident">GET</span>,
                                                 <span class="kw-2">&amp;</span><span class="ident">url</span>.<span class="ident">to_string</span>(),
-                                                <span class="ident">Body</span>::<span class="ident">empty</span>(),
+                                                <span class="ident">RequestBody</span>::<span class="ident">Empty</span>,
                                             )
                                             .<span class="ident">map</span>(<span class="kw">move</span> <span class="op">|</span>(<span class="ident">uri</span>, <span class="ident">list</span>)<span class="op">|</span> {
                                                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">State</span> {
@@ -1533,13 +1704,13 @@
     <span class="kw">where</span>
         <span class="ident">D</span>: <span class="ident">DeserializeOwned</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">Send</span>,
     {
-        <span class="self">self</span>.<span class="ident">request_entity</span>(<span class="ident">Method</span>::<span class="ident">GET</span>, <span class="kw-2">&amp;</span>(<span class="self">self</span>.<span class="ident">host</span>.<span class="ident">clone</span>() <span class="op">+</span> <span class="ident">uri</span>), <span class="ident">Body</span>::<span class="ident">empty</span>())
+        <span class="self">self</span>.<span class="ident">request_entity</span>(<span class="ident">Method</span>::<span class="ident">GET</span>, <span class="kw-2">&amp;</span>(<span class="self">self</span>.<span class="ident">host</span>.<span class="ident">clone</span>() <span class="op">+</span> <span class="ident">uri</span>), <span class="ident">RequestBody</span>::<span class="ident">Empty</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">post</span><span class="op">&lt;</span><span class="ident">D</span>, <span class="ident">B</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">uri</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">body</span>: <span class="ident">B</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">D</span>: <span class="ident">DeserializeOwned</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">Send</span>,
-        <span class="ident">B</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Body</span><span class="op">&gt;</span>,
+        <span class="ident">B</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">RequestBody</span><span class="op">&gt;</span>,
     {
         <span class="self">self</span>.<span class="ident">request_entity</span>(
             <span class="ident">Method</span>::<span class="ident">POST</span>,
@@ -1551,7 +1722,7 @@
     <span class="kw">fn</span> <span class="ident">post_form</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">D</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">uri</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">data</span>: <span class="ident">M</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">D</span>: <span class="ident">DeserializeOwned</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">Send</span>,
-        <span class="ident">M</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">MultipartForm</span><span class="op">&gt;</span>,
+        <span class="ident">M</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Form</span><span class="op">&gt;</span>,
     {
         <span class="self">self</span>.<span class="ident">request_entity</span>(
             <span class="ident">Method</span>::<span class="ident">POST</span>,
@@ -1563,7 +1734,7 @@
     <span class="kw">fn</span> <span class="ident">put</span><span class="op">&lt;</span><span class="ident">D</span>, <span class="ident">B</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">uri</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">body</span>: <span class="ident">B</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">D</span>: <span class="ident">DeserializeOwned</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">Send</span>,
-        <span class="ident">B</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Body</span><span class="op">&gt;</span>,
+        <span class="ident">B</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">RequestBody</span><span class="op">&gt;</span>,
     {
         <span class="self">self</span>.<span class="ident">request_entity</span>(
             <span class="ident">Method</span>::<span class="ident">PUT</span>,
@@ -1574,7 +1745,7 @@
 
     <span class="kw">fn</span> <span class="ident">delete</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">uri</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">body</span>: <span class="ident">B</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
     <span class="kw">where</span>
-        <span class="ident">B</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Body</span><span class="op">&gt;</span>,
+        <span class="ident">B</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">RequestBody</span><span class="op">&gt;</span>,
     {
         <span class="ident">Box</span>::<span class="ident">new</span>(
             <span class="self">self</span>.<span class="ident">request_entity</span>(
@@ -1590,40 +1761,43 @@
     }
 }
 
-<span class="kw">enum</span> <span class="ident">RequestBody</span> {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum</span> <span class="ident">RequestBody</span> {
+    <span class="ident">Empty</span>,
     <span class="ident">Body</span>(<span class="ident">Body</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Mime</span><span class="op">&gt;</span>),
-    <span class="ident">Form</span>(<span class="ident">MultipartForm</span>),
+    <span class="ident">Form</span>(<span class="ident">Form</span>),
 }
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Body</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RequestBody</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">body</span>: <span class="ident">Body</span>) <span class="op">-&gt;</span> <span class="ident">RequestBody</span> {
-        <span class="ident">RequestBody</span>::<span class="ident">Body</span>(<span class="ident">body</span>, <span class="prelude-val">None</span>)
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RequestBody</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">s</span>: <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="ident">RequestBody</span> {
+        <span class="ident">RequestBody</span>::<span class="ident">Body</span>(<span class="ident">Body</span>::<span class="ident">from</span>(<span class="ident">s</span>), <span class="prelude-val">None</span>)
     }
 }
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span>(<span class="ident">Body</span>, <span class="ident">Mime</span>)<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RequestBody</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">body</span>: (<span class="ident">Body</span>, <span class="ident">Mime</span>)) <span class="op">-&gt;</span> <span class="ident">RequestBody</span> {
-        <span class="ident">RequestBody</span>::<span class="ident">Body</span>(<span class="ident">body</span>.<span class="number">0</span>, <span class="prelude-val">Some</span>(<span class="ident">body</span>.<span class="number">1</span>))
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span>(<span class="ident">RequestBody</span>, <span class="ident">Mime</span>)<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RequestBody</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">body</span>: (<span class="ident">RequestBody</span>, <span class="ident">Mime</span>)) <span class="op">-&gt;</span> <span class="ident">RequestBody</span> {
+        <span class="kw">match</span> <span class="ident">body</span> {
+            (<span class="ident">RequestBody</span>::<span class="ident">Body</span>(<span class="ident">body</span>, <span class="kw">_</span>), <span class="ident">mime</span>) <span class="op">=&gt;</span> <span class="ident">RequestBody</span>::<span class="ident">Body</span>(<span class="ident">body</span>, <span class="prelude-val">Some</span>(<span class="ident">mime</span>)),
+            (<span class="ident">RequestBody</span>::<span class="ident">Empty</span>, <span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">RequestBody</span>::<span class="ident">Empty</span>,
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="ident">body</span>.<span class="number">0</span>,
+        }
     }
 }
 
 <span class="doccomment">/// Generic endpoint for sub-resources</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Endpoint</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">Out</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Endpoint</span><span class="op">&lt;</span><span class="ident">Out</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-    <span class="ident">C</span>: <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">Connect</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
     <span class="ident">Out</span>: <span class="ident">DeserializeOwned</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
-    <span class="ident">modio</span>: <span class="ident">Modio</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>,
+    <span class="ident">modio</span>: <span class="ident">Modio</span>,
     <span class="ident">path</span>: <span class="ident">String</span>,
     <span class="ident">phantom</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">Out</span><span class="op">&gt;</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">Out</span><span class="op">&gt;</span> <span class="ident">Endpoint</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">Out</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Out</span><span class="op">&gt;</span> <span class="ident">Endpoint</span><span class="op">&lt;</span><span class="ident">Out</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-    <span class="ident">C</span>: <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">Connect</span>,
     <span class="ident">Out</span>: <span class="ident">DeserializeOwned</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">Send</span>,
 {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">modio</span>: <span class="ident">Modio</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>, <span class="ident">path</span>: <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="ident">Endpoint</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">Out</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">modio</span>: <span class="ident">Modio</span>, <span class="ident">path</span>: <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="ident">Endpoint</span><span class="op">&lt;</span><span class="ident">Out</span><span class="op">&gt;</span> {
         <span class="self">Self</span> {
             <span class="ident">modio</span>,
             <span class="ident">path</span>,
