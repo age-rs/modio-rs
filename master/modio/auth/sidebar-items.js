@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["Credentials","Various forms of authentication credentials supported by mod.io."]],"struct":[["Auth","Authentication Flow interface to retrieve access tokens. See the mod.io Authentication docs for more information."]]});
+initSidebarItems({"enum":[["Credentials","Various forms of authentication credentials supported by mod.io."],["Service","Various forms of supported external platforms."]],"struct":[["Auth","Authentication Flow interface to retrieve access tokens. See the mod.io Authentication docs for more information."]]});

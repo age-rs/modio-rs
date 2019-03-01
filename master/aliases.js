@@ -1,2 +1,2 @@
 var ALIASES = {};
-ALIASES['modio'] = {};
+ALIASES["modio"] = {};
