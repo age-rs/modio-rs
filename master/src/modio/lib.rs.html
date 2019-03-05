@@ -957,6 +957,18 @@
 <span id="957">957</span>
 <span id="958">958</span>
 <span id="959">959</span>
+<span id="960">960</span>
+<span id="961">961</span>
+<span id="962">962</span>
+<span id="963">963</span>
+<span id="964">964</span>
+<span id="965">965</span>
+<span id="966">966</span>
+<span id="967">967</span>
+<span id="968">968</span>
+<span id="969">969</span>
+<span id="970">970</span>
+<span id="971">971</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Modio provides a set of building blocks for interacting with the [mod.io](https://mod.io) API.</span>
 <span class="doccomment">//!</span>
@@ -1106,7 +1118,7 @@
 <span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">header</span>::{<span class="ident">HeaderMap</span>, <span class="ident">HeaderValue</span>};
 <span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">header</span>::{<span class="ident">AUTHORIZATION</span>, <span class="ident">CONTENT_TYPE</span>, <span class="ident">USER_AGENT</span>};
 <span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">r#async</span>::<span class="ident">multipart</span>::<span class="ident">Form</span>;
-<span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">r#async</span>::{<span class="ident">Body</span>, <span class="ident">Client</span>};
+<span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">r#async</span>::{<span class="ident">Body</span>, <span class="ident">Client</span>, <span class="ident">ClientBuilder</span>};
 <span class="kw">use</span> <span class="ident">reqwest</span>::{<span class="ident">Method</span>, <span class="ident">StatusCode</span>};
 <span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">DeserializeOwned</span>;
 <span class="kw">use</span> <span class="ident">url</span>::<span class="ident">Url</span>;
@@ -1183,6 +1195,7 @@
     <span class="ident">host</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     <span class="ident">agent</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     <span class="ident">credentials</span>: <span class="ident">Credentials</span>,
+    <span class="ident">builder</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ClientBuilder</span><span class="op">&gt;</span>,
     <span class="ident">proxies</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Proxy</span><span class="op">&gt;</span>,
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tls&quot;</span>)]</span>
     <span class="ident">tls</span>: <span class="ident">TlsBackend</span>,
@@ -1220,6 +1233,7 @@
                 <span class="ident">host</span>: <span class="prelude-val">None</span>,
                 <span class="ident">agent</span>: <span class="prelude-val">None</span>,
                 <span class="ident">credentials</span>: <span class="ident">credentials</span>.<span class="ident">into</span>(),
+                <span class="ident">builder</span>: <span class="prelude-val">None</span>,
                 <span class="ident">proxies</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
                 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tls&quot;</span>)]</span>
                 <span class="ident">tls</span>: <span class="ident">TlsBackend</span>::<span class="ident">default</span>(),
@@ -1235,16 +1249,17 @@
 
         <span class="kw">let</span> <span class="ident">client</span> <span class="op">=</span> {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">builder</span> <span class="op">=</span> {
+                <span class="kw">let</span> <span class="ident">builder</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">builder</span>.<span class="ident">unwrap_or_else</span>(<span class="ident">Client</span>::<span class="ident">builder</span>);
                 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tls&quot;</span>)]</span>
                 <span class="kw">match</span> <span class="ident">config</span>.<span class="ident">tls</span> {
                     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;default-tls&quot;</span>)]</span>
-                    <span class="ident">TlsBackend</span>::<span class="ident">Default</span> <span class="op">=&gt;</span> <span class="ident">Client</span>::<span class="ident">builder</span>().<span class="ident">use_default_tls</span>(),
+                    <span class="ident">TlsBackend</span>::<span class="ident">Default</span> <span class="op">=&gt;</span> <span class="ident">builder</span>.<span class="ident">use_default_tls</span>(),
                     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rustls-tls&quot;</span>)]</span>
-                    <span class="ident">TlsBackend</span>::<span class="ident">Rustls</span> <span class="op">=&gt;</span> <span class="ident">Client</span>::<span class="ident">builder</span>().<span class="ident">use_rustls_tls</span>(),
+                    <span class="ident">TlsBackend</span>::<span class="ident">Rustls</span> <span class="op">=&gt;</span> <span class="ident">builder</span>.<span class="ident">use_rustls_tls</span>(),
                 }
 
                 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tls&quot;</span>))]</span>
-                <span class="ident">Client</span>::<span class="ident">builder</span>()
+                <span class="ident">builder</span>
             };
 
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">headers</span> <span class="op">=</span> <span class="ident">HeaderMap</span>::<span class="ident">new</span>();
@@ -1269,6 +1284,15 @@
             <span class="ident">credentials</span>,
             <span class="ident">client</span>,
         })
+    }
+
+    <span class="doccomment">/// Configure the underlying `reqwest` client using `reqwest::async::ClientBuilder`.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">client</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">f</span>: <span class="ident">F</span>) <span class="op">-&gt;</span> <span class="ident">Builder</span>
+    <span class="kw">where</span>
+        <span class="ident">F</span>: <span class="ident">FnOnce</span>(<span class="ident">ClientBuilder</span>) <span class="op">-&gt;</span> <span class="ident">ClientBuilder</span>,
+    {
+        <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">builder</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">f</span>(<span class="ident">Client</span>::<span class="ident">builder</span>()));
+        <span class="self">self</span>
     }
 
     <span class="doccomment">/// Set the mod.io api host.</span>
