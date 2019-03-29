@@ -952,23 +952,6 @@
 <span id="952">952</span>
 <span id="953">953</span>
 <span id="954">954</span>
-<span id="955">955</span>
-<span id="956">956</span>
-<span id="957">957</span>
-<span id="958">958</span>
-<span id="959">959</span>
-<span id="960">960</span>
-<span id="961">961</span>
-<span id="962">962</span>
-<span id="963">963</span>
-<span id="964">964</span>
-<span id="965">965</span>
-<span id="966">966</span>
-<span id="967">967</span>
-<span id="968">968</span>
-<span id="969">969</span>
-<span id="970">970</span>
-<span id="971">971</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Modio provides a set of building blocks for interacting with the [mod.io](https://mod.io) API.</span>
 <span class="doccomment">//!</span>
@@ -1118,7 +1101,7 @@
 <span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">header</span>::{<span class="ident">HeaderMap</span>, <span class="ident">HeaderValue</span>};
 <span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">header</span>::{<span class="ident">AUTHORIZATION</span>, <span class="ident">CONTENT_TYPE</span>, <span class="ident">USER_AGENT</span>};
 <span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">r#async</span>::<span class="ident">multipart</span>::<span class="ident">Form</span>;
-<span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">r#async</span>::{<span class="ident">Body</span>, <span class="ident">Client</span>, <span class="ident">ClientBuilder</span>};
+<span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">r#async</span>::{<span class="ident">Client</span>, <span class="ident">ClientBuilder</span>};
 <span class="kw">use</span> <span class="ident">reqwest</span>::{<span class="ident">Method</span>, <span class="ident">StatusCode</span>};
 <span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">DeserializeOwned</span>;
 <span class="kw">use</span> <span class="ident">url</span>::<span class="ident">Url</span>;
@@ -1155,7 +1138,7 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">auth</span>::<span class="ident">Credentials</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">download</span>::<span class="ident">DownloadAction</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::{<span class="ident">Error</span>, <span class="prelude-ty">Result</span>};
-<span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::{<span class="ident">ModioErrorResponse</span>, <span class="ident">ModioListResponse</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::{<span class="ident">ModioErrorResponse</span>, <span class="ident">ModioListResponse</span>, <span class="ident">ModioResult</span>};
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">Proxy</span>;
 
 <span class="kw">const</span> <span class="ident">DEFAULT_HOST</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;https://api.mod.io/v1&quot;</span>;
@@ -1172,10 +1155,12 @@
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">r#async</span>::<span class="ident">Body</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">StatusCode</span>;
 
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">filter</span>::<span class="ident">Filter</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">List</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Modio</span>;
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">ModioMessage</span>;
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">QueryParams</span>;
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">ModioResult</span>;
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">QueryString</span>;
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">RequestBody</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">AddOptions</span>, <span class="ident">DeleteOptions</span>, <span class="ident">Endpoint</span>};
     <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Future</span>, <span class="ident">Stream</span>};
@@ -1492,15 +1477,17 @@
                 <span class="ident">version</span>,
                 <span class="ident">policy</span>,
             } <span class="op">=&gt;</span> {
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">opts</span> <span class="op">=</span> <span class="ident">files</span>::<span class="ident">FileListOptions</span>::<span class="ident">new</span>();
-                <span class="ident">opts</span>.<span class="ident">version</span>(<span class="ident">filter</span>::<span class="ident">Operator</span>::<span class="ident">Equals</span>, <span class="ident">version</span>.<span class="ident">clone</span>());
-                <span class="ident">opts</span>.<span class="ident">sort_by</span>(<span class="ident">files</span>::<span class="ident">FileListOptions</span>::<span class="ident">DATE_ADDED</span>, <span class="ident">filter</span>::<span class="ident">Order</span>::<span class="ident">Desc</span>);
-                <span class="ident">opts</span>.<span class="ident">limit</span>(<span class="number">2</span>);
+                <span class="kw">use</span> <span class="ident">files</span>::<span class="ident">filters</span>::{<span class="ident">DateAdded</span>, <span class="ident">Version</span>};
+                <span class="kw">use</span> <span class="ident">filter</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
+
+                <span class="kw">let</span> <span class="ident">filter</span> <span class="op">=</span> <span class="ident">Version</span>::<span class="ident">eq</span>(<span class="ident">version</span>.<span class="ident">clone</span>())
+                    .<span class="ident">order_by</span>(<span class="ident">DateAdded</span>::<span class="ident">desc</span>())
+                    .<span class="ident">limit</span>(<span class="number">2</span>);
 
                 <span class="ident">Box</span>::<span class="ident">new</span>(
                     <span class="self">self</span>.<span class="ident">mod_</span>(<span class="ident">game_id</span>, <span class="ident">mod_id</span>)
                         .<span class="ident">files</span>()
-                        .<span class="ident">list</span>(<span class="kw-2">&amp;</span><span class="ident">opts</span>)
+                        .<span class="ident">list</span>(<span class="kw-2">&amp;</span><span class="ident">filter</span>)
                         .<span class="ident">and_then</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">list</span><span class="op">|</span> {
                             <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">download</span>::<span class="ident">ResolvePolicy</span>::<span class="kw-2">*</span>;
 
@@ -1576,6 +1563,7 @@
 
             <span class="kw">match</span> <span class="ident">body</span>.<span class="ident">into</span>() {
                 <span class="ident">RequestBody</span>::<span class="ident">Body</span>(<span class="ident">body</span>, <span class="ident">mime</span>) <span class="op">=&gt;</span> {
+                    <span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;body: {}&quot;</span>, <span class="ident">body</span>);
                     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">mime</span>) <span class="op">=</span> <span class="ident">mime</span> {
                         <span class="ident">req</span> <span class="op">=</span> <span class="ident">req</span>.<span class="ident">header</span>(<span class="ident">CONTENT_TYPE</span>, <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">mime</span>.<span class="ident">to_string</span>());
                     }
@@ -1629,8 +1617,8 @@
                                     <span class="prelude-val">Err</span>(<span class="ident">error</span>::<span class="ident">ratelimit</span>(<span class="ident">reset</span>))
                                 }
                                 <span class="kw">_</span> <span class="op">=&gt;</span> <span class="ident">serde_json</span>::<span class="ident">from_slice</span>::<span class="op">&lt;</span><span class="ident">ModioErrorResponse</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="ident">response_body</span>)
-                                        .<span class="ident">map</span>(<span class="op">|</span><span class="ident">mer</span><span class="op">|</span> <span class="prelude-val">Err</span>(<span class="ident">error</span>::<span class="ident">fault</span>(<span class="ident">status</span>, <span class="ident">mer</span>.<span class="ident">error</span>)))
-                                        .<span class="ident">map_err</span>(<span class="ident">error</span>::<span class="ident">from</span>)<span class="question-mark">?</span>,
+                                    .<span class="ident">map</span>(<span class="op">|</span><span class="ident">mer</span><span class="op">|</span> <span class="prelude-val">Err</span>(<span class="ident">error</span>::<span class="ident">fault</span>(<span class="ident">status</span>, <span class="ident">mer</span>.<span class="ident">error</span>)))
+                                    .<span class="ident">map_err</span>(<span class="ident">error</span>::<span class="ident">from</span>)<span class="question-mark">?</span>,
                             }
                         }
                     }),
@@ -1823,13 +1811,13 @@
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum</span> <span class="ident">RequestBody</span> {
     <span class="ident">Empty</span>,
-    <span class="ident">Body</span>(<span class="ident">Body</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Mime</span><span class="op">&gt;</span>),
+    <span class="ident">Body</span>(<span class="ident">String</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Mime</span><span class="op">&gt;</span>),
     <span class="ident">Form</span>(<span class="ident">Form</span>),
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RequestBody</span> {
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">s</span>: <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="ident">RequestBody</span> {
-        <span class="ident">RequestBody</span>::<span class="ident">Body</span>(<span class="ident">Body</span>::<span class="ident">from</span>(<span class="ident">s</span>), <span class="prelude-val">None</span>)
+        <span class="ident">RequestBody</span>::<span class="ident">Body</span>(<span class="ident">s</span>, <span class="prelude-val">None</span>)
     }
 }
 
@@ -1874,9 +1862,9 @@
     }
 
     <span class="doccomment">/// [required: token]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">AddOptions</span> <span class="op">+</span> <span class="ident">QueryParams</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">AddOptions</span> <span class="op">+</span> <span class="ident">QueryString</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
         <span class="macro">token_required</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">modio</span>);
-        <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_query_params</span>();
+        <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_query_string</span>();
         <span class="ident">Box</span>::<span class="ident">new</span>(
             <span class="self">self</span>.<span class="ident">modio</span>
                 .<span class="ident">post</span>::<span class="op">&lt;</span><span class="ident">ModioMessage</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">path</span>, <span class="ident">params</span>)
@@ -1885,61 +1873,39 @@
     }
 
     <span class="doccomment">/// [required: token]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">delete</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">DeleteOptions</span> <span class="op">+</span> <span class="ident">QueryParams</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">delete</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">DeleteOptions</span> <span class="op">+</span> <span class="ident">QueryString</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="macro">token_required</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">modio</span>);
-        <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_query_params</span>();
+        <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_query_string</span>();
         <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">delete</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">path</span>, <span class="ident">params</span>)
     }
 }
 
-<span class="macro">filter_options</span><span class="macro">!</span> {
-    <span class="doccomment">/// Options used to filter event listings.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Filter parameters</span>
-    <span class="doccomment">/// - id</span>
-    <span class="doccomment">/// - game_id</span>
-    <span class="doccomment">/// - mod_id</span>
-    <span class="doccomment">/// - user_id</span>
-    <span class="doccomment">/// - date_added</span>
-    <span class="doccomment">/// - event_type</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Sorting</span>
-    <span class="doccomment">/// - id</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See the [modio docs](https://docs.mod.io/#events) for more information.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// By default this returns up to `100` items. You can limit the result using `limit` and</span>
-    <span class="doccomment">/// `offset`.</span>
-    <span class="doccomment">/// # Example</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// use modio::filter::{Order, Operator};</span>
-    <span class="doccomment">/// use modio::EventListOptions;</span>
-    <span class="doccomment">/// use modio::mods::EventType;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let mut opts = EventListOptions::new();</span>
-    <span class="doccomment">/// opts.id(Operator::GreaterThan, 1024);</span>
-    <span class="doccomment">/// opts.event_type(Operator::Equals, EventType::ModfileChanged);</span>
-    <span class="doccomment">/// ```</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EventListOptions</span> {
-        <span class="ident">Filters</span>
-        <span class="op">-</span> <span class="ident">id</span> <span class="op">=</span> <span class="string">&quot;id&quot;</span>;
-        <span class="op">-</span> <span class="ident">game_id</span> <span class="op">=</span> <span class="string">&quot;game_id&quot;</span>;
-        <span class="op">-</span> <span class="ident">mod_id</span> <span class="op">=</span> <span class="string">&quot;mod_id&quot;</span>;
-        <span class="op">-</span> <span class="ident">user_id</span> <span class="op">=</span> <span class="string">&quot;user_id&quot;</span>;
-        <span class="op">-</span> <span class="ident">date_added</span> <span class="op">=</span> <span class="string">&quot;date_added&quot;</span>;
-        <span class="op">-</span> <span class="ident">event_type</span> <span class="op">=</span> <span class="string">&quot;event_type&quot;</span>;
+<span class="kw">mod</span> <span class="ident">private</span> {
+    <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Sealed</span> {}
 
-        <span class="ident">Sort</span>
-        <span class="op">-</span> <span class="ident">ID</span> <span class="op">=</span> <span class="string">&quot;id&quot;</span>;
-    }
+    <span class="kw">impl</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="kw">super</span>::<span class="ident">filter</span>::<span class="ident">Filter</span> {}
+    <span class="kw">impl</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="kw">super</span>::<span class="ident">files</span>::<span class="ident">EditFileOptions</span> {}
+    <span class="kw">impl</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="kw">super</span>::<span class="ident">games</span>::<span class="ident">AddTagsOptions</span> {}
+    <span class="kw">impl</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="kw">super</span>::<span class="ident">games</span>::<span class="ident">EditGameOptions</span> {}
+    <span class="kw">impl</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="kw">super</span>::<span class="ident">games</span>::<span class="ident">DeleteTagsOptions</span> {}
+    <span class="kw">impl</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="kw">super</span>::<span class="ident">mods</span>::<span class="ident">DeleteMediaOptions</span> {}
+    <span class="kw">impl</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="kw">super</span>::<span class="ident">mods</span>::<span class="ident">EditDepencenciesOptions</span> {}
+    <span class="kw">impl</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="kw">super</span>::<span class="ident">mods</span>::<span class="ident">EditTagsOptions</span> {}
+    <span class="kw">impl</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="kw">super</span>::<span class="ident">mods</span>::<span class="ident">EditModOptions</span> {}
+    <span class="kw">impl</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="kw">super</span>::<span class="ident">mods</span>::<span class="ident">Rating</span> {}
+    <span class="kw">impl</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="kw">super</span>::<span class="ident">reports</span>::<span class="ident">Report</span> {}
+    <span class="kw">impl</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="kw">super</span>::<span class="ident">reports</span>::<span class="ident">Resource</span> {}
+    <span class="kw">impl</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="kw">super</span>::<span class="ident">teams</span>::<span class="ident">EditTeamMemberOptions</span> {}
+    <span class="kw">impl</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="kw">super</span>::<span class="ident">teams</span>::<span class="ident">InviteTeamMemberOptions</span> {}
+    <span class="kw">impl</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="kw">super</span>::<span class="ident">types</span>::<span class="ident">mods</span>::<span class="ident">MetadataMap</span> {}
+    <span class="kw">impl</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="kw">super</span>::<span class="ident">users</span>::<span class="ident">Resource</span> {}
 }
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">AddOptions</span> {}
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">DeleteOptions</span> {}
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">AddOptions</span>: <span class="ident">private</span>::<span class="ident">Sealed</span> {}
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">DeleteOptions</span>: <span class="ident">private</span>::<span class="ident">Sealed</span> {}
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">QueryParams</span> {
-    <span class="kw">fn</span> <span class="ident">to_query_params</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span>;
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">QueryString</span>: <span class="ident">private</span>::<span class="ident">Sealed</span> {
+    <span class="kw">fn</span> <span class="ident">to_query_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span>;
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "modio";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

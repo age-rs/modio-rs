@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Comment","See the Comment Object docs for more information."],["Comments",""],["CommentsListOptions","Options used to filter comment listings"]]});
+initSidebarItems({"mod":[["filters","Comment filters and sorting."]],"struct":[["Comment","See the Comment Object docs for more information."],["Comments",""]]});

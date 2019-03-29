@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["Resource",""]],"struct":[["Avatar","See the Avatar Object docs for more information."],["User","See the User Object docs for more information."],["Users","Interface for users."],["UsersListOptions","Options used to filter user listings"]]});
+initSidebarItems({"enum":[["Resource",""]],"mod":[["filters","Options used to filter user listings"]],"struct":[["Avatar","See the Avatar Object docs for more information."],["User","See the User Object docs for more information."],["Users","Interface for users."]]});

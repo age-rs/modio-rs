@@ -113,7 +113,6 @@
 <span id="113">113</span>
 <span id="114">114</span>
 <span id="115">115</span>
-<span id="116">116</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Users interface</span>
 <span class="kw">use</span> <span class="ident">url</span>::<span class="ident">form_urlencoded</span>;
@@ -133,9 +132,11 @@
     }
 
     <span class="doccomment">/// List all users registered on [mod.io](https:://mod.io).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">UsersListOptions</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">List</span><span class="op">&lt;</span><span class="ident">User</span><span class="op">&gt;&gt;</span> {
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See [Filters and sorting](filters/index.html).</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">filter</span>: <span class="kw-2">&amp;</span><span class="ident">Filter</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">List</span><span class="op">&lt;</span><span class="ident">User</span><span class="op">&gt;&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">uri</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;/users&quot;</span>.<span class="ident">into</span>()];
-        <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_query_params</span>();
+        <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">filter</span>.<span class="ident">to_query_string</span>();
         <span class="kw">if</span> <span class="op">!</span><span class="ident">query</span>.<span class="ident">is_empty</span>() {
             <span class="ident">uri</span>.<span class="ident">push</span>(<span class="ident">query</span>);
         }
@@ -143,9 +144,11 @@
     }
 
     <span class="doccomment">/// Provides a stream over all users registered on [mod.io](https:://mod.io).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">UsersListOptions</span>) <span class="op">-&gt;</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">User</span><span class="op">&gt;</span> {
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See [Filters and sorting](filters/index.html).</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">filter</span>: <span class="kw-2">&amp;</span><span class="ident">Filter</span>) <span class="op">-&gt;</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">User</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">uri</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;/users&quot;</span>.<span class="ident">into</span>()];
-        <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_query_params</span>();
+        <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">filter</span>.<span class="ident">to_query_string</span>();
         <span class="kw">if</span> <span class="op">!</span><span class="ident">query</span>.<span class="ident">is_empty</span>() {
             <span class="ident">uri</span>.<span class="ident">push</span>(<span class="ident">query</span>);
         }
@@ -160,9 +163,50 @@
     <span class="doccomment">/// Return the user that is the original submitter of a resource. [required: token]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_owner</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">resource</span>: <span class="ident">Resource</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">User</span><span class="op">&gt;</span> {
         <span class="macro">token_required</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">modio</span>);
-        <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">resource</span>.<span class="ident">to_query_params</span>();
+        <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">resource</span>.<span class="ident">to_query_string</span>();
         <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">post</span>(<span class="string">&quot;/general/ownership&quot;</span>, <span class="ident">params</span>)
     }
+}
+
+<span class="doccomment">/// Options used to filter user listings</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Filter parameters</span>
+<span class="doccomment">/// - Fulltext</span>
+<span class="doccomment">/// - Id</span>
+<span class="doccomment">/// - NameId</span>
+<span class="doccomment">/// - DateOnline</span>
+<span class="doccomment">/// - Username</span>
+<span class="doccomment">/// - Timezone</span>
+<span class="doccomment">/// - Language</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Sorting</span>
+<span class="doccomment">/// - Id</span>
+<span class="doccomment">/// - Username</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// See [modio docs](https://docs.mod.io/#get-all-users) for more information.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// By default this returns up to `100` items. You can limit the result by using `limit` and</span>
+<span class="doccomment">/// `offset`.</span>
+<span class="doccomment">/// # Example</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// use modio::filter::prelude::*;</span>
+<span class="doccomment">/// use modio::users::filters::Id;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// let filter = Id::_in(vec![1, 2]).order_by(Id::desc());</span>
+<span class="doccomment">/// ```</span>
+<span class="attribute">#[<span class="ident">rustfmt</span>::<span class="ident">skip</span>]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">filters</span> {
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">inline</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">filter</span>::<span class="ident">prelude</span>::<span class="ident">Fulltext</span>;
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">inline</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">filter</span>::<span class="ident">prelude</span>::<span class="ident">Id</span>;
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">inline</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">filter</span>::<span class="ident">prelude</span>::<span class="ident">NameId</span>;
+
+    <span class="macro">filter</span><span class="macro">!</span>(<span class="ident">DateOnline</span>, <span class="ident">DATE_ONLINE</span>, <span class="string">&quot;date_online&quot;</span>, <span class="ident">Eq</span>, <span class="ident">NotEq</span>, <span class="ident">In</span>, <span class="ident">Cmp</span>, <span class="ident">OrderBy</span>);
+    <span class="macro">filter</span><span class="macro">!</span>(<span class="ident">Username</span>, <span class="ident">USERNAME</span>, <span class="string">&quot;username&quot;</span>, <span class="ident">Eq</span>, <span class="ident">NotEq</span>, <span class="ident">In</span>, <span class="ident">Like</span>, <span class="ident">OrderBy</span>);
+    <span class="macro">filter</span><span class="macro">!</span>(<span class="ident">Timezone</span>, <span class="ident">TIMEZONE</span>, <span class="string">&quot;timezone&quot;</span>, <span class="ident">Eq</span>, <span class="ident">NotEq</span>, <span class="ident">In</span>, <span class="ident">Like</span>);
+    <span class="macro">filter</span><span class="macro">!</span>(<span class="ident">Language</span>, <span class="ident">LANGUAGE</span>, <span class="string">&quot;language&quot;</span>, <span class="ident">Eq</span>, <span class="ident">NotEq</span>, <span class="ident">In</span>, <span class="ident">Like</span>);
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>)]</span>
@@ -172,8 +216,8 @@
     <span class="ident">File</span>(<span class="ident">u32</span>),
 }
 
-<span class="kw">impl</span> <span class="ident">QueryParams</span> <span class="kw">for</span> <span class="ident">Resource</span> {
-    <span class="kw">fn</span> <span class="ident">to_query_params</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+<span class="kw">impl</span> <span class="ident">QueryString</span> <span class="kw">for</span> <span class="ident">Resource</span> {
+    <span class="kw">fn</span> <span class="ident">to_query_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
         <span class="kw">let</span> (<span class="ident">_type</span>, <span class="ident">id</span>) <span class="op">=</span> <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
             <span class="ident">Resource</span>::<span class="ident">Game</span>(<span class="ident">id</span>) <span class="op">=&gt;</span> (<span class="string">&quot;games&quot;</span>, <span class="ident">id</span>),
             <span class="ident">Resource</span>::<span class="ident">Mod</span>(<span class="ident">id</span>) <span class="op">=&gt;</span> (<span class="string">&quot;mods&quot;</span>, <span class="ident">id</span>),
@@ -183,52 +227,6 @@
             .<span class="ident">append_pair</span>(<span class="string">&quot;resource_type&quot;</span>, <span class="ident">_type</span>)
             .<span class="ident">append_pair</span>(<span class="string">&quot;resource_id&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">id</span>.<span class="ident">to_string</span>())
             .<span class="ident">finish</span>()
-    }
-}
-
-<span class="macro">filter_options</span><span class="macro">!</span> {
-    <span class="doccomment">/// Options used to filter user listings</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Filter parameters</span>
-    <span class="doccomment">/// - _q</span>
-    <span class="doccomment">/// - id</span>
-    <span class="doccomment">/// - name_id</span>
-    <span class="doccomment">/// - level</span>
-    <span class="doccomment">/// - date_online</span>
-    <span class="doccomment">/// - username</span>
-    <span class="doccomment">/// - timezone</span>
-    <span class="doccomment">/// - language</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Sorting</span>
-    <span class="doccomment">/// - id</span>
-    <span class="doccomment">/// - username</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See [modio docs](https://docs.mod.io/#get-all-users) for more information.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// By default this returns up to `100` items. You can limit the result using `limit` and</span>
-    <span class="doccomment">/// `offset`.</span>
-    <span class="doccomment">/// # Example</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// use modio::filter::{Order, Operator};</span>
-    <span class="doccomment">/// use modio::users::UsersListOptions;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let mut opts = UsersListOptions::new();</span>
-    <span class="doccomment">/// opts.id(Operator::In, vec![1, 2]);</span>
-    <span class="doccomment">/// opts.sort_by(UsersListOptions::ID, Order::Desc);</span>
-    <span class="doccomment">/// ```</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UsersListOptions</span> {
-        <span class="ident">Filters</span>
-        <span class="op">-</span> <span class="ident">id</span> <span class="op">=</span> <span class="string">&quot;id&quot;</span>;
-        <span class="op">-</span> <span class="ident">name_id</span> <span class="op">=</span> <span class="string">&quot;name_id&quot;</span>;
-        <span class="op">-</span> <span class="ident">date_online</span> <span class="op">=</span> <span class="string">&quot;date_online&quot;</span>;
-        <span class="op">-</span> <span class="ident">username</span> <span class="op">=</span> <span class="string">&quot;username&quot;</span>;
-        <span class="op">-</span> <span class="ident">timezone</span> <span class="op">=</span> <span class="string">&quot;timezone&quot;</span>;
-        <span class="op">-</span> <span class="ident">language</span> <span class="op">=</span> <span class="string">&quot;language&quot;</span>;
-
-        <span class="ident">Sort</span>
-        <span class="op">-</span> <span class="ident">ID</span> <span class="op">=</span> <span class="string">&quot;id&quot;</span>;
-        <span class="op">-</span> <span class="ident">USERNAME</span> <span class="op">=</span> <span class="string">&quot;username&quot;</span>;
     }
 }
 </pre></div>

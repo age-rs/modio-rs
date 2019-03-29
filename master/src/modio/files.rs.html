@@ -311,76 +311,6 @@
 <span id="311">311</span>
 <span id="312">312</span>
 <span id="313">313</span>
-<span id="314">314</span>
-<span id="315">315</span>
-<span id="316">316</span>
-<span id="317">317</span>
-<span id="318">318</span>
-<span id="319">319</span>
-<span id="320">320</span>
-<span id="321">321</span>
-<span id="322">322</span>
-<span id="323">323</span>
-<span id="324">324</span>
-<span id="325">325</span>
-<span id="326">326</span>
-<span id="327">327</span>
-<span id="328">328</span>
-<span id="329">329</span>
-<span id="330">330</span>
-<span id="331">331</span>
-<span id="332">332</span>
-<span id="333">333</span>
-<span id="334">334</span>
-<span id="335">335</span>
-<span id="336">336</span>
-<span id="337">337</span>
-<span id="338">338</span>
-<span id="339">339</span>
-<span id="340">340</span>
-<span id="341">341</span>
-<span id="342">342</span>
-<span id="343">343</span>
-<span id="344">344</span>
-<span id="345">345</span>
-<span id="346">346</span>
-<span id="347">347</span>
-<span id="348">348</span>
-<span id="349">349</span>
-<span id="350">350</span>
-<span id="351">351</span>
-<span id="352">352</span>
-<span id="353">353</span>
-<span id="354">354</span>
-<span id="355">355</span>
-<span id="356">356</span>
-<span id="357">357</span>
-<span id="358">358</span>
-<span id="359">359</span>
-<span id="360">360</span>
-<span id="361">361</span>
-<span id="362">362</span>
-<span id="363">363</span>
-<span id="364">364</span>
-<span id="365">365</span>
-<span id="366">366</span>
-<span id="367">367</span>
-<span id="368">368</span>
-<span id="369">369</span>
-<span id="370">370</span>
-<span id="371">371</span>
-<span id="372">372</span>
-<span id="373">373</span>
-<span id="374">374</span>
-<span id="375">375</span>
-<span id="376">376</span>
-<span id="377">377</span>
-<span id="378">378</span>
-<span id="379">379</span>
-<span id="380">380</span>
-<span id="381">381</span>
-<span id="382">382</span>
-<span id="383">383</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Modfile interface</span>
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>::<span class="ident">Path</span>;
@@ -405,10 +335,12 @@
     }
 
     <span class="doccomment">/// Return all modfiles the authenticated user uploaded. [required: token]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">FileListOptions</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">List</span><span class="op">&lt;</span><span class="ident">File</span><span class="op">&gt;&gt;</span> {
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See [Filters and sorting](filters/index.html).</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">filter</span>: <span class="kw-2">&amp;</span><span class="ident">Filter</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">List</span><span class="op">&lt;</span><span class="ident">File</span><span class="op">&gt;&gt;</span> {
         <span class="macro">token_required</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">modio</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">uri</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;/me/files&quot;</span>.<span class="ident">to_owned</span>()];
-        <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_query_params</span>();
+        <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">filter</span>.<span class="ident">to_query_string</span>();
         <span class="kw">if</span> <span class="op">!</span><span class="ident">query</span>.<span class="ident">is_empty</span>() {
             <span class="ident">uri</span>.<span class="ident">push</span>(<span class="ident">query</span>);
         }
@@ -416,10 +348,12 @@
     }
 
     <span class="doccomment">/// Provides a stream over all modfiles the authenticated user uploaded. [required: token]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">FileListOptions</span>) <span class="op">-&gt;</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">File</span><span class="op">&gt;</span> {
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See [Filters and sorting](filters/index.html).</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">filter</span>: <span class="kw-2">&amp;</span><span class="ident">Filter</span>) <span class="op">-&gt;</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">File</span><span class="op">&gt;</span> {
         <span class="macro">token_required</span><span class="macro">!</span>(<span class="ident">s</span> <span class="self">self</span>.<span class="ident">modio</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">uri</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;/me/files&quot;</span>.<span class="ident">to_owned</span>()];
-        <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_query_params</span>();
+        <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">filter</span>.<span class="ident">to_query_string</span>();
         <span class="kw">if</span> <span class="op">!</span><span class="ident">query</span>.<span class="ident">is_empty</span>() {
             <span class="ident">uri</span>.<span class="ident">push</span>(<span class="ident">query</span>);
         }
@@ -448,9 +382,11 @@
     }
 
     <span class="doccomment">/// Return all files that are published for a mod this `Files` refers to.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">FileListOptions</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">List</span><span class="op">&lt;</span><span class="ident">File</span><span class="op">&gt;&gt;</span> {
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See [Filters and sorting](filters/index.html).</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">filter</span>: <span class="kw-2">&amp;</span><span class="ident">Filter</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">List</span><span class="op">&lt;</span><span class="ident">File</span><span class="op">&gt;&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">uri</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="self">self</span>.<span class="ident">path</span>(<span class="string">&quot;&quot;</span>)];
-        <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_query_params</span>();
+        <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">filter</span>.<span class="ident">to_query_string</span>();
         <span class="kw">if</span> <span class="op">!</span><span class="ident">query</span>.<span class="ident">is_empty</span>() {
             <span class="ident">uri</span>.<span class="ident">push</span>(<span class="ident">query</span>);
         }
@@ -458,9 +394,11 @@
     }
 
     <span class="doccomment">/// Provides a stream over all files that are published for a mod this `Files` refers to.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">FileListOptions</span>) <span class="op">-&gt;</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">File</span><span class="op">&gt;</span> {
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See [Filters and sorting](filters/index.html).</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">filter</span>: <span class="kw-2">&amp;</span><span class="ident">Filter</span>) <span class="op">-&gt;</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">File</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">uri</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="self">self</span>.<span class="ident">path</span>(<span class="string">&quot;&quot;</span>)];
-        <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_query_params</span>();
+        <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">filter</span>.<span class="ident">to_query_string</span>();
         <span class="kw">if</span> <span class="op">!</span><span class="ident">query</span>.<span class="ident">is_empty</span>() {
             <span class="ident">uri</span>.<span class="ident">push</span>(<span class="ident">query</span>);
         }
@@ -510,9 +448,9 @@
     }
 
     <span class="doccomment">/// Edit details of a modfile. [required: token]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">edit</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">EditFileOptions</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">File</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">edit</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">EditFileOptions</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">ModioResult</span><span class="op">&lt;</span><span class="ident">File</span><span class="op">&gt;&gt;</span> {
         <span class="macro">token_required</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">modio</span>);
-        <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_query_params</span>();
+        <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_query_string</span>();
         <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">put</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">path</span>(), <span class="ident">params</span>)
     }
 
@@ -523,63 +461,59 @@
     }
 }
 
-<span class="macro">filter_options</span><span class="macro">!</span> {
-    <span class="doccomment">/// Options used to filter modfile listings</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Filter parameters</span>
-    <span class="doccomment">/// - _q</span>
-    <span class="doccomment">/// - id</span>
-    <span class="doccomment">/// - mod_id</span>
-    <span class="doccomment">/// - date_added</span>
-    <span class="doccomment">/// - date_scanned</span>
-    <span class="doccomment">/// - virus_status</span>
-    <span class="doccomment">/// - virus_positive</span>
-    <span class="doccomment">/// - filesize</span>
-    <span class="doccomment">/// - filehash</span>
-    <span class="doccomment">/// - filename</span>
-    <span class="doccomment">/// - version</span>
-    <span class="doccomment">/// - changelog</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Sorting</span>
-    <span class="doccomment">/// - id</span>
-    <span class="doccomment">/// - mod_id</span>
-    <span class="doccomment">/// - date_added</span>
-    <span class="doccomment">/// - version</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See [modio docs](https://docs.mod.io/#get-all-modfiles) for more information.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// By default this returns up to `100` items. You can limit the result using `limit` and</span>
-    <span class="doccomment">/// `offset`.</span>
-    <span class="doccomment">/// # Example</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// use modio::filter::{Order, Operator};</span>
-    <span class="doccomment">/// use modio::files::FileListOptions;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let mut opts = FileListOptions::new();</span>
-    <span class="doccomment">/// opts.id(Operator::In, vec![1, 2]);</span>
-    <span class="doccomment">/// opts.sort_by(FileListOptions::ID, Order::Desc);</span>
-    <span class="doccomment">/// ```</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FileListOptions</span> {
-        <span class="ident">Filters</span>
-        <span class="op">-</span> <span class="ident">id</span> <span class="op">=</span> <span class="string">&quot;id&quot;</span>;
-        <span class="op">-</span> <span class="ident">mod_id</span> <span class="op">=</span> <span class="string">&quot;mod_id&quot;</span>;
-        <span class="op">-</span> <span class="ident">date_added</span> <span class="op">=</span> <span class="string">&quot;date_added&quot;</span>;
-        <span class="op">-</span> <span class="ident">date_scanned</span> <span class="op">=</span> <span class="string">&quot;date_scanned&quot;</span>;
-        <span class="op">-</span> <span class="ident">virus_status</span> <span class="op">=</span> <span class="string">&quot;virus_status&quot;</span>;
-        <span class="op">-</span> <span class="ident">virus_positive</span> <span class="op">=</span> <span class="string">&quot;virus_positive&quot;</span>;
-        <span class="op">-</span> <span class="ident">filesize</span> <span class="op">=</span> <span class="string">&quot;filesize&quot;</span>;
-        <span class="op">-</span> <span class="ident">filehash</span> <span class="op">=</span> <span class="string">&quot;filehash&quot;</span>;
-        <span class="op">-</span> <span class="ident">filename</span> <span class="op">=</span> <span class="string">&quot;filename&quot;</span>;
-        <span class="op">-</span> <span class="ident">version</span> <span class="op">=</span> <span class="string">&quot;version&quot;</span>;
-        <span class="op">-</span> <span class="ident">changelog</span> <span class="op">=</span> <span class="string">&quot;changelog&quot;</span>;
+<span class="doccomment">/// Modfile filters and sorting.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Filters</span>
+<span class="doccomment">/// - Fulltext</span>
+<span class="doccomment">/// - Id</span>
+<span class="doccomment">/// - ModId</span>
+<span class="doccomment">/// - DateAdded</span>
+<span class="doccomment">/// - DateScanned</span>
+<span class="doccomment">/// - VirusStatus</span>
+<span class="doccomment">/// - VirusPositive</span>
+<span class="doccomment">/// - Filesize</span>
+<span class="doccomment">/// - Filehash</span>
+<span class="doccomment">/// - Filename</span>
+<span class="doccomment">/// - Version</span>
+<span class="doccomment">/// - Changelog</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Sorting</span>
+<span class="doccomment">/// - Id</span>
+<span class="doccomment">/// - ModId</span>
+<span class="doccomment">/// - DateAdded</span>
+<span class="doccomment">/// - Version</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// See [modio docs](https://docs.mod.io/#get-all-modfiles) for more information.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// By default this returns up to `100` items. You can limit the result by using `limit` and</span>
+<span class="doccomment">/// `offset`.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Example</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// use modio::filter::prelude::*;</span>
+<span class="doccomment">/// use modio::files::filters::Id;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// let filter = Id::_in(vec![1, 2]).order_by(Id::desc());</span>
+<span class="doccomment">/// ```</span>
+<span class="attribute">#[<span class="ident">rustfmt</span>::<span class="ident">skip</span>]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">filters</span> {
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">inline</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">filter</span>::<span class="ident">prelude</span>::<span class="ident">Fulltext</span>;
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">inline</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">filter</span>::<span class="ident">prelude</span>::<span class="ident">Id</span>;
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">inline</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">filter</span>::<span class="ident">prelude</span>::<span class="ident">ModId</span>;
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">inline</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">filter</span>::<span class="ident">prelude</span>::<span class="ident">DateAdded</span>;
 
-        <span class="ident">Sort</span>
-        <span class="op">-</span> <span class="ident">ID</span> <span class="op">=</span> <span class="string">&quot;id&quot;</span>;
-        <span class="op">-</span> <span class="ident">MOD_ID</span> <span class="op">=</span> <span class="string">&quot;mod_id&quot;</span>;
-        <span class="op">-</span> <span class="ident">DATE_ADDED</span> <span class="op">=</span> <span class="string">&quot;date_added&quot;</span>;
-        <span class="op">-</span> <span class="ident">VERSION</span> <span class="op">=</span> <span class="string">&quot;version&quot;</span>;
-    }
+    <span class="macro">filter</span><span class="macro">!</span>(<span class="ident">DateScanned</span>, <span class="ident">DATE_SCANNED</span>, <span class="string">&quot;date_scanned&quot;</span>, <span class="ident">Eq</span>, <span class="ident">NotEq</span>, <span class="ident">In</span>, <span class="ident">Cmp</span>);
+    <span class="macro">filter</span><span class="macro">!</span>(<span class="ident">VirusStatus</span>, <span class="ident">VIRUS_STATUS</span>, <span class="string">&quot;virus_status&quot;</span>, <span class="ident">Eq</span>, <span class="ident">NotEq</span>, <span class="ident">In</span>, <span class="ident">Cmp</span>);
+    <span class="macro">filter</span><span class="macro">!</span>(<span class="ident">VirusPositive</span>, <span class="ident">VIRUS_POSITIVE</span>, <span class="string">&quot;virus_positive&quot;</span>, <span class="ident">Eq</span>, <span class="ident">NotEq</span>, <span class="ident">In</span>, <span class="ident">Cmp</span>);
+    <span class="macro">filter</span><span class="macro">!</span>(<span class="ident">Filesize</span>, <span class="ident">FILESIZE</span>, <span class="string">&quot;filesize&quot;</span>, <span class="ident">Eq</span>, <span class="ident">NotEq</span>, <span class="ident">In</span>, <span class="ident">Cmp</span>, <span class="ident">OrderBy</span>);
+    <span class="macro">filter</span><span class="macro">!</span>(<span class="ident">Filehash</span>, <span class="ident">FILEHASH</span>, <span class="string">&quot;filehash&quot;</span>, <span class="ident">Eq</span>, <span class="ident">NotEq</span>, <span class="ident">In</span>, <span class="ident">Like</span>);
+    <span class="macro">filter</span><span class="macro">!</span>(<span class="ident">Filename</span>, <span class="ident">FILENAME</span>, <span class="string">&quot;filename&quot;</span>, <span class="ident">Eq</span>, <span class="ident">NotEq</span>, <span class="ident">In</span>, <span class="ident">Like</span>);
+    <span class="macro">filter</span><span class="macro">!</span>(<span class="ident">Version</span>, <span class="ident">VERSION</span>, <span class="string">&quot;version&quot;</span>, <span class="ident">Eq</span>, <span class="ident">NotEq</span>, <span class="ident">In</span>, <span class="ident">Like</span>, <span class="ident">OrderBy</span>);
+    <span class="macro">filter</span><span class="macro">!</span>(<span class="ident">Changelog</span>, <span class="ident">CHANGELOG</span>, <span class="string">&quot;changelog&quot;</span>, <span class="ident">Eq</span>, <span class="ident">NotEq</span>, <span class="ident">In</span>, <span class="ident">Like</span>);
 }
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AddFileOptions</span> {
@@ -592,19 +526,26 @@
 }
 
 <span class="kw">impl</span> <span class="ident">AddFileOptions</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_read</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">inner</span>: <span class="ident">R</span>, <span class="ident">filename</span>: <span class="ident">S</span>) <span class="op">-&gt;</span> <span class="ident">AddFileOptionsBuilder</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_read</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">inner</span>: <span class="ident">R</span>, <span class="ident">filename</span>: <span class="ident">S</span>) <span class="op">-&gt;</span> <span class="ident">AddFileOptions</span>
     <span class="kw">where</span>
         <span class="ident">R</span>: <span class="ident">AsyncRead</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
         <span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     {
-        <span class="ident">AddFileOptionsBuilder</span>::<span class="ident">new</span>(<span class="ident">FileSource</span> {
-            <span class="ident">inner</span>: <span class="ident">FileStream</span>::<span class="ident">new</span>(<span class="ident">inner</span>),
-            <span class="ident">filename</span>: <span class="ident">filename</span>.<span class="ident">into</span>(),
-            <span class="ident">mime</span>: <span class="ident">APPLICATION_OCTET_STREAM</span>,
-        })
+        <span class="ident">AddFileOptions</span> {
+            <span class="ident">source</span>: <span class="ident">FileSource</span> {
+                <span class="ident">inner</span>: <span class="ident">FileStream</span>::<span class="ident">new</span>(<span class="ident">inner</span>),
+                <span class="ident">filename</span>: <span class="ident">filename</span>.<span class="ident">into</span>(),
+                <span class="ident">mime</span>: <span class="ident">APPLICATION_OCTET_STREAM</span>,
+            },
+            <span class="ident">version</span>: <span class="prelude-val">None</span>,
+            <span class="ident">changelog</span>: <span class="prelude-val">None</span>,
+            <span class="ident">active</span>: <span class="prelude-val">None</span>,
+            <span class="ident">filehash</span>: <span class="prelude-val">None</span>,
+            <span class="ident">metadata_blob</span>: <span class="prelude-val">None</span>,
+        }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_file</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;&gt;</span>(<span class="ident">file</span>: <span class="ident">P</span>) <span class="op">-&gt;</span> <span class="ident">AddFileOptionsBuilder</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_file</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;&gt;</span>(<span class="ident">file</span>: <span class="ident">P</span>) <span class="op">-&gt;</span> <span class="ident">AddFileOptions</span> {
         <span class="kw">let</span> <span class="ident">file</span> <span class="op">=</span> <span class="ident">file</span>.<span class="ident">as_ref</span>();
         <span class="kw">let</span> <span class="ident">filename</span> <span class="op">=</span> <span class="ident">file</span>
             .<span class="ident">file_name</span>()
@@ -614,19 +555,32 @@
         <span class="self">Self</span>::<span class="ident">with_file_name</span>(<span class="ident">file</span>, <span class="ident">filename</span>)
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_file_name</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">file</span>: <span class="ident">P</span>, <span class="ident">filename</span>: <span class="ident">S</span>) <span class="op">-&gt;</span> <span class="ident">AddFileOptionsBuilder</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_file_name</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">file</span>: <span class="ident">P</span>, <span class="ident">filename</span>: <span class="ident">S</span>) <span class="op">-&gt;</span> <span class="ident">AddFileOptions</span>
     <span class="kw">where</span>
         <span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span>,
         <span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     {
         <span class="kw">let</span> <span class="ident">file</span> <span class="op">=</span> <span class="ident">file</span>.<span class="ident">as_ref</span>();
 
-        <span class="ident">AddFileOptionsBuilder</span>::<span class="ident">new</span>(<span class="ident">FileSource</span> {
-            <span class="ident">inner</span>: <span class="ident">FileStream</span>::<span class="ident">open</span>(<span class="ident">file</span>),
-            <span class="ident">filename</span>: <span class="ident">filename</span>.<span class="ident">into</span>(),
-            <span class="ident">mime</span>: <span class="ident">APPLICATION_OCTET_STREAM</span>,
-        })
+        <span class="ident">AddFileOptions</span> {
+            <span class="ident">source</span>: <span class="ident">FileSource</span> {
+                <span class="ident">inner</span>: <span class="ident">FileStream</span>::<span class="ident">open</span>(<span class="ident">file</span>),
+                <span class="ident">filename</span>: <span class="ident">filename</span>.<span class="ident">into</span>(),
+                <span class="ident">mime</span>: <span class="ident">APPLICATION_OCTET_STREAM</span>,
+            },
+            <span class="ident">version</span>: <span class="prelude-val">None</span>,
+            <span class="ident">changelog</span>: <span class="prelude-val">None</span>,
+            <span class="ident">active</span>: <span class="prelude-val">None</span>,
+            <span class="ident">filehash</span>: <span class="prelude-val">None</span>,
+            <span class="ident">metadata_blob</span>: <span class="prelude-val">None</span>,
+        }
     }
+
+    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">version</span>);
+    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">changelog</span>);
+    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">active</span>: <span class="ident">bool</span>);
+    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">filehash</span>);
+    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">metadata_blob</span>);
 }
 
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
@@ -652,117 +606,23 @@
     }
 }
 
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AddFileOptionsBuilder</span>(<span class="ident">AddFileOptions</span>);
-
-<span class="kw">impl</span> <span class="ident">AddFileOptionsBuilder</span> {
-    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">source</span>: <span class="ident">FileSource</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="ident">AddFileOptionsBuilder</span>(<span class="ident">AddFileOptions</span> {
-            <span class="ident">source</span>,
-            <span class="ident">version</span>: <span class="prelude-val">None</span>,
-            <span class="ident">changelog</span>: <span class="prelude-val">None</span>,
-            <span class="ident">active</span>: <span class="prelude-val">None</span>,
-            <span class="ident">filehash</span>: <span class="prelude-val">None</span>,
-            <span class="ident">metadata_blob</span>: <span class="prelude-val">None</span>,
-        })
-    }
-
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">version</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">value</span>: <span class="ident">S</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">version</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">value</span>.<span class="ident">into</span>());
-        <span class="self">self</span>
-    }
-
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">changelog</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">value</span>: <span class="ident">S</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">changelog</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">value</span>.<span class="ident">into</span>());
-        <span class="self">self</span>
-    }
-
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">active</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">value</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">active</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">value</span>);
-        <span class="self">self</span>
-    }
-
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">filehash</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">value</span>: <span class="ident">S</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">filehash</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">value</span>.<span class="ident">into</span>());
-        <span class="self">self</span>
-    }
-
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">metadata_blob</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">value</span>: <span class="ident">S</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">metadata_blob</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">value</span>.<span class="ident">into</span>());
-        <span class="self">self</span>
-    }
-
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">build</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">AddFileOptions</span> {
-        <span class="ident">AddFileOptions</span> {
-            <span class="ident">source</span>: <span class="self">self</span>.<span class="number">0</span>.<span class="ident">source</span>,
-            <span class="ident">version</span>: <span class="self">self</span>.<span class="number">0</span>.<span class="ident">version</span>,
-            <span class="ident">changelog</span>: <span class="self">self</span>.<span class="number">0</span>.<span class="ident">changelog</span>,
-            <span class="ident">active</span>: <span class="self">self</span>.<span class="number">0</span>.<span class="ident">active</span>,
-            <span class="ident">filehash</span>: <span class="self">self</span>.<span class="number">0</span>.<span class="ident">filehash</span>,
-            <span class="ident">metadata_blob</span>: <span class="self">self</span>.<span class="number">0</span>.<span class="ident">metadata_blob</span>,
-        }
-    }
-}
-
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EditFileOptions</span> {
-    <span class="ident">version</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
-    <span class="ident">changelog</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
-    <span class="ident">active</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>,
-    <span class="ident">metadata_blob</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="ident">params</span>: <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>, <span class="ident">String</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">EditFileOptions</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">builder</span>() <span class="op">-&gt;</span> <span class="ident">EditFileOptionsBuilder</span> {
-        <span class="ident">EditFileOptionsBuilder</span>::<span class="ident">new</span>()
-    }
+    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">version</span> <span class="op">&gt;&gt;</span> <span class="string">&quot;version&quot;</span>);
+    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">changelog</span> <span class="op">&gt;&gt;</span> <span class="string">&quot;changelog&quot;</span>);
+    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">active</span>: <span class="ident">bool</span> <span class="op">&gt;&gt;</span> <span class="string">&quot;active&quot;</span>);
+    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">metadata_blob</span> <span class="op">&gt;&gt;</span> <span class="string">&quot;metadata_blob&quot;</span>);
 }
 
-<span class="kw">impl</span> <span class="ident">QueryParams</span> <span class="kw">for</span> <span class="ident">EditFileOptions</span> {
-    <span class="kw">fn</span> <span class="ident">to_query_params</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+<span class="kw">impl</span> <span class="ident">QueryString</span> <span class="kw">for</span> <span class="ident">EditFileOptions</span> {
+    <span class="kw">fn</span> <span class="ident">to_query_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
         <span class="ident">form_urlencoded</span>::<span class="ident">Serializer</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">new</span>())
-            .<span class="ident">extend_pairs</span>(<span class="self">self</span>.<span class="ident">version</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> (<span class="string">&quot;version&quot;</span>, <span class="ident">v</span>)))
-            .<span class="ident">extend_pairs</span>(<span class="self">self</span>.<span class="ident">changelog</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">c</span><span class="op">|</span> (<span class="string">&quot;changelog&quot;</span>, <span class="ident">c</span>)))
-            .<span class="ident">extend_pairs</span>(<span class="self">self</span>.<span class="ident">active</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> (<span class="string">&quot;active&quot;</span>, <span class="ident">a</span>.<span class="ident">to_string</span>())))
-            .<span class="ident">extend_pairs</span>(<span class="self">self</span>.<span class="ident">metadata_blob</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">m</span><span class="op">|</span> (<span class="string">&quot;metadata_blob&quot;</span>, <span class="ident">m</span>)))
+            .<span class="ident">extend_pairs</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">params</span>)
             .<span class="ident">finish</span>()
-    }
-}
-
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EditFileOptionsBuilder</span>(<span class="ident">EditFileOptions</span>);
-
-<span class="kw">impl</span> <span class="ident">EditFileOptionsBuilder</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Default</span>::<span class="ident">default</span>()
-    }
-
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">version</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">value</span>: <span class="ident">S</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">version</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">value</span>.<span class="ident">into</span>());
-        <span class="self">self</span>
-    }
-
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">changelog</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">value</span>: <span class="ident">S</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">changelog</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">value</span>.<span class="ident">into</span>());
-        <span class="self">self</span>
-    }
-
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">active</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">value</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">active</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">value</span>);
-        <span class="self">self</span>
-    }
-
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">metadata_blob</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">value</span>: <span class="ident">S</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">metadata_blob</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">value</span>.<span class="ident">into</span>());
-        <span class="self">self</span>
-    }
-
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">build</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">EditFileOptions</span> {
-        <span class="ident">EditFileOptions</span> {
-            <span class="ident">version</span>: <span class="self">self</span>.<span class="number">0</span>.<span class="ident">version</span>.<span class="ident">clone</span>(),
-            <span class="ident">changelog</span>: <span class="self">self</span>.<span class="number">0</span>.<span class="ident">changelog</span>.<span class="ident">clone</span>(),
-            <span class="ident">active</span>: <span class="self">self</span>.<span class="number">0</span>.<span class="ident">active</span>,
-            <span class="ident">metadata_blob</span>: <span class="self">self</span>.<span class="number">0</span>.<span class="ident">metadata_blob</span>.<span class="ident">clone</span>(),
-        }
     }
 }
 </pre></div>
