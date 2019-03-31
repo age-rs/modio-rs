@@ -952,6 +952,8 @@
 <span id="952">952</span>
 <span id="953">953</span>
 <span id="954">954</span>
+<span id="955">955</span>
+<span id="956">956</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Modio provides a set of building blocks for interacting with the [mod.io](https://mod.io) API.</span>
 <span class="doccomment">//!</span>
@@ -966,6 +968,8 @@
 <span class="doccomment">//! - Manually create an [OAuth 2 Access Token (Read + Write)](https://mod.io/oauth)</span>
 <span class="doccomment">//! - [Email Authentication Flow](auth/struct.Auth.html#example) to create an OAuth 2 Access Token</span>
 <span class="doccomment">//! (Read + Write)</span>
+<span class="doccomment">//! - [Encrypted gog user auth ticket](auth/struct.Auth.html#method.gog_auth) to create an</span>
+<span class="doccomment">//! OAuth 2 Access Token (Read + Write)</span>
 <span class="doccomment">//! - [Encrypted steam user auth ticket](auth/struct.Auth.html#method.steam_auth) to create an</span>
 <span class="doccomment">//! OAuth 2 Access Token (Read + Write)</span>
 <span class="doccomment">//!</span>
@@ -1617,7 +1621,7 @@
                                     <span class="prelude-val">Err</span>(<span class="ident">error</span>::<span class="ident">ratelimit</span>(<span class="ident">reset</span>))
                                 }
                                 <span class="kw">_</span> <span class="op">=&gt;</span> <span class="ident">serde_json</span>::<span class="ident">from_slice</span>::<span class="op">&lt;</span><span class="ident">ModioErrorResponse</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="ident">response_body</span>)
-                                    .<span class="ident">map</span>(<span class="op">|</span><span class="ident">mer</span><span class="op">|</span> <span class="prelude-val">Err</span>(<span class="ident">error</span>::<span class="ident">fault</span>(<span class="ident">status</span>, <span class="ident">mer</span>.<span class="ident">error</span>)))
+                                    .<span class="ident">map</span>(<span class="op">|</span><span class="ident">mer</span><span class="op">|</span> <span class="prelude-val">Err</span>(<span class="ident">error</span>::<span class="ident">client</span>(<span class="ident">status</span>, <span class="ident">mer</span>.<span class="ident">error</span>)))
                                     .<span class="ident">map_err</span>(<span class="ident">error</span>::<span class="ident">from</span>)<span class="question-mark">?</span>,
                             }
                         }
@@ -1862,13 +1866,13 @@
     }
 
     <span class="doccomment">/// [required: token]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">AddOptions</span> <span class="op">+</span> <span class="ident">QueryString</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">AddOptions</span> <span class="op">+</span> <span class="ident">QueryString</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="macro">token_required</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">modio</span>);
         <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_query_string</span>();
         <span class="ident">Box</span>::<span class="ident">new</span>(
             <span class="self">self</span>.<span class="ident">modio</span>
                 .<span class="ident">post</span>::<span class="op">&lt;</span><span class="ident">ModioMessage</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">path</span>, <span class="ident">params</span>)
-                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">m</span><span class="op">|</span> <span class="ident">m</span>.<span class="ident">message</span>),
+                .<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ()),
         )
     }
 

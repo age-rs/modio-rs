@@ -1029,12 +1029,12 @@
     }
 
     <span class="doccomment">/// Add new media to a mod. [required: token]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_media</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="ident">AddMediaOptions</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_media</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="ident">AddMediaOptions</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="macro">token_required</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">modio</span>);
         <span class="ident">Box</span>::<span class="ident">new</span>(
             <span class="self">self</span>.<span class="ident">modio</span>
                 .<span class="ident">post_form</span>::<span class="op">&lt;</span><span class="ident">ModioMessage</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">path</span>(<span class="string">&quot;/media&quot;</span>), <span class="ident">options</span>)
-                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">m</span><span class="op">|</span> <span class="ident">m</span>.<span class="ident">message</span>),
+                .<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ()),
         )
     }
 

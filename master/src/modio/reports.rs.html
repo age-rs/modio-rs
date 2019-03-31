@@ -88,12 +88,12 @@
     }
 
     <span class="doccomment">/// Submit a report for any resource on mod.io. [required: token]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">submit</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">report</span>: <span class="kw-2">&amp;</span><span class="ident">Report</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">submit</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">report</span>: <span class="kw-2">&amp;</span><span class="ident">Report</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="macro">token_required</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">modio</span>);
         <span class="ident">Box</span>::<span class="ident">new</span>(
             <span class="self">self</span>.<span class="ident">modio</span>
                 .<span class="ident">post</span>::<span class="op">&lt;</span><span class="ident">ModioMessage</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;/report&quot;</span>, <span class="ident">report</span>.<span class="ident">to_query_string</span>())
-                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">m</span><span class="op">|</span> <span class="ident">m</span>.<span class="ident">message</span>),
+                .<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ()),
         )
     }
 }

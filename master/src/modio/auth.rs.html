@@ -248,7 +248,7 @@
     }
 
     <span class="doccomment">/// Request a security code be sent to the email of the user. [required: apikey]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">request_code</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">email</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">request_code</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">email</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="macro">apikey_required</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">modio</span>);
         <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">form_urlencoded</span>::<span class="ident">Serializer</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">new</span>())
             .<span class="ident">append_pair</span>(<span class="string">&quot;email&quot;</span>, <span class="ident">email</span>)
@@ -256,7 +256,7 @@
         <span class="ident">Box</span>::<span class="ident">new</span>(
             <span class="self">self</span>.<span class="ident">modio</span>
                 .<span class="ident">post</span>::<span class="op">&lt;</span><span class="ident">ModioMessage</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;/oauth/emailrequest&quot;</span>, <span class="ident">data</span>)
-                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">m</span><span class="op">|</span> <span class="ident">m</span>.<span class="ident">message</span>),
+                .<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ()),
         )
     }
 
@@ -277,7 +277,7 @@
     <span class="doccomment">/// Link an external account. Requires an auth token from the external platform.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// See the [mod.io docs](https://docs.mod.io/#link-external-account) for more information.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">link</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">email</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">service</span>: <span class="ident">Service</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">link</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">email</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">service</span>: <span class="ident">Service</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="macro">token_required</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">modio</span>);
         <span class="kw">let</span> (<span class="ident">service</span>, <span class="ident">id</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">service</span> {
             <span class="ident">Service</span>::<span class="ident">Steam</span>(<span class="ident">id</span>) <span class="op">=&gt;</span> (<span class="string">&quot;steam&quot;</span>, <span class="ident">id</span>.<span class="ident">to_string</span>()),
@@ -292,7 +292,7 @@
         <span class="ident">Box</span>::<span class="ident">new</span>(
             <span class="self">self</span>.<span class="ident">modio</span>
                 .<span class="ident">post</span>::<span class="op">&lt;</span><span class="ident">ModioMessage</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;/external/link&quot;</span>, <span class="ident">data</span>)
-                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">m</span><span class="op">|</span> <span class="ident">m</span>.<span class="ident">message</span>),
+                .<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ()),
         )
     }
 
