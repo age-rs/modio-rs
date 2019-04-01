@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["EventType",""],["Rating","See the Rating Object docs for more information."]],"mod":[["filters","Filters for events, subscriptions and ratings."]],"struct":[["Event","See the User Event Object docs for more information."],["Me","Interface for resources owned by the authenticated user or is team member of."]]});

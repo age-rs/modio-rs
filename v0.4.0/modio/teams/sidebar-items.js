@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["TeamLevel",""]],"mod":[["filters","Team member filters and sorting."]],"struct":[["EditTeamMemberOptions",""],["InviteTeamMemberOptions",""],["Members","Interface for the team members of a mod."],["TeamMember","See the Team Member Object docs for more information."]]});

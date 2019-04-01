@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["AuthenticationError",""],["DownloadError",""],["ErrorKind",""]],"struct":[["ClientError","See the Error Object docs for more information."],["Error",""]],"type":[["Result",""]]});
