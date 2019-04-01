@@ -962,6 +962,7 @@
 <span id="962">962</span>
 <span id="963">963</span>
 <span id="964">964</span>
+<span id="965">965</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Modio provides a set of building blocks for interacting with the [mod.io](https://mod.io) API.</span>
 <span class="doccomment">//!</span>
@@ -1182,6 +1183,7 @@
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">header</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">r#async</span>::<span class="ident">ClientBuilder</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">RedirectPolicy</span>;
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tls&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">reqwest</span>::{<span class="ident">Certificate</span>, <span class="ident">Identity</span>};
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">reqwest</span>::{<span class="ident">Proxy</span>, <span class="ident">Url</span>};
 }
