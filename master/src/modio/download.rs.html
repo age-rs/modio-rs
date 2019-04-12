@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/download.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>download.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/download.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>download.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../modio/index.html'><img src='../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -104,9 +104,6 @@
 <span id="104">104</span>
 <span id="105">105</span>
 <span id="106">106</span>
-<span id="107">107</span>
-<span id="108">108</span>
-<span id="109">109</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">url</span>::<span class="ident">Url</span>;
 
@@ -139,7 +136,7 @@
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ResolvePolicy</span> {
     <span class="doccomment">/// Download the latest file.</span>
     <span class="ident">Latest</span>,
-    <span class="doccomment">/// Return with `Error::Download(DownloadError::MultipleFilesFound)`.</span>
+    <span class="doccomment">/// Return with `ErrorKind::Download(DownloadError::MultipleFilesFound)`.</span>
     <span class="ident">Fail</span>,
 }
 
@@ -167,21 +164,18 @@
 
 <span class="doccomment">/// Convert `(u32, u32)` to [`DownloadAction::Primary`](enum.DownloadAction.html#variant.Primary)</span>
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span>(<span class="ident">u32</span>, <span class="ident">u32</span>)<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">DownloadAction</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">val</span>: (<span class="ident">u32</span>, <span class="ident">u32</span>)) <span class="op">-&gt;</span> <span class="ident">DownloadAction</span> {
-        <span class="ident">DownloadAction</span>::<span class="ident">Primary</span> {
-            <span class="ident">game_id</span>: <span class="ident">val</span>.<span class="number">0</span>,
-            <span class="ident">mod_id</span>: <span class="ident">val</span>.<span class="number">1</span>,
-        }
+    <span class="kw">fn</span> <span class="ident">from</span>((<span class="ident">game_id</span>, <span class="ident">mod_id</span>): (<span class="ident">u32</span>, <span class="ident">u32</span>)) <span class="op">-&gt;</span> <span class="ident">DownloadAction</span> {
+        <span class="ident">DownloadAction</span>::<span class="ident">Primary</span> { <span class="ident">game_id</span>, <span class="ident">mod_id</span> }
     }
 }
 
 <span class="doccomment">/// Convert `(u32, u32, u32)` to [`DownloadAction::File`](enum.DownloadAction.html#variant.File)</span>
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span>(<span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">u32</span>)<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">DownloadAction</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">val</span>: (<span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">u32</span>)) <span class="op">-&gt;</span> <span class="ident">DownloadAction</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>((<span class="ident">game_id</span>, <span class="ident">mod_id</span>, <span class="ident">file_id</span>): (<span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">u32</span>)) <span class="op">-&gt;</span> <span class="ident">DownloadAction</span> {
         <span class="ident">DownloadAction</span>::<span class="ident">File</span> {
-            <span class="ident">game_id</span>: <span class="ident">val</span>.<span class="number">0</span>,
-            <span class="ident">mod_id</span>: <span class="ident">val</span>.<span class="number">1</span>,
-            <span class="ident">file_id</span>: <span class="ident">val</span>.<span class="number">2</span>,
+            <span class="ident">game_id</span>,
+            <span class="ident">mod_id</span>,
+            <span class="ident">file_id</span>,
         }
     }
 }
@@ -189,11 +183,11 @@
 <span class="doccomment">/// Convert `(u32, u32, String)` to [`DownloadAction::Version`](enum.DownloadAction.html#variant.Version)</span>
 <span class="doccomment">/// with resolve policy set to `ResolvePolicy::Latest`</span>
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span>(<span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">String</span>)<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">DownloadAction</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">val</span>: (<span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">String</span>)) <span class="op">-&gt;</span> <span class="ident">DownloadAction</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>((<span class="ident">game_id</span>, <span class="ident">mod_id</span>, <span class="ident">version</span>): (<span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">String</span>)) <span class="op">-&gt;</span> <span class="ident">DownloadAction</span> {
         <span class="ident">DownloadAction</span>::<span class="ident">Version</span> {
-            <span class="ident">game_id</span>: <span class="ident">val</span>.<span class="number">0</span>,
-            <span class="ident">mod_id</span>: <span class="ident">val</span>.<span class="number">1</span>,
-            <span class="ident">version</span>: <span class="ident">val</span>.<span class="number">2</span>,
+            <span class="ident">game_id</span>,
+            <span class="ident">mod_id</span>,
+            <span class="ident">version</span>,
             <span class="ident">policy</span>: <span class="ident">ResolvePolicy</span>::<span class="ident">Latest</span>,
         }
     }
@@ -202,11 +196,11 @@
 <span class="doccomment">/// Convert `(u32, u32, &amp;&#39;a str)` to [`DownloadAction::Version`](enum.DownloadAction.html#variant.Version)</span>
 <span class="doccomment">/// with resolve policy set to `ResolvePolicy::Latest`</span>
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span>(<span class="ident">u32</span>, <span class="ident">u32</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>)<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">DownloadAction</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">val</span>: (<span class="ident">u32</span>, <span class="ident">u32</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>)) <span class="op">-&gt;</span> <span class="ident">DownloadAction</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>((<span class="ident">game_id</span>, <span class="ident">mod_id</span>, <span class="ident">version</span>): (<span class="ident">u32</span>, <span class="ident">u32</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>)) <span class="op">-&gt;</span> <span class="ident">DownloadAction</span> {
         <span class="ident">DownloadAction</span>::<span class="ident">Version</span> {
-            <span class="ident">game_id</span>: <span class="ident">val</span>.<span class="number">0</span>,
-            <span class="ident">mod_id</span>: <span class="ident">val</span>.<span class="number">1</span>,
-            <span class="ident">version</span>: <span class="ident">val</span>.<span class="number">2</span>.<span class="ident">to_string</span>(),
+            <span class="ident">game_id</span>,
+            <span class="ident">mod_id</span>,
+            <span class="ident">version</span>: <span class="ident">version</span>.<span class="ident">to_string</span>(),
             <span class="ident">policy</span>: <span class="ident">ResolvePolicy</span>::<span class="ident">Latest</span>,
         }
     }
