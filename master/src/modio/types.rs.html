@@ -882,10 +882,6 @@
 <span id="882">882</span>
 <span id="883">883</span>
 <span id="884">884</span>
-<span id="885">885</span>
-<span id="886">886</span>
-<span id="887">887</span>
-<span id="888">888</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
@@ -906,7 +902,7 @@
                 <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>:<span class="ident">ident</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">value</span>:<span class="ident">expr</span>,
             )<span class="op">*</span>
         }
-    ) <span class="op">=&gt;</span> {
+    ) <span class="op">=</span><span class="op">&gt;</span> {
         $(<span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">outer</span>]</span>)<span class="op">*</span>
         <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>)]</span>
         <span class="kw">pub</span> <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
@@ -917,13 +913,13 @@
         }
 
         <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
-            <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+            <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
                 (<span class="kw-2">*</span><span class="self">self</span> <span class="kw">as</span> <span class="ident">u8</span>).<span class="ident">fmt</span>(<span class="ident">f</span>)
             }
         }
 
         <span class="kw">impl</span> <span class="ident">Serialize</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
-            <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">serializer</span>: <span class="ident">S</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span>::<span class="prelude-val">Ok</span>, <span class="ident">S</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+            <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">serializer</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span>::<span class="prelude-val">Ok</span>, <span class="ident">S</span>::<span class="ident">Error</span><span class="op">&gt;</span>
             <span class="kw">where</span>
                 <span class="ident">S</span>: <span class="ident">Serializer</span>,
             {
@@ -933,7 +929,7 @@
         }
 
         <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
-            <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+            <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
             <span class="kw">where</span>
                 <span class="ident">D</span>: <span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
             {
@@ -942,17 +938,17 @@
                 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">Visitor</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Visitor</span> {
                     <span class="kw">type</span> <span class="ident">Value</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>;
 
-                    <span class="kw">fn</span> <span class="ident">expecting</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+                    <span class="kw">fn</span> <span class="ident">expecting</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
                         <span class="ident">fmt</span>.<span class="ident">write_str</span>(<span class="string">&quot;positive integer&quot;</span>)
                     }
 
-                    <span class="kw">fn</span> <span class="ident">visit_u64</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">value</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>, <span class="ident">E</span><span class="op">&gt;</span>
+                    <span class="kw">fn</span> <span class="ident">visit_u64</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">value</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>, <span class="ident">E</span><span class="op">&gt;</span>
                     <span class="kw">where</span>
                         <span class="ident">E</span>: <span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">Error</span>,
                     {
                         <span class="kw">match</span> <span class="ident">value</span> {
-                            $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">value</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>), )<span class="op">*</span>
-                            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">E</span>::<span class="ident">custom</span>(<span class="macro">format</span><span class="macro">!</span>(
+                            $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">value</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>), )<span class="op">*</span>
+                            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">E</span>::<span class="ident">custom</span>(<span class="macro">format</span><span class="macro">!</span>(
                                 <span class="string">&quot;unknown {} value {}&quot;</span>,
                                 <span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>),
                                 <span class="ident">value</span>
@@ -970,9 +966,9 @@
 
 <span class="comment">// macro: bitflags_serde {{{</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">bitflags_serde</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="kw">type</span>:<span class="macro-nonterminal">ty</span>) <span class="op">=&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="kw">type</span>:<span class="macro-nonterminal">ty</span>) <span class="op">=</span><span class="op">&gt;</span> {
         <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
-            <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+            <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
             <span class="kw">where</span>
                 <span class="ident">D</span>: <span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
             {
@@ -981,15 +977,15 @@
                 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">Visitor</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Visitor</span> {
                     <span class="kw">type</span> <span class="ident">Value</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>;
 
-                    <span class="kw">fn</span> <span class="ident">expecting</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+                    <span class="kw">fn</span> <span class="ident">expecting</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
                         <span class="ident">fmt</span>.<span class="ident">write_str</span>(<span class="string">&quot;positive integer&quot;</span>)
                     }
 
-                    <span class="kw">fn</span> <span class="ident">visit_u64</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">value</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>, <span class="ident">E</span><span class="op">&gt;</span>
+                    <span class="kw">fn</span> <span class="ident">visit_u64</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">value</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>, <span class="ident">E</span><span class="op">&gt;</span>
                     <span class="kw">where</span>
                         <span class="ident">E</span>: <span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">Error</span>,
                     {
-                        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>::<span class="ident">from_bits</span>(<span class="ident">value</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="kw">type</span>).<span class="macro-nonterminal">ok_or_else</span>(<span class="op">||</span> {
+                        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>::<span class="ident">from_bits</span>(<span class="ident">value</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="kw">type</span>).<span class="macro-nonterminal">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> {
                             <span class="ident">E</span>::<span class="ident">custom</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;invalid {} bits {}&quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>), <span class="ident">value</span>))
                         })
                     }
@@ -1000,7 +996,7 @@
         }
 
         <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
-            <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+            <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
                 <span class="self">self</span>.<span class="ident">bits</span>.<span class="ident">fmt</span>(<span class="ident">f</span>)
             }
         }
@@ -1015,10 +1011,6 @@
     <span class="kw">pub</span> <span class="ident">message</span>: <span class="ident">String</span>,
 }
 
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="attribute">#[<span class="ident">deprecated</span>(<span class="ident">since</span> <span class="op">=</span> <span class="string">&quot;0.4.1&quot;</span>, <span class="ident">note</span> <span class="op">=</span> <span class="string">&quot;Use `EntityResult`&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">ModioResult</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">EntityResult</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>;
-
 <span class="doccomment">/// Result type for editing games, mods and files.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
 <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">untagged</span>)]</span>
@@ -1029,7 +1021,7 @@
     <span class="ident">NoChanges</span>,
 }
 
-<span class="kw">fn</span> <span class="ident">deserialize_message</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span>, <span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+<span class="kw">fn</span> <span class="ident">deserialize_message</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span>, <span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">D</span>: <span class="ident">serde</span>::<span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
 {
@@ -1052,11 +1044,11 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">List</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">first</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">first</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">T</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">data</span>.<span class="ident">get</span>(<span class="number">0</span>)
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">shift</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">shift</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">data</span>.<span class="ident">is_empty</span>() {
             <span class="prelude-val">None</span>
         } <span class="kw">else</span> {
@@ -1068,7 +1060,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Index</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">List</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">T</span>;
 
-    <span class="kw">fn</span> <span class="ident">index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">index</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">Output</span> {
+    <span class="kw">fn</span> <span class="ident">index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">index</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">Output</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">data</span>[<span class="ident">index</span>]
     }
 }
@@ -1077,7 +1069,7 @@
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">T</span>;
     <span class="kw">type</span> <span class="ident">IntoIter</span> <span class="op">=</span> ::<span class="ident">std</span>::<span class="ident">vec</span>::<span class="ident">IntoIter</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">into_iter</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="self">Self</span>::<span class="ident">IntoIter</span> {
+    <span class="kw">fn</span> <span class="ident">into_iter</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">IntoIter</span> {
         <span class="self">self</span>.<span class="ident">data</span>.<span class="ident">into_iter</span>()
     }
 }
@@ -1086,7 +1078,7 @@
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">T</span>;
     <span class="kw">type</span> <span class="ident">IntoIter</span> <span class="op">=</span> ::<span class="ident">std</span>::<span class="ident">slice</span>::<span class="ident">Iter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">into_iter</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="self">Self</span>::<span class="ident">IntoIter</span> {
+    <span class="kw">fn</span> <span class="ident">into_iter</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">IntoIter</span> {
         <span class="self">self</span>.<span class="ident">data</span>.<span class="ident">iter</span>()
     }
 }
@@ -1103,7 +1095,7 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ClientError</span> {
     <span class="kw">pub</span> <span class="ident">code</span>: <span class="ident">u16</span>,
     <span class="kw">pub</span> <span class="ident">message</span>: <span class="ident">String</span>,
-    <span class="kw">pub</span> <span class="ident">errors</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">String</span><span class="op">&gt;&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">errors</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 
 <span class="doccomment">/// See the [User Object](https://docs.mod.io/#user-object) docs for more information.</span>
@@ -1175,12 +1167,12 @@
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">EventType</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">EventType</span>::<span class="ident">UserTeamJoin</span> <span class="op">=&gt;</span> <span class="string">&quot;USER_TEAM_JOIN&quot;</span>,
-            <span class="ident">EventType</span>::<span class="ident">UserTeamLeave</span> <span class="op">=&gt;</span> <span class="string">&quot;USER_TEAM_LEAVE&quot;</span>,
-            <span class="ident">EventType</span>::<span class="ident">UserSubscribe</span> <span class="op">=&gt;</span> <span class="string">&quot;USER_SUBSCRIBE&quot;</span>,
-            <span class="ident">EventType</span>::<span class="ident">UserUnsubscribe</span> <span class="op">=&gt;</span> <span class="string">&quot;USER_UNSUBSCRIBE&quot;</span>,
+            <span class="ident">EventType</span>::<span class="ident">UserTeamJoin</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;USER_TEAM_JOIN&quot;</span>,
+            <span class="ident">EventType</span>::<span class="ident">UserTeamLeave</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;USER_TEAM_LEAVE&quot;</span>,
+            <span class="ident">EventType</span>::<span class="ident">UserSubscribe</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;USER_SUBSCRIBE&quot;</span>,
+            <span class="ident">EventType</span>::<span class="ident">UserUnsubscribe</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;USER_UNSUBSCRIBE&quot;</span>,
         }
         .<span class="ident">fmt</span>(<span class="ident">fmt</span>)
     }
@@ -1190,16 +1182,16 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// The mod.io api returns `{&quot;avatar&quot;: {}}` for users without avatars instead of returning</span>
 <span class="doccomment">/// `{&quot;avatar&quot;: null}`.</span>
-<span class="kw">fn</span> <span class="ident">deserialize_avatar</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span>, <span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Avatar</span><span class="op">&gt;</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+<span class="kw">fn</span> <span class="ident">deserialize_avatar</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span>, <span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Avatar</span><span class="op">&gt;</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">D</span>: <span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
 {
     <span class="kw">match</span> <span class="ident">Avatar</span>::<span class="ident">deserialize</span>(<span class="ident">deserializer</span>) {
-        <span class="prelude-val">Ok</span>(<span class="ident">avatar</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">avatar</span>)),
-        <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> {
+        <span class="prelude-val">Ok</span>(<span class="ident">avatar</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">avatar</span>)),
+        <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> {
             <span class="kw">let</span> <span class="ident">err_s</span> <span class="op">=</span> <span class="ident">err</span>.<span class="ident">to_string</span>();
             <span class="kw">if</span> <span class="ident">err_s</span>.<span class="ident">starts_with</span>(<span class="string">&quot;missing field `filename`&quot;</span>)
-                <span class="op">||</span> <span class="ident">err_s</span>.<span class="ident">starts_with</span>(<span class="string">&quot;invalid type: null&quot;</span>)
+                <span class="op">|</span><span class="op">|</span> <span class="ident">err_s</span>.<span class="ident">starts_with</span>(<span class="string">&quot;invalid type: null&quot;</span>)
             {
                 <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
             } <span class="kw">else</span> {
@@ -1365,10 +1357,10 @@
     }
 
     <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">TagType</span> {
-        <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">fmt</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">fmt</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
             <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-                <span class="ident">TagType</span>::<span class="ident">Checkboxes</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;checkboxes&quot;</span>),
-                <span class="ident">TagType</span>::<span class="ident">Dropdown</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;dropdown&quot;</span>),
+                <span class="ident">TagType</span>::<span class="ident">Checkboxes</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;checkboxes&quot;</span>),
+                <span class="ident">TagType</span>::<span class="ident">Dropdown</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;dropdown&quot;</span>),
             }
         }
     }
@@ -1467,18 +1459,18 @@
     }
 
     <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">EventType</span> {
-        <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
             <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-                <span class="ident">EventType</span>::<span class="ident">ModfileChanged</span> <span class="op">=&gt;</span> <span class="string">&quot;MODFILE_CHANGED&quot;</span>,
-                <span class="ident">EventType</span>::<span class="ident">ModAvailable</span> <span class="op">=&gt;</span> <span class="string">&quot;MOD_AVAILABLE&quot;</span>,
-                <span class="ident">EventType</span>::<span class="ident">ModUnavailable</span> <span class="op">=&gt;</span> <span class="string">&quot;MOD_UNAVAILABLE&quot;</span>,
-                <span class="ident">EventType</span>::<span class="ident">ModEdited</span> <span class="op">=&gt;</span> <span class="string">&quot;MOD_EDITED&quot;</span>,
-                <span class="ident">EventType</span>::<span class="ident">ModDeleted</span> <span class="op">=&gt;</span> <span class="string">&quot;MOD_DELETED&quot;</span>,
-                <span class="ident">EventType</span>::<span class="ident">ModTeamChanged</span> <span class="op">=&gt;</span> <span class="string">&quot;MOD_TEAM_CHANGED&quot;</span>,
-                <span class="ident">EventType</span>::<span class="ident">UserTeamJoin</span> <span class="op">=&gt;</span> <span class="string">&quot;USER_TEAM_JOIN&quot;</span>,
-                <span class="ident">EventType</span>::<span class="ident">UserTeamLeave</span> <span class="op">=&gt;</span> <span class="string">&quot;USER_TEAM_LEAVE&quot;</span>,
-                <span class="ident">EventType</span>::<span class="ident">UserSubscribe</span> <span class="op">=&gt;</span> <span class="string">&quot;USER_SUBSCRIBE&quot;</span>,
-                <span class="ident">EventType</span>::<span class="ident">UserUnsubscribe</span> <span class="op">=&gt;</span> <span class="string">&quot;USER_UNSUBSCRIBE&quot;</span>,
+                <span class="ident">EventType</span>::<span class="ident">ModfileChanged</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;MODFILE_CHANGED&quot;</span>,
+                <span class="ident">EventType</span>::<span class="ident">ModAvailable</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;MOD_AVAILABLE&quot;</span>,
+                <span class="ident">EventType</span>::<span class="ident">ModUnavailable</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;MOD_UNAVAILABLE&quot;</span>,
+                <span class="ident">EventType</span>::<span class="ident">ModEdited</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;MOD_EDITED&quot;</span>,
+                <span class="ident">EventType</span>::<span class="ident">ModDeleted</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;MOD_DELETED&quot;</span>,
+                <span class="ident">EventType</span>::<span class="ident">ModTeamChanged</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;MOD_TEAM_CHANGED&quot;</span>,
+                <span class="ident">EventType</span>::<span class="ident">UserTeamJoin</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;USER_TEAM_JOIN&quot;</span>,
+                <span class="ident">EventType</span>::<span class="ident">UserTeamLeave</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;USER_TEAM_LEAVE&quot;</span>,
+                <span class="ident">EventType</span>::<span class="ident">UserSubscribe</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;USER_SUBSCRIBE&quot;</span>,
+                <span class="ident">EventType</span>::<span class="ident">UserUnsubscribe</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;USER_UNSUBSCRIBE&quot;</span>,
             }
             .<span class="ident">fmt</span>(<span class="ident">fmt</span>)
         }
@@ -1566,7 +1558,7 @@
     }
 
     <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Rating</span> {
-        <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+        <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
         <span class="kw">where</span>
             <span class="ident">D</span>: <span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
         {
@@ -1586,7 +1578,7 @@
                     <span class="ident">mod_id</span>,
                     <span class="ident">rating</span>: <span class="number">1</span>,
                     <span class="ident">date_added</span>,
-                }) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Rating</span>::<span class="ident">Positive</span> {
+                }) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Rating</span>::<span class="ident">Positive</span> {
                     <span class="ident">game_id</span>,
                     <span class="ident">mod_id</span>,
                     <span class="ident">date_added</span>,
@@ -1596,16 +1588,16 @@
                     <span class="ident">mod_id</span>,
                     <span class="ident">rating</span>: <span class="op">-</span><span class="number">1</span>,
                     <span class="ident">date_added</span>,
-                }) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Rating</span>::<span class="ident">Negative</span> {
+                }) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Rating</span>::<span class="ident">Negative</span> {
                     <span class="ident">game_id</span>,
                     <span class="ident">mod_id</span>,
                     <span class="ident">date_added</span>,
                 }),
-                <span class="prelude-val">Ok</span>(<span class="ident">R</span> { <span class="ident">rating</span>, .. }) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">D</span>::<span class="ident">Error</span>::<span class="ident">custom</span>(<span class="macro">format</span><span class="macro">!</span>(
+                <span class="prelude-val">Ok</span>(<span class="ident">R</span> { <span class="ident">rating</span>, .. }) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">D</span>::<span class="ident">Error</span>::<span class="ident">custom</span>(<span class="macro">format</span><span class="macro">!</span>(
                     <span class="string">&quot;invalid rating value: {}&quot;</span>,
                     <span class="ident">rating</span>,
                 ))),
-                <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
+                <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
             }
         }
     }
@@ -1618,14 +1610,14 @@
     }
 
     <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">Tag</span> {
-        <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
             <span class="self">self</span>.<span class="ident">name</span>.<span class="ident">fmt</span>(<span class="ident">fmt</span>)
         }
     }
 
     <span class="doccomment">/// See the [Metadata KVP Object](https://docs.mod.io/#metadata-kvp-object) docs for more</span>
     <span class="doccomment">/// information.</span>
-    <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">MetadataMap</span> <span class="op">=</span> <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>;
+    <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">MetadataMap</span> <span class="op">=</span> <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 
     <span class="doccomment">/// Deserialize a sequence of key-value objects to a `MetadataMap`.</span>
     <span class="doccomment">///</span>
@@ -1644,7 +1636,7 @@
     <span class="doccomment">///     &quot;smg-dmg&quot;: [&quot;1000&quot;]</span>
     <span class="doccomment">/// }</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">deserialize_kvp</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span>, <span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">MetadataMap</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">deserialize_kvp</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span>, <span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">MetadataMap</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">D</span>: <span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
     {
@@ -1655,11 +1647,11 @@
         <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Visitor</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MetadataVisitor</span> {
             <span class="kw">type</span> <span class="ident">Value</span> <span class="op">=</span> <span class="ident">MetadataMap</span>;
 
-            <span class="kw">fn</span> <span class="ident">expecting</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">fmt</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+            <span class="kw">fn</span> <span class="ident">expecting</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">fmt</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
                 <span class="ident">fmt</span>.<span class="ident">write_str</span>(<span class="string">&quot;metadata kvp&quot;</span>)
             }
 
-            <span class="kw">fn</span> <span class="ident">visit_seq</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">SeqAccess</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;&gt;</span>(<span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">seq</span>: <span class="ident">A</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Value</span>, <span class="ident">A</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+            <span class="kw">fn</span> <span class="ident">visit_seq</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">SeqAccess</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">seq</span>: <span class="ident">A</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Value</span>, <span class="ident">A</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
                 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>)]</span>
                 <span class="kw">struct</span> <span class="ident">KV</span> {
                     <span class="ident">metakey</span>: <span class="ident">String</span>,
@@ -1745,7 +1737,7 @@
     }
 
     <span class="kw">impl</span> <span class="ident">TeamLevel</span> {
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">value</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u64</span> {
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">value</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
             <span class="self">self</span> <span class="kw">as</span> <span class="ident">u64</span>
         }
     }
@@ -1754,16 +1746,16 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// The mod.io api returns `{&quot;modfile&quot;: {}}` for mods without files instead of returning</span>
     <span class="doccomment">/// `{&quot;modfile&quot;: null}`.</span>
-    <span class="kw">fn</span> <span class="ident">deserialize_modfile</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span>, <span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">File</span><span class="op">&gt;</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">deserialize_modfile</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span>, <span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">File</span><span class="op">&gt;</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">D</span>: <span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
     {
         <span class="kw">match</span> <span class="ident">File</span>::<span class="ident">deserialize</span>(<span class="ident">deserializer</span>) {
-            <span class="prelude-val">Ok</span>(<span class="ident">file</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">file</span>)),
-            <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> {
+            <span class="prelude-val">Ok</span>(<span class="ident">file</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">file</span>)),
+            <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">err_s</span> <span class="op">=</span> <span class="ident">err</span>.<span class="ident">to_string</span>();
                 <span class="kw">if</span> <span class="ident">err_s</span>.<span class="ident">starts_with</span>(<span class="string">&quot;missing field `id`&quot;</span>)
-                    <span class="op">||</span> <span class="ident">err_s</span>.<span class="ident">starts_with</span>(<span class="string">&quot;invalid type: null&quot;</span>)
+                    <span class="op">|</span><span class="op">|</span> <span class="ident">err_s</span>.<span class="ident">starts_with</span>(<span class="string">&quot;invalid type: null&quot;</span>)
                 {
                     <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
                 } <span class="kw">else</span> {

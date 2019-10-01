@@ -412,6 +412,26 @@
 <span id="412">412</span>
 <span id="413">413</span>
 <span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Games interface</span>
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">OsStr</span>;
@@ -420,7 +440,7 @@
 <span class="kw">use</span> <span class="ident">mime</span>::<span class="ident">IMAGE_STAR</span>;
 <span class="kw">use</span> <span class="ident">url</span>::<span class="ident">form_urlencoded</span>;
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">multipart</span>::{<span class="ident">FileSource</span>, <span class="ident">FileStream</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">multipart</span>::<span class="ident">FileSource</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">ModRef</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Mods</span>;
@@ -438,35 +458,27 @@
 }
 
 <span class="kw">impl</span> <span class="ident">MyGames</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">modio</span>: <span class="ident">Modio</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">modio</span>: <span class="ident">Modio</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> { <span class="ident">modio</span> }
     }
 
     <span class="doccomment">/// List all games the authenticated user added or is team member of. [required: token]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// See [Filters and sorting](filters/index.html).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">filter</span>: <span class="kw-2">&amp;</span><span class="ident">Filter</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">List</span><span class="op">&lt;</span><span class="ident">Game</span><span class="op">&gt;&gt;</span> {
-        <span class="macro">token_required</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">modio</span>);
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">uri</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;/me/games&quot;</span>.<span class="ident">to_owned</span>()];
-        <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">filter</span>.<span class="ident">to_query_string</span>();
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">query</span>.<span class="ident">is_empty</span>() {
-            <span class="ident">uri</span>.<span class="ident">push</span>(<span class="ident">query</span>);
-        }
-        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">uri</span>.<span class="ident">join</span>(<span class="string">&quot;?&quot;</span>))
+    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">List</span><span class="op">&lt;</span><span class="ident">Game</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">modio</span>
+            .<span class="ident">request</span>(<span class="ident">Route</span>::<span class="ident">UserGames</span>)
+            .<span class="ident">query</span>(<span class="ident">filter</span>.<span class="ident">to_query_string</span>())
+            .<span class="ident">send</span>()
+            .<span class="kw">await</span>
     }
 
     <span class="doccomment">/// Provides a stream over all games the authenticated user added or is team member of.</span>
     <span class="doccomment">/// [required: token]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// See [Filters and sorting](filters/index.html).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">filter</span>: <span class="kw-2">&amp;</span><span class="ident">Filter</span>) <span class="op">-&gt;</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Game</span><span class="op">&gt;</span> {
-        <span class="macro">token_required</span><span class="macro">!</span>(<span class="ident">s</span> <span class="self">self</span>.<span class="ident">modio</span>);
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">uri</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;/me/games&quot;</span>.<span class="ident">to_owned</span>()];
-        <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">filter</span>.<span class="ident">to_query_string</span>();
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">query</span>.<span class="ident">is_empty</span>() {
-            <span class="ident">uri</span>.<span class="ident">push</span>(<span class="ident">query</span>);
-        }
-        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">stream</span>(<span class="kw-2">&amp;</span><span class="ident">uri</span>.<span class="ident">join</span>(<span class="string">&quot;?&quot;</span>))
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter</span>(<span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw">impl</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Game</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">stream</span>(<span class="ident">Route</span>::<span class="ident">UserGames</span>, <span class="ident">filter</span>)
     }
 }
 
@@ -476,40 +488,30 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Games</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">modio</span>: <span class="ident">Modio</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">modio</span>: <span class="ident">Modio</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> { <span class="ident">modio</span> }
-    }
-
-    <span class="kw">fn</span> <span class="ident">path</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">more</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
-        <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;/games{}&quot;</span>, <span class="ident">more</span>)
     }
 
     <span class="doccomment">/// List all games.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// See [Filters and sorting](filters/index.html).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">filter</span>: <span class="kw-2">&amp;</span><span class="ident">Filter</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">List</span><span class="op">&lt;</span><span class="ident">Game</span><span class="op">&gt;&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">uri</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="self">self</span>.<span class="ident">path</span>(<span class="string">&quot;&quot;</span>)];
-        <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">filter</span>.<span class="ident">to_query_string</span>();
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">query</span>.<span class="ident">is_empty</span>() {
-            <span class="ident">uri</span>.<span class="ident">push</span>(<span class="ident">query</span>);
-        }
-        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">uri</span>.<span class="ident">join</span>(<span class="string">&quot;?&quot;</span>))
+    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">List</span><span class="op">&lt;</span><span class="ident">Game</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">modio</span>
+            .<span class="ident">request</span>(<span class="ident">Route</span>::<span class="ident">GetGames</span>)
+            .<span class="ident">query</span>(<span class="ident">filter</span>.<span class="ident">to_query_string</span>())
+            .<span class="ident">send</span>()
+            .<span class="kw">await</span>
     }
 
     <span class="doccomment">/// Provides a stream over all games.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// See [Filters and sorting](filters/index.html).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">filter</span>: <span class="kw-2">&amp;</span><span class="ident">Filter</span>) <span class="op">-&gt;</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Game</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">uri</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="self">self</span>.<span class="ident">path</span>(<span class="string">&quot;&quot;</span>)];
-        <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">filter</span>.<span class="ident">to_query_string</span>();
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">query</span>.<span class="ident">is_empty</span>() {
-            <span class="ident">uri</span>.<span class="ident">push</span>(<span class="ident">query</span>);
-        }
-        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">stream</span>(<span class="kw-2">&amp;</span><span class="ident">uri</span>.<span class="ident">join</span>(<span class="string">&quot;?&quot;</span>))
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter</span>(<span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw">impl</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Game</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">stream</span>(<span class="ident">Route</span>::<span class="ident">GetGames</span>, <span class="ident">filter</span>)
     }
 
     <span class="doccomment">/// Return a reference to a game.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">GameRef</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">GameRef</span> {
         <span class="ident">GameRef</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">clone</span>(), <span class="ident">id</span>)
     }
 }
@@ -521,49 +523,103 @@
 }
 
 <span class="kw">impl</span> <span class="ident">GameRef</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">modio</span>: <span class="ident">Modio</span>, <span class="ident">id</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">modio</span>: <span class="ident">Modio</span>, <span class="ident">id</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> { <span class="ident">modio</span>, <span class="ident">id</span> }
     }
 
-    <span class="kw">fn</span> <span class="ident">path</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">more</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
-        <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;/games/{}{}&quot;</span>, <span class="self">self</span>.<span class="ident">id</span>, <span class="ident">more</span>)
-    }
-
     <span class="doccomment">/// Get a reference to the Modio game object that this `GameRef` refers to.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Game</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">get</span>::<span class="op">&lt;</span><span class="ident">Game</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;/games/{}&quot;</span>, <span class="self">self</span>.<span class="ident">id</span>))
+    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Game</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">Route</span>::<span class="ident">GetGame</span> { <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">id</span> };
+        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">request</span>(<span class="ident">route</span>).<span class="ident">send</span>().<span class="kw">await</span>
     }
 
     <span class="doccomment">/// Return a reference to a mod of a game.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mod_</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">mod_id</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">ModRef</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mod_</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">mod_id</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ModRef</span> {
         <span class="ident">ModRef</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">clone</span>(), <span class="self">self</span>.<span class="ident">id</span>, <span class="ident">mod_id</span>)
     }
 
     <span class="doccomment">/// Return a reference to an interface that provides access to the mods of a game.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mods</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Mods</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mods</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Mods</span> {
         <span class="ident">Mods</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">clone</span>(), <span class="self">self</span>.<span class="ident">id</span>)
     }
 
     <span class="doccomment">/// Return a reference to an interface that provides access to the tags of a game.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">tags</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Endpoint</span><span class="op">&lt;</span><span class="ident">TagOption</span><span class="op">&gt;</span> {
-        <span class="ident">Endpoint</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">clone</span>(), <span class="self">self</span>.<span class="ident">path</span>(<span class="string">&quot;/tags&quot;</span>))
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">tags</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Tags</span> {
+        <span class="ident">Tags</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">clone</span>(), <span class="self">self</span>.<span class="ident">id</span>)
     }
 
     <span class="doccomment">/// Edit details for a game. [required: token]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">edit</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">EditGameOptions</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">EntityResult</span><span class="op">&lt;</span><span class="ident">Game</span><span class="op">&gt;&gt;</span> {
-        <span class="macro">token_required</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">modio</span>);
-        <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_query_string</span>();
-        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">put</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">path</span>(<span class="string">&quot;&quot;</span>), <span class="ident">params</span>)
+    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">edit</span>(<span class="self">self</span>, <span class="ident">options</span>: <span class="ident">EditGameOptions</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">EntityResult</span><span class="op">&lt;</span><span class="ident">Game</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">Route</span>::<span class="ident">EditGame</span> { <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">id</span> };
+        <span class="self">self</span>.<span class="ident">modio</span>
+            .<span class="ident">request</span>(<span class="ident">route</span>)
+            .<span class="ident">body</span>(<span class="ident">options</span>.<span class="ident">to_query_string</span>())
+            .<span class="ident">send</span>()
+            .<span class="kw">await</span>
     }
 
     <span class="doccomment">/// Add or edit new media to a game. [required: token]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_media</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">media</span>: <span class="ident">GameMediaOptions</span>) <span class="op">-&gt;</span> <span class="ident">Future</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="macro">token_required</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">modio</span>);
-        <span class="ident">Box</span>::<span class="ident">new</span>(
-            <span class="self">self</span>.<span class="ident">modio</span>
-                .<span class="ident">post_form</span>::<span class="op">&lt;</span><span class="ident">ModioMessage</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">path</span>(<span class="string">&quot;/media&quot;</span>), <span class="ident">media</span>)
-                .<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ()),
-        )
+    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">add_media</span>(<span class="self">self</span>, <span class="ident">media</span>: <span class="ident">GameMediaOptions</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">Route</span>::<span class="ident">AddGameMedia</span> { <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">id</span> };
+        <span class="self">self</span>.<span class="ident">modio</span>
+            .<span class="ident">request</span>(<span class="ident">route</span>)
+            .<span class="ident">body</span>(<span class="ident">Form</span>::<span class="ident">from</span>(<span class="ident">media</span>))
+            .<span class="ident">send</span>::<span class="op">&lt;</span><span class="ident">ModioMessage</span><span class="op">&gt;</span>()
+            .<span class="kw">await</span><span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(())
+    }
+}
+
+<span class="doccomment">/// Interface for tag options.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Tags</span> {
+    <span class="ident">modio</span>: <span class="ident">Modio</span>,
+    <span class="ident">game_id</span>: <span class="ident">u32</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">Tags</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">modio</span>: <span class="ident">Modio</span>, <span class="ident">game_id</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span> { <span class="ident">modio</span>, <span class="ident">game_id</span> }
+    }
+
+    <span class="doccomment">/// List tag options.</span>
+    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">List</span><span class="op">&lt;</span><span class="ident">TagOption</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">Route</span>::<span class="ident">GetGameTags</span> {
+            <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game_id</span>,
+        };
+        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">request</span>(<span class="ident">route</span>).<span class="ident">send</span>().<span class="kw">await</span>
+    }
+
+    <span class="doccomment">/// Provides a stream over all tag options.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw">impl</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">TagOption</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">Route</span>::<span class="ident">GetGameTags</span> {
+            <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game_id</span>,
+        };
+        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">stream</span>(<span class="ident">route</span>, <span class="ident">Default</span>::<span class="ident">default</span>())
+    }
+
+    <span class="doccomment">/// Add tag options. [required: token]</span>
+    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">add</span>(<span class="self">self</span>, <span class="ident">options</span>: <span class="ident">AddTagsOptions</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">Route</span>::<span class="ident">AddGameTags</span> {
+            <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game_id</span>,
+        };
+        <span class="self">self</span>.<span class="ident">modio</span>
+            .<span class="ident">request</span>(<span class="ident">route</span>)
+            .<span class="ident">body</span>(<span class="ident">options</span>.<span class="ident">to_query_string</span>())
+            .<span class="ident">send</span>::<span class="op">&lt;</span><span class="ident">ModioMessage</span><span class="op">&gt;</span>()
+            .<span class="kw">await</span><span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(())
+    }
+
+    <span class="doccomment">/// Delete tag options. [required: token]</span>
+    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">delete</span>(<span class="self">self</span>, <span class="ident">options</span>: <span class="ident">DeleteTagsOptions</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">Route</span>::<span class="ident">DeleteGameTags</span> {
+            <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game_id</span>,
+        };
+        <span class="self">self</span>.<span class="ident">modio</span>
+            .<span class="ident">request</span>(<span class="ident">route</span>)
+            .<span class="ident">body</span>(<span class="ident">options</span>.<span class="ident">to_query_string</span>())
+            .<span class="ident">delete</span>()
+            .<span class="kw">await</span>
     }
 }
 
@@ -648,24 +704,24 @@
 }
 
 <span class="kw">impl</span> <span class="ident">EditGameOptions</span> {
-    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">status</span>: <span class="ident">Status</span> <span class="op">&gt;&gt;</span> <span class="string">&quot;status&quot;</span>);
-    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">name</span> <span class="op">&gt;&gt;</span> <span class="string">&quot;name&quot;</span>);
-    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">name_id</span> <span class="op">&gt;&gt;</span> <span class="string">&quot;name_id&quot;</span>);
-    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">summary</span> <span class="op">&gt;&gt;</span> <span class="string">&quot;summary&quot;</span>);
-    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">instructions</span> <span class="op">&gt;&gt;</span> <span class="string">&quot;instructions&quot;</span>);
-    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">instructions_url</span> <span class="op">&gt;&gt;</span> <span class="string">&quot;instructions_url&quot;</span>);
-    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">ugc_name</span> <span class="op">&gt;&gt;</span> <span class="string">&quot;ugc_name&quot;</span>);
-    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">presentation_option</span>: <span class="ident">PresentationOption</span> <span class="op">&gt;&gt;</span> <span class="string">&quot;presentation_option&quot;</span>);
-    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">submission_option</span>: <span class="ident">SubmissionOption</span> <span class="op">&gt;&gt;</span> <span class="string">&quot;submission_option&quot;</span>);
-    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">curation_option</span>: <span class="ident">CurationOption</span> <span class="op">&gt;&gt;</span> <span class="string">&quot;curation_option&quot;</span>);
-    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">community_options</span>: <span class="ident">CommunityOptions</span> <span class="op">&gt;&gt;</span> <span class="string">&quot;community_options&quot;</span>);
-    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">revenue_options</span>: <span class="ident">RevenueOptions</span> <span class="op">&gt;&gt;</span> <span class="string">&quot;revenue_options&quot;</span>);
-    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">api_access_options</span>: <span class="ident">ApiAccessOptions</span> <span class="op">&gt;&gt;</span> <span class="string">&quot;api_access_options&quot;</span>);
-    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">maturity_options</span>: <span class="ident">MaturityOptions</span> <span class="op">&gt;&gt;</span> <span class="string">&quot;maturity_options&quot;</span>);
+    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">status</span>: <span class="ident">Status</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="string">&quot;status&quot;</span>);
+    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">name</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="string">&quot;name&quot;</span>);
+    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">name_id</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="string">&quot;name_id&quot;</span>);
+    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">summary</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="string">&quot;summary&quot;</span>);
+    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">instructions</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="string">&quot;instructions&quot;</span>);
+    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">instructions_url</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="string">&quot;instructions_url&quot;</span>);
+    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">ugc_name</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="string">&quot;ugc_name&quot;</span>);
+    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">presentation_option</span>: <span class="ident">PresentationOption</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="string">&quot;presentation_option&quot;</span>);
+    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">submission_option</span>: <span class="ident">SubmissionOption</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="string">&quot;submission_option&quot;</span>);
+    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">curation_option</span>: <span class="ident">CurationOption</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="string">&quot;curation_option&quot;</span>);
+    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">community_options</span>: <span class="ident">CommunityOptions</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="string">&quot;community_options&quot;</span>);
+    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">revenue_options</span>: <span class="ident">RevenueOptions</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="string">&quot;revenue_options&quot;</span>);
+    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">api_access_options</span>: <span class="ident">ApiAccessOptions</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="string">&quot;api_access_options&quot;</span>);
+    <span class="macro">option</span><span class="macro">!</span>(<span class="ident">maturity_options</span>: <span class="ident">MaturityOptions</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="string">&quot;maturity_options&quot;</span>);
 }
 
 <span class="kw">impl</span> <span class="kw">crate</span>::<span class="ident">QueryString</span> <span class="kw">for</span> <span class="ident">EditGameOptions</span> {
-    <span class="kw">fn</span> <span class="ident">to_query_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+    <span class="kw">fn</span> <span class="ident">to_query_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
         <span class="ident">url</span>::<span class="ident">form_urlencoded</span>::<span class="ident">Serializer</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">new</span>())
             .<span class="ident">extend_pairs</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">params</span>)
             .<span class="ident">finish</span>()
@@ -680,7 +736,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">AddTagsOptions</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">public</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(<span class="ident">name</span>: <span class="ident">S</span>, <span class="ident">kind</span>: <span class="ident">TagType</span>, <span class="ident">tags</span>: <span class="kw-2">&amp;</span>[<span class="ident">String</span>]) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">public</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">name</span>: <span class="ident">S</span>, <span class="ident">kind</span>: <span class="ident">TagType</span>, <span class="ident">tags</span>: <span class="kw-2">&amp;</span>[<span class="ident">String</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">name</span>: <span class="ident">name</span>.<span class="ident">into</span>(),
             <span class="ident">kind</span>,
@@ -689,7 +745,7 @@
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">hidden</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(<span class="ident">name</span>: <span class="ident">S</span>, <span class="ident">kind</span>: <span class="ident">TagType</span>, <span class="ident">tags</span>: <span class="kw-2">&amp;</span>[<span class="ident">String</span>]) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">hidden</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">name</span>: <span class="ident">S</span>, <span class="ident">kind</span>: <span class="ident">TagType</span>, <span class="ident">tags</span>: <span class="kw-2">&amp;</span>[<span class="ident">String</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">name</span>: <span class="ident">name</span>.<span class="ident">into</span>(),
             <span class="ident">kind</span>,
@@ -699,10 +755,8 @@
     }
 }
 
-<span class="kw">impl</span> <span class="ident">AddOptions</span> <span class="kw">for</span> <span class="ident">AddTagsOptions</span> {}
-
 <span class="kw">impl</span> <span class="ident">QueryString</span> <span class="kw">for</span> <span class="ident">AddTagsOptions</span> {
-    <span class="kw">fn</span> <span class="ident">to_query_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+    <span class="kw">fn</span> <span class="ident">to_query_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
         <span class="ident">form_urlencoded</span>::<span class="ident">Serializer</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">new</span>())
             .<span class="ident">append_pair</span>(<span class="string">&quot;name&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">name</span>)
             .<span class="ident">append_pair</span>(<span class="string">&quot;type&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">kind</span>.<span class="ident">to_string</span>())
@@ -714,18 +768,18 @@
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteTagsOptions</span> {
     <span class="ident">name</span>: <span class="ident">String</span>,
-    <span class="ident">tags</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
+    <span class="ident">tags</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">DeleteTagsOptions</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">all</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(<span class="ident">name</span>: <span class="ident">S</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">all</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">name</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">name</span>: <span class="ident">name</span>.<span class="ident">into</span>(),
             <span class="ident">tags</span>: <span class="prelude-val">None</span>,
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">some</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(<span class="ident">name</span>: <span class="ident">S</span>, <span class="ident">tags</span>: <span class="kw-2">&amp;</span>[<span class="ident">String</span>]) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">some</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">name</span>: <span class="ident">S</span>, <span class="ident">tags</span>: <span class="kw-2">&amp;</span>[<span class="ident">String</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">name</span>: <span class="ident">name</span>.<span class="ident">into</span>(),
             <span class="ident">tags</span>: <span class="kw">if</span> <span class="ident">tags</span>.<span class="ident">is_empty</span>() {
@@ -737,15 +791,13 @@
     }
 }
 
-<span class="kw">impl</span> <span class="ident">DeleteOptions</span> <span class="kw">for</span> <span class="ident">DeleteTagsOptions</span> {}
-
 <span class="kw">impl</span> <span class="ident">QueryString</span> <span class="kw">for</span> <span class="ident">DeleteTagsOptions</span> {
-    <span class="kw">fn</span> <span class="ident">to_query_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+    <span class="kw">fn</span> <span class="ident">to_query_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ser</span> <span class="op">=</span> <span class="ident">form_urlencoded</span>::<span class="ident">Serializer</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">new</span>());
         <span class="ident">ser</span>.<span class="ident">append_pair</span>(<span class="string">&quot;name&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">name</span>);
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">tags</span> {
-            <span class="prelude-val">Some</span>(<span class="ident">tags</span>) <span class="op">=&gt;</span> <span class="ident">ser</span>.<span class="ident">extend_pairs</span>(<span class="ident">tags</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">t</span><span class="op">|</span> (<span class="string">&quot;tags[]&quot;</span>, <span class="ident">t</span>))),
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">ser</span>.<span class="ident">append_pair</span>(<span class="string">&quot;tags[]&quot;</span>, <span class="string">&quot;&quot;</span>),
+            <span class="prelude-val">Some</span>(<span class="ident">tags</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ser</span>.<span class="ident">extend_pairs</span>(<span class="ident">tags</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">t</span><span class="op">|</span> (<span class="string">&quot;tags[]&quot;</span>, <span class="ident">t</span>))),
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ser</span>.<span class="ident">append_pair</span>(<span class="string">&quot;tags[]&quot;</span>, <span class="string">&quot;&quot;</span>),
         };
         <span class="ident">ser</span>.<span class="ident">finish</span>()
     }
@@ -759,7 +811,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">GameMediaOptions</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">logo</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;&gt;</span>(<span class="self">self</span>, <span class="ident">logo</span>: <span class="ident">P</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">logo</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">logo</span>: <span class="ident">P</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="ident">logo</span> <span class="op">=</span> <span class="ident">logo</span>.<span class="ident">as_ref</span>();
         <span class="kw">let</span> <span class="ident">filename</span> <span class="op">=</span> <span class="ident">logo</span>
             .<span class="ident">file_name</span>()
@@ -767,16 +819,12 @@
             .<span class="ident">map_or_else</span>(<span class="ident">String</span>::<span class="ident">new</span>, <span class="ident">ToString</span>::<span class="ident">to_string</span>);
 
         <span class="self">Self</span> {
-            <span class="ident">logo</span>: <span class="prelude-val">Some</span>(<span class="ident">FileSource</span> {
-                <span class="ident">inner</span>: <span class="ident">FileStream</span>::<span class="ident">open</span>(<span class="ident">logo</span>),
-                <span class="ident">filename</span>,
-                <span class="ident">mime</span>: <span class="ident">IMAGE_STAR</span>,
-            }),
+            <span class="ident">logo</span>: <span class="prelude-val">Some</span>(<span class="ident">FileSource</span>::<span class="ident">new_from_file</span>(<span class="ident">logo</span>, <span class="ident">filename</span>, <span class="ident">IMAGE_STAR</span>)),
             ..<span class="self">self</span>
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">icon</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;&gt;</span>(<span class="self">self</span>, <span class="ident">icon</span>: <span class="ident">P</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">icon</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">icon</span>: <span class="ident">P</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="ident">icon</span> <span class="op">=</span> <span class="ident">icon</span>.<span class="ident">as_ref</span>();
         <span class="kw">let</span> <span class="ident">filename</span> <span class="op">=</span> <span class="ident">icon</span>
             .<span class="ident">file_name</span>()
@@ -784,16 +832,12 @@
             .<span class="ident">map_or_else</span>(<span class="ident">String</span>::<span class="ident">new</span>, <span class="ident">ToString</span>::<span class="ident">to_string</span>);
 
         <span class="self">Self</span> {
-            <span class="ident">icon</span>: <span class="prelude-val">Some</span>(<span class="ident">FileSource</span> {
-                <span class="ident">inner</span>: <span class="ident">FileStream</span>::<span class="ident">open</span>(<span class="ident">icon</span>),
-                <span class="ident">filename</span>,
-                <span class="ident">mime</span>: <span class="ident">IMAGE_STAR</span>,
-            }),
+            <span class="ident">icon</span>: <span class="prelude-val">Some</span>(<span class="ident">FileSource</span>::<span class="ident">new_from_file</span>(<span class="ident">icon</span>, <span class="ident">filename</span>, <span class="ident">IMAGE_STAR</span>)),
             ..<span class="self">self</span>
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">header</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;&gt;</span>(<span class="self">self</span>, <span class="ident">header</span>: <span class="ident">P</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">header</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">header</span>: <span class="ident">P</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="ident">header</span> <span class="op">=</span> <span class="ident">header</span>.<span class="ident">as_ref</span>();
         <span class="kw">let</span> <span class="ident">filename</span> <span class="op">=</span> <span class="ident">header</span>
             .<span class="ident">file_name</span>()
@@ -801,11 +845,7 @@
             .<span class="ident">map_or_else</span>(<span class="ident">String</span>::<span class="ident">new</span>, <span class="ident">ToString</span>::<span class="ident">to_string</span>);
 
         <span class="self">Self</span> {
-            <span class="ident">header</span>: <span class="prelude-val">Some</span>(<span class="ident">FileSource</span> {
-                <span class="ident">inner</span>: <span class="ident">FileStream</span>::<span class="ident">open</span>(<span class="ident">header</span>),
-                <span class="ident">filename</span>,
-                <span class="ident">mime</span>: <span class="ident">IMAGE_STAR</span>,
-            }),
+            <span class="ident">header</span>: <span class="prelude-val">Some</span>(<span class="ident">FileSource</span>::<span class="ident">new_from_file</span>(<span class="ident">header</span>, <span class="ident">filename</span>, <span class="ident">IMAGE_STAR</span>)),
             ..<span class="self">self</span>
         }
     }
@@ -813,7 +853,7 @@
 
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">GameMediaOptions</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Form</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">opts</span>: <span class="ident">GameMediaOptions</span>) <span class="op">-&gt;</span> <span class="ident">Form</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">opts</span>: <span class="ident">GameMediaOptions</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Form</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">form</span> <span class="op">=</span> <span class="ident">Form</span>::<span class="ident">new</span>();
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">logo</span>) <span class="op">=</span> <span class="ident">opts</span>.<span class="ident">logo</span> {
             <span class="ident">form</span> <span class="op">=</span> <span class="ident">form</span>.<span class="ident">part</span>(<span class="string">&quot;logo&quot;</span>, <span class="ident">logo</span>.<span class="ident">into</span>());
