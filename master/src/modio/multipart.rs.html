@@ -61,9 +61,9 @@
 <span class="kw">use</span> <span class="ident">mime</span>::<span class="ident">Mime</span>;
 <span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">multipart</span>::<span class="ident">Part</span>;
 <span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">Body</span>;
-<span class="kw">use</span> <span class="ident">tokio_codec</span>::{<span class="ident">BytesCodec</span>, <span class="ident">FramedRead</span>};
-<span class="kw">use</span> <span class="ident">tokio_fs</span>::<span class="ident">File</span>;
-<span class="kw">use</span> <span class="ident">tokio_io</span>::<span class="ident">AsyncRead</span>;
+<span class="kw">use</span> <span class="ident">tokio</span>::<span class="ident">codec</span>::{<span class="ident">BytesCodec</span>, <span class="ident">FramedRead</span>};
+<span class="kw">use</span> <span class="ident">tokio</span>::<span class="ident">fs</span>::<span class="ident">File</span>;
+<span class="kw">use</span> <span class="ident">tokio</span>::<span class="ident">io</span>::<span class="ident">AsyncRead</span>;
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FileSource</span> {
     <span class="kw">pub</span> <span class="ident">body</span>: <span class="ident">Body</span>,

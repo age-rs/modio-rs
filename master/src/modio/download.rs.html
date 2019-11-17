@@ -376,9 +376,9 @@
 <span class="kw">use</span> <span class="ident">futures_util</span>::{<span class="ident">future</span>, <span class="ident">FutureExt</span>, <span class="ident">SinkExt</span>, <span class="ident">StreamExt</span>, <span class="ident">TryFutureExt</span>};
 <span class="kw">use</span> <span class="ident">log</span>::<span class="ident">debug</span>;
 <span class="kw">use</span> <span class="ident">reqwest</span>::{<span class="ident">Method</span>, <span class="ident">Response</span>, <span class="ident">StatusCode</span>};
-<span class="kw">use</span> <span class="ident">tokio_codec</span>::{<span class="ident">BytesCodec</span>, <span class="ident">FramedWrite</span>};
-<span class="kw">use</span> <span class="ident">tokio_fs</span>::<span class="ident">File</span> <span class="kw">as</span> <span class="ident">AsyncFile</span>;
-<span class="kw">use</span> <span class="ident">tokio_io</span>::<span class="ident">BufWriter</span>;
+<span class="kw">use</span> <span class="ident">tokio</span>::<span class="ident">codec</span>::{<span class="ident">BytesCodec</span>, <span class="ident">FramedWrite</span>};
+<span class="kw">use</span> <span class="ident">tokio</span>::<span class="ident">fs</span>::<span class="ident">File</span> <span class="kw">as</span> <span class="ident">AsyncFile</span>;
+<span class="kw">use</span> <span class="ident">tokio</span>::<span class="ident">io</span>::<span class="ident">BufWriter</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::{<span class="self">self</span>, <span class="ident">Kind</span>, <span class="prelude-ty">Result</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">mods</span>::{<span class="ident">File</span>, <span class="ident">Mod</span>};
