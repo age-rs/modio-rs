@@ -711,8 +711,8 @@
 <span class="doccomment">/// Re-exports of the used reqwest types.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">client</span> {
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">header</span>;
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">ClientBuilder</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">redirect</span>::<span class="ident">Policy</span>;
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">ClientBuilder</span>;
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tls&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">reqwest</span>::{<span class="ident">Certificate</span>, <span class="ident">Identity</span>};
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">reqwest</span>::{<span class="ident">Proxy</span>, <span class="ident">Url</span>};
