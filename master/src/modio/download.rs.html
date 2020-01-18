@@ -403,7 +403,7 @@
     <span class="doccomment">/// # Example</span>
     <span class="doccomment">/// ```no_run</span>
     <span class="doccomment">/// # async fn run() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {</span>
-    <span class="doccomment">/// #     let modio = modio::Modio::new(modio::Credentials::ApiKey(&quot;&quot;.to_string()))?;</span>
+    <span class="doccomment">/// #     let modio = modio::Modio::new(modio::Credentials::new(&quot;api-key&quot;.to_string()))?;</span>
     <span class="doccomment">/// let action = modio::DownloadAction::Primary {</span>
     <span class="doccomment">///     game_id: 5,</span>
     <span class="doccomment">///     mod_id: 19,</span>
@@ -428,7 +428,7 @@
     <span class="doccomment">/// use futures_util::{future, TryStreamExt};</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # async fn run() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {</span>
-    <span class="doccomment">/// #     let modio = modio::Modio::new(modio::Credentials::ApiKey(&quot;user-or-game-apikey&quot;.to_string()))?;</span>
+    <span class="doccomment">/// #     let modio = modio::Modio::new(modio::Credentials::new(&quot;api-key&quot;.to_string()))?;</span>
     <span class="doccomment">/// let action = modio::DownloadAction::Primary {</span>
     <span class="doccomment">///     game_id: 5,</span>
     <span class="doccomment">///     mod_id: 19,</span>
