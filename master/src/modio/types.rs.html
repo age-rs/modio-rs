@@ -893,6 +893,8 @@
 <span id="893">893</span>
 <span id="894">894</span>
 <span id="895">895</span>
+<span id="896">896</span>
+<span id="897">897</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
@@ -998,7 +1000,7 @@
                         <span class="ident">E</span>: <span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">Error</span>,
                     {
                         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>::<span class="ident">from_bits</span>(<span class="ident">value</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="kw">type</span>).<span class="macro-nonterminal">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> {
-                            <span class="ident">E</span>::<span class="ident">custom</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;invalid {} bits {}&quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>), <span class="ident">value</span>))
+                            <span class="ident">E</span>::<span class="ident">custom</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;invalid {} value: {}&quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>), <span class="ident">value</span>))
                         })
                     }
                 }
@@ -1306,10 +1308,12 @@
         <span class="doccomment">/// Community features enabled on the mod.io website.</span>
         <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommunityOptions</span>: <span class="ident">u8</span> {
             <span class="doccomment">/// Discussion board enabled.</span>
-            <span class="kw">const</span> <span class="ident">DISCUSSIONS</span>   <span class="op">=</span> <span class="number">0b0001</span>;
+            <span class="kw">const</span> <span class="ident">DISCUSSIONS</span>       <span class="op">=</span> <span class="number">0b0001</span>;
             <span class="doccomment">/// Guides &amp; News enabled.</span>
-            <span class="kw">const</span> <span class="ident">GUIDES_NEWS</span>   <span class="op">=</span> <span class="number">0b0010</span>;
-            <span class="kw">const</span> <span class="ident">ALL</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">DISCUSSIONS</span>.<span class="ident">bits</span> <span class="op">|</span> <span class="self">Self</span>::<span class="ident">GUIDES_NEWS</span>.<span class="ident">bits</span>;
+            <span class="kw">const</span> <span class="ident">GUIDES_NEWS</span>       <span class="op">=</span> <span class="number">0b0010</span>;
+            <span class="doccomment">/// &quot;Subscribe to install&quot; button disabled.</span>
+            <span class="kw">const</span> <span class="ident">DISABLE_SUBSCRIBE</span> <span class="op">=</span> <span class="number">0b0100</span>;
+            <span class="kw">const</span> <span class="ident">ALL</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">DISCUSSIONS</span>.<span class="ident">bits</span> <span class="op">|</span> <span class="self">Self</span>::<span class="ident">GUIDES_NEWS</span>.<span class="ident">bits</span> <span class="op">|</span> <span class="self">Self</span>::<span class="ident">DISABLE_SUBSCRIBE</span>.<span class="ident">bits</span>;
         }
     }
     <span class="macro">bitflags_serde</span><span class="macro">!</span>(<span class="ident">CommunityOptions</span>, <span class="ident">u8</span>);
