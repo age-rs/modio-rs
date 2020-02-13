@@ -896,43 +896,6 @@
 <span id="896">896</span>
 <span id="897">897</span>
 <span id="898">898</span>
-<span id="899">899</span>
-<span id="900">900</span>
-<span id="901">901</span>
-<span id="902">902</span>
-<span id="903">903</span>
-<span id="904">904</span>
-<span id="905">905</span>
-<span id="906">906</span>
-<span id="907">907</span>
-<span id="908">908</span>
-<span id="909">909</span>
-<span id="910">910</span>
-<span id="911">911</span>
-<span id="912">912</span>
-<span id="913">913</span>
-<span id="914">914</span>
-<span id="915">915</span>
-<span id="916">916</span>
-<span id="917">917</span>
-<span id="918">918</span>
-<span id="919">919</span>
-<span id="920">920</span>
-<span id="921">921</span>
-<span id="922">922</span>
-<span id="923">923</span>
-<span id="924">924</span>
-<span id="925">925</span>
-<span id="926">926</span>
-<span id="927">927</span>
-<span id="928">928</span>
-<span id="929">929</span>
-<span id="930">930</span>
-<span id="931">931</span>
-<span id="932">932</span>
-<span id="933">933</span>
-<span id="934">934</span>
-<span id="935">935</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Mods Interface</span>
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">OsStr</span>;
@@ -956,36 +919,6 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">Logo</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">Status</span>;
 
-<span class="doccomment">/// Interface for mods the authenticated user added or is team member of.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MyMods</span> {
-    <span class="ident">modio</span>: <span class="ident">Modio</span>,
-}
-
-<span class="kw">impl</span> <span class="ident">MyMods</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">modio</span>: <span class="ident">Modio</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span> { <span class="ident">modio</span> }
-    }
-
-    <span class="doccomment">/// List all mods the authenticated user added or is team member of. [required: token]</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See [Filters and sorting](filters/index.html).</span>
-    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">List</span><span class="op">&lt;</span><span class="ident">Mod</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">modio</span>
-            .<span class="ident">request</span>(<span class="ident">Route</span>::<span class="ident">UserMods</span>)
-            .<span class="ident">query</span>(<span class="ident">filter</span>.<span class="ident">to_query_string</span>())
-            .<span class="ident">send</span>()
-            .<span class="kw">await</span>
-    }
-
-    <span class="doccomment">/// Provides a stream over mods the authenticated user added or is team member of. [required:</span>
-    <span class="doccomment">/// token]</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See [Filters and sorting](filters/index.html).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter</span>(<span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw">impl</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Mod</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">stream</span>(<span class="ident">Route</span>::<span class="ident">UserMods</span>, <span class="ident">filter</span>)
-    }
-}
-
 <span class="doccomment">/// Interface for mods of a game.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Mods</span> {
     <span class="ident">modio</span>: <span class="ident">Modio</span>,
@@ -997,29 +930,17 @@
         <span class="self">Self</span> { <span class="ident">modio</span>, <span class="ident">game</span> }
     }
 
+    <span class="doccomment">/// Returns a `Query` interface to retrieve mods.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See [Filters and sorting](filters/index.html).</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">search</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Query</span><span class="op">&lt;</span><span class="ident">Mod</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">Route</span>::<span class="ident">GetMods</span> { <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game</span> };
+        <span class="ident">Query</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">clone</span>(), <span class="ident">route</span>, <span class="ident">filter</span>)
+    }
+
     <span class="doccomment">/// Return a reference to a mod.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ModRef</span> {
         <span class="ident">ModRef</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">clone</span>(), <span class="self">self</span>.<span class="ident">game</span>, <span class="ident">id</span>)
-    }
-
-    <span class="doccomment">/// List all mods.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See [Filters and sorting](filters/index.html).</span>
-    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">List</span><span class="op">&lt;</span><span class="ident">Mod</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">Route</span>::<span class="ident">GetMods</span> { <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game</span> };
-        <span class="self">self</span>.<span class="ident">modio</span>
-            .<span class="ident">request</span>(<span class="ident">route</span>)
-            .<span class="ident">query</span>(<span class="ident">filter</span>.<span class="ident">to_query_string</span>())
-            .<span class="ident">send</span>()
-            .<span class="kw">await</span>
-    }
-
-    <span class="doccomment">/// Provides a stream over all mods of the game.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See [Filters and sorting](filters/index.html).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter</span>(<span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw">impl</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Mod</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">Route</span>::<span class="ident">GetMods</span> { <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game</span> };
-        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">stream</span>(<span class="ident">route</span>, <span class="ident">filter</span>)
     }
 
     <span class="doccomment">/// Add a mod and return the newly created Modio mod object. [required: token]</span>
@@ -1033,20 +954,21 @@
             .<span class="kw">await</span>
     }
 
-    <span class="doccomment">/// Provides a stream over the statistics for all mods of a game.</span>
+    <span class="doccomment">/// Returns a `Query` interface to retrieve the statistics for all mods of a game.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// See [Filters and sorting](filters/stats/index.html).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">statistics</span>(<span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw">impl</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Statistics</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">statistics</span>(<span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Query</span><span class="op">&lt;</span><span class="ident">Statistics</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">Route</span>::<span class="ident">GetAllModStats</span> { <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game</span> };
-        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">stream</span>(<span class="ident">route</span>, <span class="ident">filter</span>)
+        <span class="ident">Query</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>, <span class="ident">route</span>, <span class="ident">filter</span>)
     }
 
-    <span class="doccomment">/// Provides a stream over the event log for all mods of a game sorted by latest event first.</span>
+    <span class="doccomment">/// Returns a `Query` interface to retrieve the event log of all mods of the game sorted by</span>
+    <span class="doccomment">/// latest event first.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// See [Filters and sorting](filters/events/index.html).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">events</span>(<span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw">impl</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Event</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">events</span>(<span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Query</span><span class="op">&lt;</span><span class="ident">Event</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">Route</span>::<span class="ident">GetAllModEvents</span> { <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game</span> };
-        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">stream</span>(<span class="ident">route</span>, <span class="ident">filter</span>)
+        <span class="ident">Query</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>, <span class="ident">route</span>, <span class="ident">filter</span>)
     }
 }
 
@@ -1110,15 +1032,15 @@
         <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">request</span>(<span class="ident">route</span>).<span class="ident">send</span>().<span class="kw">await</span>
     }
 
-    <span class="doccomment">/// Provides a stream over the event log for a mod sorted by latest event first.</span>
+    <span class="doccomment">/// Returns a `Query` interface to retrieve the event log for a mod sorted by latest event first.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// See [Filters and sorting](filters/events/index.html).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">events</span>(<span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw">impl</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Event</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">events</span>(<span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Query</span><span class="op">&lt;</span><span class="ident">Event</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">Route</span>::<span class="ident">GetModEvents</span> {
             <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game</span>,
             <span class="ident">mod_id</span>: <span class="self">self</span>.<span class="ident">id</span>,
         };
-        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">stream</span>(<span class="ident">route</span>, <span class="ident">filter</span>)
+        <span class="ident">Query</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>, <span class="ident">route</span>, <span class="ident">filter</span>)
     }
 
     <span class="doccomment">/// Return a reference to an interface to manage team members of a mod.</span>
@@ -1245,12 +1167,14 @@
     }
 
     <span class="doccomment">/// List mod dependencies.</span>
-    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">List</span><span class="op">&lt;</span><span class="ident">Dependency</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Dependency</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">Route</span>::<span class="ident">GetModDependencies</span> {
             <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game_id</span>,
             <span class="ident">mod_id</span>: <span class="self">self</span>.<span class="ident">mod_id</span>,
         };
-        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">request</span>(<span class="ident">route</span>).<span class="ident">send</span>().<span class="kw">await</span>
+        <span class="ident">Query</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>, <span class="ident">route</span>, <span class="ident">Default</span>::<span class="ident">default</span>())
+            .<span class="ident">collect</span>()
+            .<span class="kw">await</span>
     }
 
     <span class="doccomment">/// Provides a stream over all mod dependencies.</span>
@@ -1259,7 +1183,7 @@
             <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game_id</span>,
             <span class="ident">mod_id</span>: <span class="self">self</span>.<span class="ident">mod_id</span>,
         };
-        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">stream</span>(<span class="ident">route</span>, <span class="ident">Default</span>::<span class="ident">default</span>())
+        <span class="ident">Query</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>, <span class="ident">route</span>, <span class="ident">Default</span>::<span class="ident">default</span>()).<span class="ident">iter</span>()
     }
 
     <span class="doccomment">/// Add mod dependencies. [required: token]</span>
@@ -1308,12 +1232,14 @@
     }
 
     <span class="doccomment">/// List all mod tags.</span>
-    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">List</span><span class="op">&lt;</span><span class="ident">Tag</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Tag</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">Route</span>::<span class="ident">GetModTags</span> {
             <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game_id</span>,
             <span class="ident">mod_id</span>: <span class="self">self</span>.<span class="ident">mod_id</span>,
         };
-        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">request</span>(<span class="ident">route</span>).<span class="ident">send</span>().<span class="kw">await</span>
+        <span class="ident">Query</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>, <span class="ident">route</span>, <span class="ident">Default</span>::<span class="ident">default</span>())
+            .<span class="ident">collect</span>()
+            .<span class="kw">await</span>
     }
 
     <span class="doccomment">/// Provides a stream over all mod tags.</span>
@@ -1322,7 +1248,7 @@
             <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game_id</span>,
             <span class="ident">mod_id</span>: <span class="self">self</span>.<span class="ident">mod_id</span>,
         };
-        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">stream</span>(<span class="ident">route</span>, <span class="ident">Default</span>::<span class="ident">default</span>())
+        <span class="ident">Query</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>, <span class="ident">route</span>, <span class="ident">Default</span>::<span class="ident">default</span>()).<span class="ident">iter</span>()
     }
 
     <span class="doccomment">/// Add mod tags. [required: token]</span>

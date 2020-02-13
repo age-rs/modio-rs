@@ -489,6 +489,7 @@
     <span class="ident">AuthEmailExchange</span>,
     <span class="ident">AuthSteam</span>,
     <span class="ident">AuthGog</span>,
+    <span class="ident">AuthItchio</span>,
     <span class="ident">AuthOculus</span>,
     <span class="ident">LinkAccount</span>,
     <span class="ident">GetGames</span>,
@@ -660,7 +661,6 @@
     <span class="ident">UserMods</span>,
     <span class="ident">UserFiles</span>,
     <span class="ident">UserRatings</span>,
-    <span class="ident">GetResourceOwner</span>,
     <span class="ident">SubmitReport</span>,
 }
 
@@ -685,6 +685,7 @@
             <span class="ident">AuthEmailExchange</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">route</span><span class="macro">!</span>(<span class="ident">POST</span>, <span class="ident">Route</span>::<span class="ident">auth_email_exchange</span>(), <span class="ident">ApiKey</span>),
             <span class="ident">AuthSteam</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">route</span><span class="macro">!</span>(<span class="ident">POST</span>, <span class="ident">Route</span>::<span class="ident">auth_steam</span>(), <span class="ident">ApiKey</span>),
             <span class="ident">AuthGog</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">route</span><span class="macro">!</span>(<span class="ident">POST</span>, <span class="ident">Route</span>::<span class="ident">auth_gog</span>(), <span class="ident">ApiKey</span>),
+            <span class="ident">AuthItchio</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">route</span><span class="macro">!</span>(<span class="ident">POST</span>, <span class="ident">Route</span>::<span class="ident">auth_itchio</span>(), <span class="ident">ApiKey</span>),
             <span class="ident">AuthOculus</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">route</span><span class="macro">!</span>(<span class="ident">POST</span>, <span class="ident">Route</span>::<span class="ident">auth_oculus</span>(), <span class="ident">ApiKey</span>),
             <span class="ident">LinkAccount</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">route</span><span class="macro">!</span>(<span class="ident">POST</span>, <span class="ident">Route</span>::<span class="ident">link_account</span>(), <span class="ident">Token</span>),
             <span class="ident">GetGames</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">route</span><span class="macro">!</span>(<span class="ident">GET</span>, <span class="ident">Route</span>::<span class="ident">games</span>(), <span class="ident">Any</span>),
@@ -806,7 +807,6 @@
             <span class="ident">UserMods</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">route</span><span class="macro">!</span>(<span class="ident">GET</span>, <span class="ident">Route</span>::<span class="ident">user_mods</span>(), <span class="ident">Token</span>),
             <span class="ident">UserFiles</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">route</span><span class="macro">!</span>(<span class="ident">GET</span>, <span class="ident">Route</span>::<span class="ident">user_files</span>(), <span class="ident">Token</span>),
             <span class="ident">UserRatings</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">route</span><span class="macro">!</span>(<span class="ident">GET</span>, <span class="ident">Route</span>::<span class="ident">user_ratings</span>(), <span class="ident">Token</span>),
-            <span class="ident">GetResourceOwner</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">route</span><span class="macro">!</span>(<span class="ident">POST</span>, <span class="ident">Route</span>::<span class="ident">resource_owner</span>(), <span class="ident">Token</span>),
             <span class="ident">SubmitReport</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">route</span><span class="macro">!</span>(<span class="ident">POST</span>, <span class="ident">Route</span>::<span class="ident">report</span>(), <span class="ident">Token</span>),
         }
     }
@@ -824,7 +824,11 @@
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">auth_gog</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
-        <span class="string">&quot;/external/steamgog&quot;</span>
+        <span class="string">&quot;/external/galaxyauth&quot;</span>
+    }
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">auth_itchio</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
+        <span class="string">&quot;/external/itchioauth&quot;</span>
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">auth_oculus</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
@@ -921,10 +925,6 @@
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mod_comment</span>(<span class="ident">game_id</span>: <span class="ident">u32</span>, <span class="ident">mod_id</span>: <span class="ident">u32</span>, <span class="ident">comment_id</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
         <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;/games/{}/mods/{}/comment/{}&quot;</span>, <span class="ident">game_id</span>, <span class="ident">mod_id</span>, <span class="ident">comment_id</span>)
-    }
-
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">resource_owner</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
-        <span class="string">&quot;/general/ownership&quot;</span>
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">report</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {

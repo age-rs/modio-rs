@@ -99,21 +99,6 @@
 <span id="99"> 99</span>
 <span id="100">100</span>
 <span id="101">101</span>
-<span id="102">102</span>
-<span id="103">103</span>
-<span id="104">104</span>
-<span id="105">105</span>
-<span id="106">106</span>
-<span id="107">107</span>
-<span id="108">108</span>
-<span id="109">109</span>
-<span id="110">110</span>
-<span id="111">111</span>
-<span id="112">112</span>
-<span id="113">113</span>
-<span id="114">114</span>
-<span id="115">115</span>
-<span id="116">116</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Mod comments interface</span>
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
@@ -135,30 +120,15 @@
         }
     }
 
-    <span class="doccomment">/// List all comments.</span>
+    <span class="doccomment">/// Returns a `Query` interface to retrieve all comments.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// See [Filters and sorting](filters/index.html).</span>
-    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">List</span><span class="op">&lt;</span><span class="ident">Comment</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">search</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Query</span><span class="op">&lt;</span><span class="ident">Comment</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">Route</span>::<span class="ident">GetModComments</span> {
             <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game</span>,
             <span class="ident">mod_id</span>: <span class="self">self</span>.<span class="ident">mod_id</span>,
         };
-        <span class="self">self</span>.<span class="ident">modio</span>
-            .<span class="ident">request</span>(<span class="ident">route</span>)
-            .<span class="ident">query</span>(<span class="ident">filter</span>.<span class="ident">to_query_string</span>())
-            .<span class="ident">send</span>()
-            .<span class="kw">await</span>
-    }
-
-    <span class="doccomment">/// Provides a stream over all comments of the mod.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See [Filters and sorting](filters/index.html).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter</span>(<span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw">impl</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Comment</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">Route</span>::<span class="ident">GetModComments</span> {
-            <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game</span>,
-            <span class="ident">mod_id</span>: <span class="self">self</span>.<span class="ident">mod_id</span>,
-        };
-        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">stream</span>(<span class="ident">route</span>, <span class="ident">filter</span>)
+        <span class="ident">Query</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">clone</span>(), <span class="ident">route</span>, <span class="ident">filter</span>)
     }
 
     <span class="doccomment">/// Return comment by id.</span>

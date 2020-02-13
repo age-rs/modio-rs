@@ -395,45 +395,6 @@
 <span id="395">395</span>
 <span id="396">396</span>
 <span id="397">397</span>
-<span id="398">398</span>
-<span id="399">399</span>
-<span id="400">400</span>
-<span id="401">401</span>
-<span id="402">402</span>
-<span id="403">403</span>
-<span id="404">404</span>
-<span id="405">405</span>
-<span id="406">406</span>
-<span id="407">407</span>
-<span id="408">408</span>
-<span id="409">409</span>
-<span id="410">410</span>
-<span id="411">411</span>
-<span id="412">412</span>
-<span id="413">413</span>
-<span id="414">414</span>
-<span id="415">415</span>
-<span id="416">416</span>
-<span id="417">417</span>
-<span id="418">418</span>
-<span id="419">419</span>
-<span id="420">420</span>
-<span id="421">421</span>
-<span id="422">422</span>
-<span id="423">423</span>
-<span id="424">424</span>
-<span id="425">425</span>
-<span id="426">426</span>
-<span id="427">427</span>
-<span id="428">428</span>
-<span id="429">429</span>
-<span id="430">430</span>
-<span id="431">431</span>
-<span id="432">432</span>
-<span id="433">433</span>
-<span id="434">434</span>
-<span id="435">435</span>
-<span id="436">436</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Games interface</span>
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">OsStr</span>;
@@ -455,36 +416,6 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">Logo</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">Status</span>;
 
-<span class="doccomment">/// Interface for games the authenticated user added or is team member of.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MyGames</span> {
-    <span class="ident">modio</span>: <span class="ident">Modio</span>,
-}
-
-<span class="kw">impl</span> <span class="ident">MyGames</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">modio</span>: <span class="ident">Modio</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span> { <span class="ident">modio</span> }
-    }
-
-    <span class="doccomment">/// List all games the authenticated user added or is team member of. [required: token]</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See [Filters and sorting](filters/index.html).</span>
-    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">List</span><span class="op">&lt;</span><span class="ident">Game</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">modio</span>
-            .<span class="ident">request</span>(<span class="ident">Route</span>::<span class="ident">UserGames</span>)
-            .<span class="ident">query</span>(<span class="ident">filter</span>.<span class="ident">to_query_string</span>())
-            .<span class="ident">send</span>()
-            .<span class="kw">await</span>
-    }
-
-    <span class="doccomment">/// Provides a stream over all games the authenticated user added or is team member of.</span>
-    <span class="doccomment">/// [required: token]</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See [Filters and sorting](filters/index.html).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter</span>(<span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw">impl</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Game</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">stream</span>(<span class="ident">Route</span>::<span class="ident">UserGames</span>, <span class="ident">filter</span>)
-    }
-}
-
 <span class="doccomment">/// Interface for games.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Games</span> {
     <span class="ident">modio</span>: <span class="ident">Modio</span>,
@@ -495,22 +426,11 @@
         <span class="self">Self</span> { <span class="ident">modio</span> }
     }
 
-    <span class="doccomment">/// List all games.</span>
+    <span class="doccomment">/// Returns a `Query` interface to retrieve games.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// See [Filters and sorting](filters/index.html).</span>
-    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">List</span><span class="op">&lt;</span><span class="ident">Game</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">modio</span>
-            .<span class="ident">request</span>(<span class="ident">Route</span>::<span class="ident">GetGames</span>)
-            .<span class="ident">query</span>(<span class="ident">filter</span>.<span class="ident">to_query_string</span>())
-            .<span class="ident">send</span>()
-            .<span class="kw">await</span>
-    }
-
-    <span class="doccomment">/// Provides a stream over all games.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See [Filters and sorting](filters/index.html).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter</span>(<span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw">impl</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Game</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">stream</span>(<span class="ident">Route</span>::<span class="ident">GetGames</span>, <span class="ident">filter</span>)
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">search</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Query</span><span class="op">&lt;</span><span class="ident">Game</span><span class="op">&gt;</span> {
+        <span class="ident">Query</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">clone</span>(), <span class="ident">Route</span>::<span class="ident">GetGames</span>, <span class="ident">filter</span>)
     }
 
     <span class="doccomment">/// Return a reference to a game.</span>
@@ -585,11 +505,13 @@
     }
 
     <span class="doccomment">/// List tag options.</span>
-    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">List</span><span class="op">&lt;</span><span class="ident">TagOption</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">list</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">TagOption</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">Route</span>::<span class="ident">GetGameTags</span> {
             <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game_id</span>,
         };
-        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">request</span>(<span class="ident">route</span>).<span class="ident">send</span>().<span class="kw">await</span>
+        <span class="ident">Query</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>, <span class="ident">route</span>, <span class="ident">Default</span>::<span class="ident">default</span>())
+            .<span class="ident">collect</span>()
+            .<span class="kw">await</span>
     }
 
     <span class="doccomment">/// Provides a stream over all tag options.</span>
@@ -597,7 +519,7 @@
         <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">Route</span>::<span class="ident">GetGameTags</span> {
             <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game_id</span>,
         };
-        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">stream</span>(<span class="ident">route</span>, <span class="ident">Default</span>::<span class="ident">default</span>())
+        <span class="ident">Query</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>, <span class="ident">route</span>, <span class="ident">Default</span>::<span class="ident">default</span>()).<span class="ident">iter</span>()
     }
 
     <span class="doccomment">/// Add tag options. [required: token]</span>

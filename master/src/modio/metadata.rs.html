@@ -123,8 +123,8 @@
             <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game</span>,
             <span class="ident">mod_id</span>: <span class="self">self</span>.<span class="ident">mod_id</span>,
         };
-        <span class="self">self</span>.<span class="ident">modio</span>
-            .<span class="ident">stream</span>(<span class="ident">route</span>, <span class="ident">Default</span>::<span class="ident">default</span>())
+        <span class="ident">Query</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>, <span class="ident">route</span>, <span class="ident">Default</span>::<span class="ident">default</span>())
+            .<span class="ident">iter</span>()
             .<span class="ident">try_fold</span>(<span class="ident">MetadataMap</span>::<span class="ident">new</span>(), <span class="op">|</span><span class="kw-2">mut</span> <span class="ident">map</span>, <span class="ident">kv</span>: <span class="ident">KV</span><span class="op">|</span> {
                 <span class="ident">map</span>.<span class="ident">entry</span>(<span class="ident">kv</span>.<span class="ident">metakey</span>)
                     .<span class="ident">or_insert_with</span>(<span class="ident">Vec</span>::<span class="ident">new</span>)
