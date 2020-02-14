@@ -904,9 +904,6 @@
 <span id="904">904</span>
 <span id="905">905</span>
 <span id="906">906</span>
-<span id="907">907</span>
-<span id="908">908</span>
-<span id="909">909</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
@@ -1031,7 +1028,7 @@
 
 <span class="doccomment">/// See the [Message Object](https://docs.mod.io/#message-object) docs for more information.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ModioMessage</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Message</span> {
     <span class="kw">pub</span> <span class="ident">code</span>: <span class="ident">u16</span>,
     <span class="kw">pub</span> <span class="ident">message</span>: <span class="ident">String</span>,
 }
@@ -1060,7 +1057,7 @@
 <span class="kw">where</span>
     <span class="ident">D</span>: <span class="ident">serde</span>::<span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
 {
-    <span class="ident">ModioMessage</span>::<span class="ident">deserialize</span>(<span class="ident">deserializer</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ())
+    <span class="ident">Message</span>::<span class="ident">deserialize</span>(<span class="ident">deserializer</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ())
 }
 
 <span class="doccomment">/// See the [Multiple Item Response](https://docs.mod.io/#response-formats) docs for more</span>
@@ -1080,7 +1077,7 @@
 
 <span class="doccomment">/// See the [Error Object](https://docs.mod.io/#error-object) docs for more information.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ModioErrorResponse</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ErrorResponse</span> {
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;error&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">error</span>: <span class="ident">ClientError</span>,
 }
@@ -1145,6 +1142,7 @@
     <span class="kw">pub</span> <span class="ident">event_type</span>: <span class="ident">EventType</span>,
 }
 
+<span class="doccomment">/// Type of user event that was triggered.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">Deserialize</span>)]</span>
 <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;SCREAMING_SNAKE_CASE&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">EventType</span> {
@@ -1353,6 +1351,10 @@
         <span class="kw">pub</span> <span class="ident">tags</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     }
 
+    <span class="doccomment">/// Defines the type of a tag. See [TagOption] or [AddTagsOptions].</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [TagOption]: struct.TagOption.html</span>
+    <span class="doccomment">/// [AddTagsOptions]: struct.AddTagsOptions.html</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;lowercase&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">TagType</span> {
@@ -1437,6 +1439,7 @@
         <span class="kw">pub</span> <span class="ident">event_type</span>: <span class="ident">EventType</span>,
     }
 
+    <span class="doccomment">/// Type of mod event that was triggered.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">Deserialize</span>)]</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;SCREAMING_SNAKE_CASE&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">EventType</span> {
@@ -1452,14 +1455,6 @@
         <span class="ident">ModDeleted</span>,
         <span class="doccomment">/// User has joined or left the mod team.</span>
         <span class="ident">ModTeamChanged</span>,
-        <span class="doccomment">/// User has joined a team.</span>
-        <span class="ident">UserTeamJoin</span>,
-        <span class="doccomment">/// User has left a team.</span>
-        <span class="ident">UserTeamLeave</span>,
-        <span class="doccomment">/// User has subscribed to a mod.</span>
-        <span class="ident">UserSubscribe</span>,
-        <span class="doccomment">/// User has unsubscribed to a mod.</span>
-        <span class="ident">UserUnsubscribe</span>,
     }
 
     <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">EventType</span> {
@@ -1471,10 +1466,6 @@
                 <span class="ident">EventType</span>::<span class="ident">ModEdited</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;MOD_EDITED&quot;</span>,
                 <span class="ident">EventType</span>::<span class="ident">ModDeleted</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;MOD_DELETED&quot;</span>,
                 <span class="ident">EventType</span>::<span class="ident">ModTeamChanged</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;MOD_TEAM_CHANGED&quot;</span>,
-                <span class="ident">EventType</span>::<span class="ident">UserTeamJoin</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;USER_TEAM_JOIN&quot;</span>,
-                <span class="ident">EventType</span>::<span class="ident">UserTeamLeave</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;USER_TEAM_LEAVE&quot;</span>,
-                <span class="ident">EventType</span>::<span class="ident">UserSubscribe</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;USER_SUBSCRIBE&quot;</span>,
-                <span class="ident">EventType</span>::<span class="ident">UserUnsubscribe</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;USER_UNSUBSCRIBE&quot;</span>,
             }
             .<span class="ident">fmt</span>(<span class="ident">fmt</span>)
         }
@@ -1522,6 +1513,7 @@
         <span class="kw">pub</span> <span class="ident">date_expires</span>: <span class="ident">u64</span>,
     }
 
+    <span class="doccomment">/// Part of [Statistics](struct.Statistics.html)</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Popularity</span> {
         <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;popularity_rank_position&quot;</span>)]</span>
@@ -1530,6 +1522,7 @@
         <span class="kw">pub</span> <span class="ident">rank_total</span>: <span class="ident">u32</span>,
     }
 
+    <span class="doccomment">/// Part of [Statistics](struct.Statistics.html)</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Ratings</span> {
         <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;ratings_total&quot;</span>)]</span>
@@ -1732,6 +1725,7 @@
     }
 
     <span class="macro">enum_number</span><span class="macro">!</span> {
+        <span class="doccomment">/// Defines the role of a team member.</span>
         <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
         <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">TeamLevel</span> {
             <span class="ident">Moderator</span> <span class="op">=</span> <span class="number">1</span>,

@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Metadata",""]]});
+initSidebarItems({"struct":[["Metadata",""]],"type":[["MetadataMap","See the Metadata KVP Object docs for more information."]]});

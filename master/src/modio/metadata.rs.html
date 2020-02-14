@@ -94,7 +94,7 @@
 <span class="kw">use</span> <span class="ident">url</span>::<span class="ident">form_urlencoded</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">mods</span>::<span class="ident">MetadataMap</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">mods</span>::<span class="ident">MetadataMap</span>;
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Metadata</span> {
     <span class="ident">modio</span>: <span class="ident">Modio</span>,
@@ -144,7 +144,7 @@
         <span class="self">self</span>.<span class="ident">modio</span>
             .<span class="ident">request</span>(<span class="ident">route</span>)
             .<span class="ident">body</span>(<span class="ident">metadata</span>.<span class="ident">to_query_string</span>())
-            .<span class="ident">send</span>::<span class="op">&lt;</span><span class="ident">ModioMessage</span><span class="op">&gt;</span>()
+            .<span class="ident">send</span>::<span class="op">&lt;</span><span class="ident">Message</span><span class="op">&gt;</span>()
             .<span class="kw">await</span><span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(())
     }

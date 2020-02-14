@@ -170,7 +170,7 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">auth</span>::<span class="ident">Token</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::{<span class="self">self</span>, <span class="prelude-ty">Result</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">routing</span>::{<span class="ident">AuthMethod</span>, <span class="ident">Route</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">ModioErrorResponse</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">ErrorResponse</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Modio</span>;
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RequestBuilder</span> {
@@ -179,9 +179,9 @@
 }
 
 <span class="kw">struct</span> <span class="ident">Request</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">route</span>: <span class="ident">Route</span>,
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">query</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">body</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Body</span><span class="op">&gt;</span>,
+    <span class="ident">route</span>: <span class="ident">Route</span>,
+    <span class="ident">query</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="ident">body</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Body</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Body</span> {
@@ -300,7 +300,7 @@
                     <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;ratelimit reached: reset in {} mins&quot;</span>, <span class="ident">reset</span>);
                     <span class="prelude-val">Err</span>(<span class="ident">error</span>::<span class="ident">ratelimit</span>(<span class="ident">reset</span>))
                 }
-                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">serde_json</span>::<span class="ident">from_slice</span>::<span class="op">&lt;</span><span class="ident">ModioErrorResponse</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="ident">body</span>)
+                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">serde_json</span>::<span class="ident">from_slice</span>::<span class="op">&lt;</span><span class="ident">ErrorResponse</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="ident">body</span>)
                     .<span class="ident">map</span>(<span class="op">|</span><span class="ident">mer</span><span class="op">|</span> <span class="prelude-val">Err</span>(<span class="ident">error</span>::<span class="ident">error_for_status</span>(<span class="ident">status</span>, <span class="ident">mer</span>.<span class="ident">error</span>)))
                     .<span class="ident">map_err</span>(<span class="ident">error</span>::<span class="ident">decode</span>)<span class="question-mark">?</span>,
             }

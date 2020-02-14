@@ -488,8 +488,8 @@
 <span class="kw">use</span> <span class="ident">url</span>::<span class="ident">form_urlencoded</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">routing</span>::<span class="ident">Route</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">Message</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Modio</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">ModioMessage</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">QueryString</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="prelude-ty">Result</span>;
 
@@ -639,7 +639,7 @@
         <span class="self">self</span>.<span class="ident">modio</span>
             .<span class="ident">request</span>(<span class="ident">Route</span>::<span class="ident">AuthEmailRequest</span>)
             .<span class="ident">body</span>(<span class="ident">data</span>)
-            .<span class="ident">send</span>::<span class="op">&lt;</span><span class="ident">ModioMessage</span><span class="op">&gt;</span>()
+            .<span class="ident">send</span>::<span class="op">&lt;</span><span class="ident">Message</span><span class="op">&gt;</span>()
             .<span class="kw">await</span><span class="question-mark">?</span>;
 
         <span class="prelude-val">Ok</span>(())
@@ -735,7 +735,7 @@
         <span class="self">self</span>.<span class="ident">modio</span>
             .<span class="ident">request</span>(<span class="ident">Route</span>::<span class="ident">LinkAccount</span>)
             .<span class="ident">body</span>(<span class="ident">options</span>.<span class="ident">to_query_string</span>())
-            .<span class="ident">send</span>::<span class="op">&lt;</span><span class="ident">ModioMessage</span><span class="op">&gt;</span>()
+            .<span class="ident">send</span>::<span class="op">&lt;</span><span class="ident">Message</span><span class="op">&gt;</span>()
             .<span class="kw">await</span><span class="question-mark">?</span>;
 
         <span class="prelude-val">Ok</span>(())
