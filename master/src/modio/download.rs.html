@@ -356,14 +356,6 @@
 <span id="356">356</span>
 <span id="357">357</span>
 <span id="358">358</span>
-<span id="359">359</span>
-<span id="360">360</span>
-<span id="361">361</span>
-<span id="362">362</span>
-<span id="363">363</span>
-<span id="364">364</span>
-<span id="365">365</span>
-<span id="366">366</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Downloading mod files.</span>
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span> <span class="kw">as</span> <span class="ident">StdError</span>;
@@ -387,8 +379,6 @@
 
 <span class="doccomment">/// A `Downloader` can be used to stream a mod file or save the file to a local file.</span>
 <span class="doccomment">/// Constructed with [`Modio::download`].</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// [`Modio::download`]: ../struct.Modio.html#method.download</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Downloader</span> {
     <span class="ident">modio</span>: <span class="ident">Modio</span>,
     <span class="ident">action</span>: <span class="ident">DownloadAction</span>,
@@ -557,8 +547,6 @@
 }
 
 <span class="doccomment">/// Defines the action that is performed for [`Modio::download`].</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// [`Modio::download`]: ../struct.Modio.html#method.download</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DownloadAction</span> {
     <span class="doccomment">/// Download the primary modfile of a mod.</span>
@@ -586,12 +574,10 @@
     <span class="doccomment">/// Download the latest file.</span>
     <span class="ident">Latest</span>,
     <span class="doccomment">/// Return with [`Error::MultipleFilesFound`] as source error.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`Error::MultipleFilesFound`]: enum.Error.html#variant.MultipleFilesFound</span>
     <span class="ident">Fail</span>,
 }
 
-<span class="doccomment">/// The Errors that may occur when using [`Modio::download`](../struct.Modio.html#method.download).</span>
+<span class="doccomment">/// The Errors that may occur when using [`Modio::download`].</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Error</span> {
     <span class="doccomment">/// The mod has not found.</span>
@@ -605,7 +591,7 @@
         <span class="ident">file_id</span>: <span class="ident">u32</span>,
     },
     <span class="doccomment">/// Multiple files for a given version were found and the policy was set to</span>
-    <span class="doccomment">/// [`ResolvePolicy::Fail`](enum.ResolvePolicy.html#variant.Fail).</span>
+    <span class="doccomment">/// [`ResolvePolicy::Fail`].</span>
     <span class="ident">MultipleFilesFound</span> {
         <span class="ident">game_id</span>: <span class="ident">u32</span>,
         <span class="ident">mod_id</span>: <span class="ident">u32</span>,
@@ -665,8 +651,7 @@
     }
 }
 
-<span class="doccomment">/// Convert `Mod` to [`DownloadAction::File`](enum.DownloadAction.html#variant.File) or</span>
-<span class="doccomment">/// [`DownloadAction::Primary`](enum.DownloadAction.html#variant.Primary) if `Mod::modfile` is `None`</span>
+<span class="doccomment">/// Convert `Mod` to [`DownloadAction::File`] or [`DownloadAction::Primary`] if `Mod::modfile` is `None`</span>
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Mod</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">DownloadAction</span> {
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">m</span>: <span class="ident">Mod</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DownloadAction</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">file</span>) <span class="op">=</span> <span class="ident">m</span>.<span class="ident">modfile</span> {
@@ -680,22 +665,21 @@
     }
 }
 
-<span class="doccomment">/// Convert `File` to [`DownloadAction::FileObj`](enum.DownloadAction.html#variant.FileObj)</span>
+<span class="doccomment">/// Convert `File` to [`DownloadAction::FileObj`]</span>
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">File</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">DownloadAction</span> {
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">file</span>: <span class="ident">File</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DownloadAction</span> {
         <span class="ident">DownloadAction</span>::<span class="ident">FileObj</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">file</span>))
     }
 }
 
-<span class="doccomment">/// Convert `(u32, u32)` to [`DownloadAction::Primary`](enum.DownloadAction.html#variant.Primary)</span>
+<span class="doccomment">/// Convert `(u32, u32)` to [`DownloadAction::Primary`]</span>
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span>(<span class="ident">u32</span>, <span class="ident">u32</span>)<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">DownloadAction</span> {
     <span class="kw">fn</span> <span class="ident">from</span>((<span class="ident">game_id</span>, <span class="ident">mod_id</span>): (<span class="ident">u32</span>, <span class="ident">u32</span>)) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DownloadAction</span> {
         <span class="ident">DownloadAction</span>::<span class="ident">Primary</span> { <span class="ident">game_id</span>, <span class="ident">mod_id</span> }
     }
 }
 
-<span class="doccomment">/// Convert `(u32, u32, u32)` to</span>
-<span class="doccomment">/// [`DownloadAction::File`](enum.DownloadAction.html#variant.File)</span>
+<span class="doccomment">/// Convert `(u32, u32, u32)` to [`DownloadAction::File`]</span>
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span>(<span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">u32</span>)<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">DownloadAction</span> {
     <span class="kw">fn</span> <span class="ident">from</span>((<span class="ident">game_id</span>, <span class="ident">mod_id</span>, <span class="ident">file_id</span>): (<span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">u32</span>)) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DownloadAction</span> {
         <span class="ident">DownloadAction</span>::<span class="ident">File</span> {
@@ -706,8 +690,8 @@
     }
 }
 
-<span class="doccomment">/// Convert `(u32, u32, String)` to [`DownloadAction::Version`](enum.DownloadAction.html#variant.Version)</span>
-<span class="doccomment">/// with resolve policy set to `ResolvePolicy::Latest`</span>
+<span class="doccomment">/// Convert `(u32, u32, String)` to [`DownloadAction::Version`] with resolve policy</span>
+<span class="doccomment">/// set to `ResolvePolicy::Latest`</span>
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span>(<span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">String</span>)<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">DownloadAction</span> {
     <span class="kw">fn</span> <span class="ident">from</span>((<span class="ident">game_id</span>, <span class="ident">mod_id</span>, <span class="ident">version</span>): (<span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">String</span>)) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DownloadAction</span> {
         <span class="ident">DownloadAction</span>::<span class="ident">Version</span> {
@@ -719,8 +703,8 @@
     }
 }
 
-<span class="doccomment">/// Convert `(u32, u32, &amp;&#39;a str)` to [`DownloadAction::Version`](enum.DownloadAction.html#variant.Version)</span>
-<span class="doccomment">/// with resolve policy set to `ResolvePolicy::Latest`</span>
+<span class="doccomment">/// Convert `(u32, u32, &amp;&#39;a str)` to [`DownloadAction::Version`] with resolve policy</span>
+<span class="doccomment">/// set to `ResolvePolicy::Latest`</span>
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span>(<span class="ident">u32</span>, <span class="ident">u32</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>)<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">DownloadAction</span> {
     <span class="kw">fn</span> <span class="ident">from</span>((<span class="ident">game_id</span>, <span class="ident">mod_id</span>, <span class="ident">version</span>): (<span class="ident">u32</span>, <span class="ident">u32</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>)) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DownloadAction</span> {
         <span class="ident">DownloadAction</span>::<span class="ident">Version</span> {

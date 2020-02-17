@@ -941,51 +941,51 @@
 }
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Eq</span>: <span class="ident">sealed</span>::<span class="ident">FilterPriv</span> {
-    <span class="doccomment">/// Creates [`Equals`](enum.Operator.html#variant.Equals) filter.</span>
+    <span class="doccomment">/// Creates [`Equals`](Operator::Equals) filter.</span>
     <span class="kw">fn</span> <span class="ident">eq</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">fmt</span>::<span class="ident">Display</span>, <span class="ident">V</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">OneOrMany</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">value</span>: <span class="ident">V</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Filter</span>;
 }
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">NotEq</span>: <span class="ident">sealed</span>::<span class="ident">FilterPriv</span> {
-    <span class="doccomment">/// Creates [`Not`](enum.Operator.html#variant.Not) filter.</span>
+    <span class="doccomment">/// Creates [`Not`](Operator::Not) filter.</span>
     <span class="kw">fn</span> <span class="ident">ne</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">fmt</span>::<span class="ident">Display</span>, <span class="ident">V</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">OneOrMany</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">value</span>: <span class="ident">V</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Filter</span>;
 }
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Like</span>: <span class="ident">sealed</span>::<span class="ident">FilterPriv</span> {
-    <span class="doccomment">/// Creates [`Like`](enum.Operator.html#variant.Like) filter.</span>
+    <span class="doccomment">/// Creates [`Like`](Operator::Like) filter.</span>
     <span class="kw">fn</span> <span class="ident">like</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">fmt</span>::<span class="ident">Display</span>, <span class="ident">V</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">OneOrMany</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">value</span>: <span class="ident">V</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Filter</span>;
 }
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">NotLike</span>: <span class="ident">sealed</span>::<span class="ident">FilterPriv</span> {
-    <span class="doccomment">/// Creates [`NotLike`](enum.Operator.html#variant.Like) filter.</span>
+    <span class="doccomment">/// Creates [`NotLike`](Operator::Like) filter.</span>
     <span class="kw">fn</span> <span class="ident">not_like</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">fmt</span>::<span class="ident">Display</span>, <span class="ident">V</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">OneOrMany</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">value</span>: <span class="ident">V</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Filter</span>;
 }
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">In</span>: <span class="ident">sealed</span>::<span class="ident">FilterPriv</span> {
-    <span class="doccomment">/// Creates [`In`](enum.Operator.html#variant.In) filter.</span>
+    <span class="doccomment">/// Creates [`In`](Operator::In) filter.</span>
     <span class="kw">fn</span> <span class="ident">_in</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">fmt</span>::<span class="ident">Display</span>, <span class="ident">V</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">OneOrMany</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">value</span>: <span class="ident">V</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Filter</span>;
 }
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">NotIn</span>: <span class="ident">sealed</span>::<span class="ident">FilterPriv</span> {
-    <span class="doccomment">/// Creates [`NotIn`](enum.Operator.html#variant.NotIn) filter.</span>
+    <span class="doccomment">/// Creates [`NotIn`](Operator::NotIn) filter.</span>
     <span class="kw">fn</span> <span class="ident">not_in</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">fmt</span>::<span class="ident">Display</span>, <span class="ident">V</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">OneOrMany</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">value</span>: <span class="ident">V</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Filter</span>;
 }
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Cmp</span>: <span class="ident">sealed</span>::<span class="ident">FilterPriv</span> {
-    <span class="doccomment">/// Creates [`Max`](enum.Operator.html#variant.Max) filter.</span>
+    <span class="doccomment">/// Creates [`Max`](Operator::Max) filter.</span>
     <span class="kw">fn</span> <span class="ident">le</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">fmt</span>::<span class="ident">Display</span>, <span class="ident">V</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">OneOrMany</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">value</span>: <span class="ident">V</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Filter</span>;
 
-    <span class="doccomment">/// Creates [`SmallerThan`](enum.Operator.html#variant.SmallerThan) filter.</span>
+    <span class="doccomment">/// Creates [`SmallerThan`](Operator::SmallerThan) filter.</span>
     <span class="kw">fn</span> <span class="ident">lt</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">fmt</span>::<span class="ident">Display</span>, <span class="ident">V</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">OneOrMany</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">value</span>: <span class="ident">V</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Filter</span>;
 
-    <span class="doccomment">/// Creates [`Min`](enum.Operator.html#variant.Min) filter.</span>
+    <span class="doccomment">/// Creates [`Min`](Operator::Min) filter.</span>
     <span class="kw">fn</span> <span class="ident">ge</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">fmt</span>::<span class="ident">Display</span>, <span class="ident">V</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">OneOrMany</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">value</span>: <span class="ident">V</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Filter</span>;
 
-    <span class="doccomment">/// Creates [`GreaterThan`](enum.Operator.html#variant.GreaterThan) filter.</span>
+    <span class="doccomment">/// Creates [`GreaterThan`](Operator::GreaterThan) filter.</span>
     <span class="kw">fn</span> <span class="ident">gt</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">fmt</span>::<span class="ident">Display</span>, <span class="ident">V</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">OneOrMany</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">value</span>: <span class="ident">V</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Filter</span>;
 }
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">BitwiseAnd</span>: <span class="ident">sealed</span>::<span class="ident">FilterPriv</span> {
-    <span class="doccomment">/// Creates [`BitwiseAnd`](enum.Operator.html#variant.BitwiseAnd) filter.</span>
+    <span class="doccomment">/// Creates [`BitwiseAnd`](Operator::BitwiseAnd) filter.</span>
     <span class="kw">fn</span> <span class="ident">bit_and</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">fmt</span>::<span class="ident">Display</span>, <span class="ident">V</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">OneOrMany</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">value</span>: <span class="ident">V</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Filter</span>;
 }
 

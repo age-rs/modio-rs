@@ -428,7 +428,7 @@
 
     <span class="doccomment">/// Returns a `Query` interface to retrieve games.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// See [Filters and sorting](filters/index.html).</span>
+    <span class="doccomment">/// See [Filters and sorting](filters).</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">search</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Query</span><span class="op">&lt;</span><span class="ident">Game</span><span class="op">&gt;</span> {
         <span class="ident">Query</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">clone</span>(), <span class="ident">Route</span>::<span class="ident">GetGames</span>, <span class="ident">filter</span>)
     }

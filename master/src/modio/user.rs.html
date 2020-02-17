@@ -307,7 +307,7 @@
     <span class="doccomment">/// Returns a `Query` interface to retrieve all games the authenticated user added or</span>
     <span class="doccomment">/// is team member of. [required: token]</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// See [Filters and sorting](filters/games/index.html).</span>
+    <span class="doccomment">/// See [Filters and sorting](filters::games).</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">games</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Query</span><span class="op">&lt;</span><span class="ident">Game</span><span class="op">&gt;</span> {
         <span class="ident">Query</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">clone</span>(), <span class="ident">Route</span>::<span class="ident">UserGames</span>, <span class="ident">filter</span>)
     }
@@ -315,7 +315,7 @@
     <span class="doccomment">/// Returns a `Query` interface to retrieve all mods the authenticated user added or</span>
     <span class="doccomment">/// is team member of. [required: token]</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// See [Filters and sorting](filters/mods/index.html).</span>
+    <span class="doccomment">/// See [Filters and sorting](filters::mods).</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mods</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Query</span><span class="op">&lt;</span><span class="ident">Mod</span><span class="op">&gt;</span> {
         <span class="ident">Query</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">clone</span>(), <span class="ident">Route</span>::<span class="ident">UserMods</span>, <span class="ident">filter</span>)
     }
@@ -323,7 +323,7 @@
     <span class="doccomment">/// Returns a `Query` interface to retrieve all modfiles the authenticated user uploaded.</span>
     <span class="doccomment">/// [required: token]</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// See [Filters and sorting](filters/files/index.html).</span>
+    <span class="doccomment">/// See [Filters and sorting](filters::files).</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">files</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Query</span><span class="op">&lt;</span><span class="ident">File</span><span class="op">&gt;</span> {
         <span class="ident">Query</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">clone</span>(), <span class="ident">Route</span>::<span class="ident">UserFiles</span>, <span class="ident">filter</span>)
     }
@@ -331,7 +331,7 @@
     <span class="doccomment">/// Returns a `Query` interface to retrieve the events that have been fired specific to the</span>
     <span class="doccomment">/// authenticated user. [required: token]</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// See [Filters and sorting](filters/events/index.html).</span>
+    <span class="doccomment">/// See [Filters and sorting](filters::events).</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">events</span>(<span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Query</span><span class="op">&lt;</span><span class="ident">Event</span><span class="op">&gt;</span> {
         <span class="ident">Query</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>, <span class="ident">Route</span>::<span class="ident">UserEvents</span>, <span class="ident">filter</span>)
     }
@@ -339,7 +339,7 @@
     <span class="doccomment">/// Returns a `Query` interface to retrieve the mods the authenticated user is subscribed to.</span>
     <span class="doccomment">/// [required: token]</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// See [Filters and sorting](filters/subscriptions/index.html).</span>
+    <span class="doccomment">/// See [Filters and sorting](filters::subscriptions).</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">subscriptions</span>(<span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Query</span><span class="op">&lt;</span><span class="ident">Mod</span><span class="op">&gt;</span> {
         <span class="ident">Query</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>, <span class="ident">Route</span>::<span class="ident">UserSubscriptions</span>, <span class="ident">filter</span>)
     }
@@ -347,7 +347,7 @@
     <span class="doccomment">/// Returns a `Query` interface to retrieve the mod ratings submitted by the authenticated user.</span>
     <span class="doccomment">/// [required: token]</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// See [Filters and sorting](filters/ratings/index.html).</span>
+    <span class="doccomment">/// See [Filters and sorting](filters::ratings).</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ratings</span>(<span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Query</span><span class="op">&lt;</span><span class="ident">Rating</span><span class="op">&gt;</span> {
         <span class="ident">Query</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>, <span class="ident">Route</span>::<span class="ident">UserRatings</span>, <span class="ident">filter</span>)
     }

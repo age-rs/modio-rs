@@ -900,9 +900,6 @@
 <span id="900">900</span>
 <span id="901">901</span>
 <span id="902">902</span>
-<span id="903">903</span>
-<span id="904">904</span>
-<span id="905">905</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
@@ -1349,10 +1346,7 @@
         <span class="kw">pub</span> <span class="ident">tags</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     }
 
-    <span class="doccomment">/// Defines the type of a tag. See [TagOption] or [AddTagsOptions].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [TagOption]: struct.TagOption.html</span>
-    <span class="doccomment">/// [AddTagsOptions]: struct.AddTagsOptions.html</span>
+    <span class="doccomment">/// Defines the type of a tag. See [`TagOption`].</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;lowercase&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">TagType</span> {
@@ -1511,7 +1505,7 @@
         <span class="kw">pub</span> <span class="ident">date_expires</span>: <span class="ident">u64</span>,
     }
 
-    <span class="doccomment">/// Part of [Statistics](struct.Statistics.html)</span>
+    <span class="doccomment">/// Part of [`Statistics`]</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Popularity</span> {
         <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;popularity_rank_position&quot;</span>)]</span>
@@ -1520,7 +1514,7 @@
         <span class="kw">pub</span> <span class="ident">rank_total</span>: <span class="ident">u32</span>,
     }
 
-    <span class="doccomment">/// Part of [Statistics](struct.Statistics.html)</span>
+    <span class="doccomment">/// Part of [`Statistics`]</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Ratings</span> {
         <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;ratings_total&quot;</span>)]</span>

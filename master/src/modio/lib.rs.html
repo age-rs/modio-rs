@@ -497,9 +497,8 @@
 <span class="doccomment">//! - Manually create an [OAuth 2 Access Token (Read + Write)](https://mod.io/oauth)</span>
 <span class="doccomment">//! - [Email Authentication Flow](auth/struct.Auth.html#example) to create an OAuth 2 Access Token</span>
 <span class="doccomment">//! (Read + Write)</span>
-<span class="doccomment">//! - [External Authentication](auth/struct.Auth.html#method.external) to create an</span>
-<span class="doccomment">//! OAuth 2 Access Token (Read + Write) automatically on platforms such as Steam, GOG, itch.io and</span>
-<span class="doccomment">//! Oculus.</span>
+<span class="doccomment">//! - [External Authentication](auth::Auth::external) to create an OAuth 2 Access Token (Read + Write)</span>
+<span class="doccomment">//! automatically on platforms such as Steam, GOG, itch.io and Oculus.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! # Rate Limiting</span>
 <span class="doccomment">//!</span>
@@ -507,7 +506,7 @@
 <span class="doccomment">//! - API keys linked to a user have **60 requests per minute**.</span>
 <span class="doccomment">//! - OAuth2 user tokens are limited to **120 requests per minute**.</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! [`Error::is_ratelimited`](struct.Error.html#method.is_ratelimited) will return true</span>
+<span class="doccomment">//! [`Error::is_ratelimited`] will return true</span>
 <span class="doccomment">//! if the rate limit associated with credentials has been exhausted.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! # Example: Basic setup</span>
@@ -527,7 +526,7 @@
 <span class="doccomment">//! }</span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! For testing purposes use [`Modio::host`](struct.Modio.html#method.host) to create a client for the</span>
+<span class="doccomment">//! For testing purposes use [`Modio::host`] to create a client for the</span>
 <span class="doccomment">//! mod.io [test environment](https://docs.mod.io/#testing).</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! # Example: Chaining api requests</span>
@@ -599,6 +598,7 @@
 <span class="doccomment">//! ```</span>
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_root_url</span> <span class="op">=</span> <span class="string">&quot;https://docs.rs/modio/0.4.1&quot;</span>)]</span>
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">rust_2018_idioms</span>)]</span>
+<span class="attribute">#![<span class="ident">deny</span>(<span class="ident">intra_doc_link_resolution_failure</span>)]</span>
 
 <span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">header</span>::<span class="ident">USER_AGENT</span>;
 <span class="kw">use</span> <span class="ident">reqwest</span>::<span class="ident">header</span>::{<span class="ident">HeaderMap</span>, <span class="ident">HeaderValue</span>};
@@ -895,10 +895,10 @@
         <span class="ident">ModRef</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">clone</span>(), <span class="ident">game_id</span>, <span class="ident">mod_id</span>)
     }
 
-    <span class="doccomment">/// Returns [`Downloader`](download/struct.Downloader.html) for saving to file or retrieving</span>
+    <span class="doccomment">/// Returns [`Downloader`](download::Downloader) for saving to file or retrieving</span>
     <span class="doccomment">/// the data via [`Stream`](futures_core::Stream).</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// The download fails with [`modio::download::Error`](download/enum.Error.html) as source</span>
+    <span class="doccomment">/// The download fails with [`modio::download::Error`](download::Error) as source</span>
     <span class="doccomment">/// if a primary file, a specific file or a specific version is not found.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Example</span>

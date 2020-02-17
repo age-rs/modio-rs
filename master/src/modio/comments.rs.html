@@ -122,7 +122,7 @@
 
     <span class="doccomment">/// Returns a `Query` interface to retrieve all comments.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// See [Filters and sorting](filters/index.html).</span>
+    <span class="doccomment">/// See [Filters and sorting](filters).</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">search</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Query</span><span class="op">&lt;</span><span class="ident">Comment</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">Route</span>::<span class="ident">GetModComments</span> {
             <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game</span>,

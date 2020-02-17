@@ -932,7 +932,7 @@
 
     <span class="doccomment">/// Returns a `Query` interface to retrieve mods.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// See [Filters and sorting](filters/index.html).</span>
+    <span class="doccomment">/// See [Filters and sorting](filters).</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">search</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Query</span><span class="op">&lt;</span><span class="ident">Mod</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">Route</span>::<span class="ident">GetMods</span> { <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game</span> };
         <span class="ident">Query</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">clone</span>(), <span class="ident">route</span>, <span class="ident">filter</span>)
@@ -956,7 +956,7 @@
 
     <span class="doccomment">/// Returns a `Query` interface to retrieve the statistics for all mods of a game.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// See [Filters and sorting](filters/stats/index.html).</span>
+    <span class="doccomment">/// See [Filters and sorting](filters::stats).</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">statistics</span>(<span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Query</span><span class="op">&lt;</span><span class="ident">Statistics</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">Route</span>::<span class="ident">GetAllModStats</span> { <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game</span> };
         <span class="ident">Query</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>, <span class="ident">route</span>, <span class="ident">filter</span>)
@@ -965,7 +965,7 @@
     <span class="doccomment">/// Returns a `Query` interface to retrieve the event log of all mods of the game sorted by</span>
     <span class="doccomment">/// latest event first.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// See [Filters and sorting](filters/events/index.html).</span>
+    <span class="doccomment">/// See [Filters and sorting](filters::events).</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">events</span>(<span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Query</span><span class="op">&lt;</span><span class="ident">Event</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">Route</span>::<span class="ident">GetAllModEvents</span> { <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game</span> };
         <span class="ident">Query</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>, <span class="ident">route</span>, <span class="ident">filter</span>)
@@ -1034,7 +1034,7 @@
 
     <span class="doccomment">/// Returns a `Query` interface to retrieve the event log for a mod sorted by latest event first.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// See [Filters and sorting](filters/events/index.html).</span>
+    <span class="doccomment">/// See [Filters and sorting](filters::events).</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">events</span>(<span class="self">self</span>, <span class="ident">filter</span>: <span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Query</span><span class="op">&lt;</span><span class="ident">Event</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">Route</span>::<span class="ident">GetModEvents</span> {
             <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game</span>,
