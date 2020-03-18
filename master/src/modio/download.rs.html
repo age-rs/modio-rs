@@ -505,7 +505,7 @@
             <span class="kw">let</span> <span class="ident">files</span> <span class="op">=</span> <span class="ident">modio</span>.<span class="ident">mod_</span>(<span class="ident">game_id</span>, <span class="ident">mod_id</span>).<span class="ident">files</span>();
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">list</span> <span class="op">=</span> <span class="ident">files</span>
                 .<span class="ident">search</span>(<span class="ident">filter</span>)
-                .<span class="ident">first</span>()
+                .<span class="ident">first_page</span>()
                 .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">e</span>.<span class="ident">kind</span>() {
                     <span class="ident">Kind</span>::<span class="ident">Status</span>(<span class="ident">StatusCode</span>::<span class="ident">NOT_FOUND</span>) <span class="op">=</span><span class="op">&gt;</span> {
                         <span class="ident">error</span>::<span class="ident">download_mod_not_found</span>(<span class="ident">game_id</span>, <span class="ident">mod_id</span>)

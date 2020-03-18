@@ -900,6 +900,15 @@
 <span id="900">900</span>
 <span id="901">901</span>
 <span id="902">902</span>
+<span id="903">903</span>
+<span id="904">904</span>
+<span id="905">905</span>
+<span id="906">906</span>
+<span id="907">907</span>
+<span id="908">908</span>
+<span id="909">909</span>
+<span id="910">910</span>
+<span id="911">911</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
@@ -1679,10 +1688,8 @@
         <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">u32</span>,
         <span class="kw">pub</span> <span class="ident">mod_id</span>: <span class="ident">u32</span>,
         <span class="kw">pub</span> <span class="ident">date_added</span>: <span class="ident">u64</span>,
-        <span class="kw">pub</span> <span class="ident">date_scanned</span>: <span class="ident">u64</span>,
-        <span class="kw">pub</span> <span class="ident">virus_status</span>: <span class="ident">u32</span>,
-        <span class="kw">pub</span> <span class="ident">virus_positive</span>: <span class="ident">u32</span>,
-        <span class="kw">pub</span> <span class="ident">virustotal_hash</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">flatten</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">virus_scan</span>: <span class="ident">VirusScan</span>,
         <span class="kw">pub</span> <span class="ident">filesize</span>: <span class="ident">u64</span>,
         <span class="kw">pub</span> <span class="ident">filehash</span>: <span class="ident">FileHash</span>,
         <span class="kw">pub</span> <span class="ident">filename</span>: <span class="ident">String</span>,
@@ -1690,6 +1697,17 @@
         <span class="kw">pub</span> <span class="ident">changelog</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
         <span class="kw">pub</span> <span class="ident">metadata_blob</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
         <span class="kw">pub</span> <span class="ident">download</span>: <span class="ident">Download</span>,
+    }
+
+    <span class="doccomment">/// See the [Modfile Object](https://docs.mod.io/#modfile-object) docs for more information.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VirusScan</span> {
+        <span class="kw">pub</span> <span class="ident">date_scanned</span>: <span class="ident">u64</span>,
+        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;virus_status&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">u32</span>,
+        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;virus_positive&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">result</span>: <span class="ident">u32</span>,
+        <span class="kw">pub</span> <span class="ident">virustotal_hash</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     }
 
     <span class="doccomment">/// See the [Filehash Object](https://docs.mod.io/#filehash-object) docs for more information.</span>
