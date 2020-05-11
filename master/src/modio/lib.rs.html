@@ -482,7 +482,6 @@
 <span id="482">482</span>
 <span id="483">483</span>
 <span id="484">484</span>
-<span id="485">485</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Modio provides a set of building blocks for interacting with the [mod.io](https://mod.io) API.</span>
 <span class="doccomment">//!</span>
@@ -516,9 +515,7 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//! #[tokio::main]</span>
 <span class="doccomment">//! async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {</span>
-<span class="doccomment">//!     let modio = Modio::new(</span>
-<span class="doccomment">//!         Credentials::new(&quot;user-or-game-api-key&quot;),</span>
-<span class="doccomment">//!     )?;</span>
+<span class="doccomment">//!     let modio = Modio::new(Credentials::new(&quot;user-or-game-api-key&quot;))?;</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!     // create some tasks and execute them</span>
 <span class="doccomment">//!     // let result = task.await?;</span>
@@ -933,7 +930,8 @@
     <span class="doccomment">///     version: &quot;0.1&quot;.to_string(),</span>
     <span class="doccomment">///     policy: ResolvePolicy::Latest,</span>
     <span class="doccomment">/// };</span>
-    <span class="doccomment">/// modio.download(action)</span>
+    <span class="doccomment">/// modio</span>
+    <span class="doccomment">///     .download(action)</span>
     <span class="doccomment">///     .stream()</span>
     <span class="doccomment">///     .try_for_each(|bytes| {</span>
     <span class="doccomment">///         println!(&quot;Bytes: {:?}&quot;, bytes);</span>

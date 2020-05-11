@@ -698,8 +698,6 @@
 <span id="698">698</span>
 <span id="699">699</span>
 <span id="700">700</span>
-<span id="701">701</span>
-<span id="702">702</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Filtering and sorting</span>
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeSet</span>;
@@ -1038,8 +1036,7 @@
 <span class="doccomment">/// ```</span>
 <span class="doccomment">/// use modio::filter::{custom_filter, custom_order_by_asc, Operator};</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// let filter = custom_filter(&quot;foo&quot;, Operator::Like, &quot;bar*&quot;)</span>
-<span class="doccomment">///     .order_by(custom_order_by_asc(&quot;foo&quot;));</span>
+<span class="doccomment">/// let filter = custom_filter(&quot;foo&quot;, Operator::Like, &quot;bar*&quot;).order_by(custom_order_by_asc(&quot;foo&quot;));</span>
 <span class="doccomment">/// ```</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">custom_order_by_asc</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">name</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Filter</span> {
     <span class="ident">Filter</span>::<span class="ident">new_order_by_asc</span>(<span class="ident">name</span>)
@@ -1050,8 +1047,7 @@
 <span class="doccomment">/// ```</span>
 <span class="doccomment">/// use modio::filter::{custom_filter, custom_order_by_desc, Operator};</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// let filter = custom_filter(&quot;foo&quot;, Operator::Like, &quot;bar*&quot;)</span>
-<span class="doccomment">///     .order_by(custom_order_by_desc(&quot;foo&quot;));</span>
+<span class="doccomment">/// let filter = custom_filter(&quot;foo&quot;, Operator::Like, &quot;bar*&quot;).order_by(custom_order_by_desc(&quot;foo&quot;));</span>
 <span class="doccomment">/// ```</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">custom_order_by_desc</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">name</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Filter</span> {
     <span class="ident">Filter</span>::<span class="ident">new_order_by_desc</span>(<span class="ident">name</span>)
