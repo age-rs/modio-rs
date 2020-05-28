@@ -180,6 +180,7 @@
 <span id="180">180</span>
 <span id="181">181</span>
 <span id="182">182</span>
+<span id="183">183</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">borrow</span>::<span class="ident">Cow</span>;
 
@@ -294,6 +295,7 @@
     { <span class="ident">GetGame</span>, <span class="ident">GET</span>: <span class="string">&quot;/games/{}&quot;</span>, [<span class="ident">game_id</span>], <span class="ident">Any</span> },
     { <span class="ident">AddGameMedia</span>, <span class="ident">POST</span>: <span class="string">&quot;/games/{}/media&quot;</span>, [<span class="ident">game_id</span>], <span class="ident">Token</span> },
     { <span class="ident">EditGame</span>, <span class="ident">PUT</span>: <span class="string">&quot;/games/{}&quot;</span>, [<span class="ident">game_id</span>], <span class="ident">Token</span> },
+    { <span class="ident">GetGameStats</span>, <span class="ident">GET</span>: <span class="string">&quot;/games/{}/stats&quot;</span>, [<span class="ident">game_id</span>], <span class="ident">Any</span> },
     { <span class="ident">GetGameTags</span>, <span class="ident">GET</span>: <span class="string">&quot;/games/{}/tags&quot;</span>, [<span class="ident">game_id</span>], <span class="ident">Any</span> },
     { <span class="ident">AddGameTags</span>, <span class="ident">POST</span>: <span class="string">&quot;/games/{}/tags&quot;</span>, [<span class="ident">game_id</span>], <span class="ident">Token</span> },
     { <span class="ident">DeleteGameTags</span>, <span class="ident">DELETE</span>: <span class="string">&quot;/games/{}/tags&quot;</span>, [<span class="ident">game_id</span>], <span class="ident">Token</span> },

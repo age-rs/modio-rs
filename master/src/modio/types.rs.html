@@ -909,6 +909,32 @@
 <span id="909">909</span>
 <span id="910">910</span>
 <span id="911">911</span>
+<span id="912">912</span>
+<span id="913">913</span>
+<span id="914">914</span>
+<span id="915">915</span>
+<span id="916">916</span>
+<span id="917">917</span>
+<span id="918">918</span>
+<span id="919">919</span>
+<span id="920">920</span>
+<span id="921">921</span>
+<span id="922">922</span>
+<span id="923">923</span>
+<span id="924">924</span>
+<span id="925">925</span>
+<span id="926">926</span>
+<span id="927">927</span>
+<span id="928">928</span>
+<span id="929">929</span>
+<span id="930">930</span>
+<span id="931">931</span>
+<span id="932">932</span>
+<span id="933">933</span>
+<span id="934">934</span>
+<span id="935">935</span>
+<span id="936">936</span>
+<span id="937">937</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
@@ -1342,6 +1368,32 @@
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">HeaderImage</span> {
         <span class="kw">pub</span> <span class="ident">filename</span>: <span class="ident">String</span>,
         <span class="kw">pub</span> <span class="ident">original</span>: <span class="ident">Url</span>,
+    }
+
+    <span class="doccomment">/// See the [Game Statistics Object](https://docs.mod.io/#game-stats-object) docs for more</span>
+    <span class="doccomment">/// information.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Statistics</span> {
+        <span class="kw">pub</span> <span class="ident">game_id</span>: <span class="ident">u32</span>,
+        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;mods_count_total&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">mods_total</span>: <span class="ident">u32</span>,
+        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;mods_subscribers_total&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">subscribers_total</span>: <span class="ident">u32</span>,
+        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">flatten</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">downloads</span>: <span class="ident">Downloads</span>,
+        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;date_expires&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">expired_at</span>: <span class="ident">u64</span>,
+    }
+
+    <span class="doccomment">/// Part of [`Statistics`]</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Downloads</span> {
+        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;mods_downloads_total&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">total</span>: <span class="ident">u32</span>,
+        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;mods_downloads_today&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">today</span>: <span class="ident">u32</span>,
+        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;mods_downloads_daily_average&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">daily_average</span>: <span class="ident">u32</span>,
     }
 
     <span class="doccomment">/// See the [Game Tag Option Object](https://docs.mod.io/#game-tag-option-object) docs for more</span>
