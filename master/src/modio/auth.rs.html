@@ -447,48 +447,16 @@
 <span id="447">447</span>
 <span id="448">448</span>
 <span id="449">449</span>
-<span id="450">450</span>
-<span id="451">451</span>
-<span id="452">452</span>
-<span id="453">453</span>
-<span id="454">454</span>
-<span id="455">455</span>
-<span id="456">456</span>
-<span id="457">457</span>
-<span id="458">458</span>
-<span id="459">459</span>
-<span id="460">460</span>
-<span id="461">461</span>
-<span id="462">462</span>
-<span id="463">463</span>
-<span id="464">464</span>
-<span id="465">465</span>
-<span id="466">466</span>
-<span id="467">467</span>
-<span id="468">468</span>
-<span id="469">469</span>
-<span id="470">470</span>
-<span id="471">471</span>
-<span id="472">472</span>
-<span id="473">473</span>
-<span id="474">474</span>
-<span id="475">475</span>
-<span id="476">476</span>
-<span id="477">477</span>
-<span id="478">478</span>
-<span id="479">479</span>
-<span id="480">480</span>
-<span id="481">481</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Authentication Flow interface</span>
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span> <span class="kw">as</span> <span class="ident">StdError</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
 
-<span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">Deserialize</span>;
 <span class="kw">use</span> <span class="ident">url</span>::<span class="ident">form_urlencoded</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">routing</span>::<span class="ident">Route</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">Message</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::{<span class="ident">AccessToken</span>, <span class="ident">Message</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Modio</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">QueryString</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="prelude-ty">Result</span>;
@@ -617,14 +585,6 @@
     <span class="ident">modio</span>: <span class="ident">Modio</span>,
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>)]</span>
-<span class="kw">struct</span> <span class="ident">AccessToken</span> {
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;access_token&quot;</span>)]</span>
-    <span class="ident">value</span>: <span class="ident">String</span>,
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;date_expires&quot;</span>)]</span>
-    <span class="ident">expired_at</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>,
-}
-
 <span class="kw">impl</span> <span class="ident">Auth</span> {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">modio</span>: <span class="ident">Modio</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> { <span class="ident">modio</span> }
@@ -704,12 +664,10 @@
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">AuthOptions</span><span class="op">&gt;</span>,
     {
-        <span class="kw">let</span> (<span class="ident">route</span>, <span class="ident">data</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">auth_options</span>.<span class="ident">into</span>() {
-            <span class="ident">AuthOptions</span>::<span class="ident">Gog</span>(<span class="ident">opts</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">Route</span>::<span class="ident">AuthGog</span>, <span class="ident">opts</span>.<span class="ident">to_query_string</span>()),
-            <span class="ident">AuthOptions</span>::<span class="ident">Itchio</span>(<span class="ident">opts</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">Route</span>::<span class="ident">AuthItchio</span>, <span class="ident">opts</span>.<span class="ident">to_query_string</span>()),
-            <span class="ident">AuthOptions</span>::<span class="ident">Oculus</span>(<span class="ident">opts</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">Route</span>::<span class="ident">AuthOculus</span>, <span class="ident">opts</span>.<span class="ident">to_query_string</span>()),
-            <span class="ident">AuthOptions</span>::<span class="ident">Steam</span>(<span class="ident">opts</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">Route</span>::<span class="ident">AuthSteam</span>, <span class="ident">opts</span>.<span class="ident">to_query_string</span>()),
-        };
+        <span class="kw">let</span> <span class="ident">AuthOptions</span> { <span class="ident">route</span>, <span class="ident">params</span> } <span class="op">=</span> <span class="ident">auth_options</span>.<span class="ident">into</span>();
+        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">form_urlencoded</span>::<span class="ident">Serializer</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">new</span>())
+            .<span class="ident">extend_pairs</span>(<span class="ident">params</span>)
+            .<span class="ident">finish</span>();
 
         <span class="kw">let</span> <span class="ident">t</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">modio</span>
@@ -742,36 +700,46 @@
     }
 }
 
-<span class="doccomment">/// Various options for external authentication.</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AuthOptions</span> {
-    <span class="ident">Gog</span>(<span class="ident">GalaxyOptions</span>),
-    <span class="ident">Itchio</span>(<span class="ident">ItchioOptions</span>),
-    <span class="ident">Oculus</span>(<span class="ident">OculusOptions</span>),
-    <span class="ident">Steam</span>(<span class="ident">SteamOptions</span>),
+<span class="doccomment">/// Options for external authentication.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AuthOptions</span> {
+    <span class="ident">route</span>: <span class="ident">Route</span>,
+    <span class="ident">params</span>: <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>, <span class="ident">String</span><span class="op">&gt;</span>,
 }
 
 <span class="comment">// impl From&lt;*Options&gt; for AuthOptions {{{</span>
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">GalaxyOptions</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">AuthOptions</span> {
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">options</span>: <span class="ident">GalaxyOptions</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AuthOptions</span> {
-        <span class="ident">AuthOptions</span>::<span class="ident">Gog</span>(<span class="ident">options</span>)
+        <span class="ident">AuthOptions</span> {
+            <span class="ident">route</span>: <span class="ident">Route</span>::<span class="ident">AuthGog</span>,
+            <span class="ident">params</span>: <span class="ident">options</span>.<span class="ident">params</span>,
+        }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">ItchioOptions</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">AuthOptions</span> {
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">options</span>: <span class="ident">ItchioOptions</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AuthOptions</span> {
-        <span class="ident">AuthOptions</span>::<span class="ident">Itchio</span>(<span class="ident">options</span>)
+        <span class="ident">AuthOptions</span> {
+            <span class="ident">route</span>: <span class="ident">Route</span>::<span class="ident">AuthItchio</span>,
+            <span class="ident">params</span>: <span class="ident">options</span>.<span class="ident">params</span>,
+        }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">OculusOptions</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">AuthOptions</span> {
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">options</span>: <span class="ident">OculusOptions</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AuthOptions</span> {
-        <span class="ident">AuthOptions</span>::<span class="ident">Oculus</span>(<span class="ident">options</span>)
+        <span class="ident">AuthOptions</span> {
+            <span class="ident">route</span>: <span class="ident">Route</span>::<span class="ident">AuthOculus</span>,
+            <span class="ident">params</span>: <span class="ident">options</span>.<span class="ident">params</span>,
+        }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">SteamOptions</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">AuthOptions</span> {
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">options</span>: <span class="ident">SteamOptions</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AuthOptions</span> {
-        <span class="ident">AuthOptions</span>::<span class="ident">Steam</span>(<span class="ident">options</span>)
+        <span class="ident">AuthOptions</span> {
+            <span class="ident">route</span>: <span class="ident">Route</span>::<span class="ident">AuthSteam</span>,
+            <span class="ident">params</span>: <span class="ident">options</span>.<span class="ident">params</span>,
+        }
     }
 }
 <span class="comment">// }}}</span>
@@ -780,7 +748,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// See the [mod.io docs](https://docs.mod.io/#authenticate-via-gog-galaxy) for more information.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GalaxyOptions</span> {
-    <span class="ident">params</span>: <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>, <span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="ident">params</span>: <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>, <span class="ident">String</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">GalaxyOptions</span> {
@@ -788,7 +756,7 @@
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>::<span class="ident">new</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">BTreeMap</span>::<span class="ident">new</span>();
         <span class="ident">params</span>.<span class="ident">insert</span>(<span class="string">&quot;appdata&quot;</span>, <span class="ident">ticket</span>.<span class="ident">into</span>());
         <span class="self">Self</span> { <span class="ident">params</span> }
     }
@@ -801,19 +769,11 @@
     );
 }
 
-<span class="kw">impl</span> <span class="ident">QueryString</span> <span class="kw">for</span> <span class="ident">GalaxyOptions</span> {
-    <span class="kw">fn</span> <span class="ident">to_query_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
-        <span class="ident">form_urlencoded</span>::<span class="ident">Serializer</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">new</span>())
-            .<span class="ident">extend_pairs</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">params</span>)
-            .<span class="ident">finish</span>()
-    }
-}
-
 <span class="doccomment">/// Authentication options for an itch.io JWT token.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// See the [mod.io docs](https://docs.mod.io/#authenticate-via-itch-io) for more information.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ItchioOptions</span> {
-    <span class="ident">params</span>: <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>, <span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="ident">params</span>: <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>, <span class="ident">String</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">ItchioOptions</span> {
@@ -821,7 +781,7 @@
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>::<span class="ident">new</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">BTreeMap</span>::<span class="ident">new</span>();
         <span class="ident">params</span>.<span class="ident">insert</span>(<span class="string">&quot;itchio_token&quot;</span>, <span class="ident">token</span>.<span class="ident">into</span>());
         <span class="self">Self</span> { <span class="ident">params</span> }
     }
@@ -834,19 +794,11 @@
     );
 }
 
-<span class="kw">impl</span> <span class="ident">QueryString</span> <span class="kw">for</span> <span class="ident">ItchioOptions</span> {
-    <span class="kw">fn</span> <span class="ident">to_query_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
-        <span class="ident">form_urlencoded</span>::<span class="ident">Serializer</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">new</span>())
-            .<span class="ident">extend_pairs</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">params</span>)
-            .<span class="ident">finish</span>()
-    }
-}
-
 <span class="doccomment">/// Authentication options for an Oculus user.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// See the [mod.io docs](https://docs.mod.io/#authenticate-via-oculus) for more information.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OculusOptions</span> {
-    <span class="ident">params</span>: <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>, <span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="ident">params</span>: <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>, <span class="ident">String</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">OculusOptions</span> {
@@ -854,7 +806,7 @@
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>::<span class="ident">new</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">BTreeMap</span>::<span class="ident">new</span>();
         <span class="ident">params</span>.<span class="ident">insert</span>(<span class="string">&quot;nonce&quot;</span>, <span class="ident">nonce</span>.<span class="ident">into</span>());
         <span class="ident">params</span>.<span class="ident">insert</span>(<span class="string">&quot;user_id&quot;</span>, <span class="ident">user_id</span>.<span class="ident">to_string</span>());
         <span class="ident">params</span>.<span class="ident">insert</span>(<span class="string">&quot;auth_token&quot;</span>, <span class="ident">auth_token</span>.<span class="ident">into</span>());
@@ -869,19 +821,11 @@
     );
 }
 
-<span class="kw">impl</span> <span class="ident">QueryString</span> <span class="kw">for</span> <span class="ident">OculusOptions</span> {
-    <span class="kw">fn</span> <span class="ident">to_query_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
-        <span class="ident">form_urlencoded</span>::<span class="ident">Serializer</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">new</span>())
-            .<span class="ident">extend_pairs</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">params</span>)
-            .<span class="ident">finish</span>()
-    }
-}
-
 <span class="doccomment">/// Authentication options for an encrypted steam app ticket.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// See the [mod.io docs](https://docs.mod.io/#authenticate-via-steam) for more information.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SteamOptions</span> {
-    <span class="ident">params</span>: <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>, <span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="ident">params</span>: <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>, <span class="ident">String</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">SteamOptions</span> {
@@ -889,7 +833,7 @@
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>::<span class="ident">new</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">BTreeMap</span>::<span class="ident">new</span>();
         <span class="ident">params</span>.<span class="ident">insert</span>(<span class="string">&quot;appdata&quot;</span>, <span class="ident">ticket</span>.<span class="ident">into</span>());
         <span class="self">Self</span> { <span class="ident">params</span> }
     }
@@ -900,14 +844,6 @@
         <span class="doccomment">/// than the default value which is a common year.</span>
         <span class="ident">expired_at</span>: <span class="ident">u64</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="string">&quot;date_expires&quot;</span>
     );
-}
-
-<span class="kw">impl</span> <span class="ident">QueryString</span> <span class="kw">for</span> <span class="ident">SteamOptions</span> {
-    <span class="kw">fn</span> <span class="ident">to_query_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
-        <span class="ident">form_urlencoded</span>::<span class="ident">Serializer</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">new</span>())
-            .<span class="ident">extend_pairs</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">params</span>)
-            .<span class="ident">finish</span>()
-    }
 }
 
 <span class="doccomment">/// Options for connecting external accounts with the authenticated user&#39;s email address.</span>
