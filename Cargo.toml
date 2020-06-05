@@ -1,13 +1,13 @@
 [package]
 name = "modio"
-version = "0.4.1" # don't forget to update html_root_url
+version = "0.5.0" # don't forget to update html_root_url
 description = "Rust interface for mod.io"
 readme = "README.md"
 documentation = "https://docs.rs/modio"
 repository = "https://github.com/nickelc/modio-rs"
 license = "MIT/Apache-2.0"
 authors = ["Constantin Nickel <constantin.nickel@gmail.com>"]
-keywords = ["modio", "hyper"]
+keywords = ["modio", "client"]
 categories = ["api-bindings", "web-programming::http-client"]
 edition = "2018"
 exclude = ["tests/fixtures/*", "header.png"]
