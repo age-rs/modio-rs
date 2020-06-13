@@ -357,17 +357,20 @@
 <span id="357">357</span>
 <span id="358">358</span>
 <span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Downloading mod files.</span>
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span> <span class="kw">as</span> <span class="ident">StdError</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>::<span class="ident">Path</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">task</span>::<span class="ident">Poll</span>;
 
 <span class="kw">use</span> <span class="ident">bytes</span>::<span class="ident">Bytes</span>;
-<span class="kw">use</span> <span class="ident">futures_core</span>::{<span class="ident">ready</span>, <span class="ident">Stream</span>};
-<span class="kw">use</span> <span class="ident">futures_util</span>::<span class="ident">stream</span>::<span class="ident">poll_fn</span>;
-<span class="kw">use</span> <span class="ident">futures_util</span>::{<span class="ident">future</span>, <span class="ident">FutureExt</span>, <span class="ident">SinkExt</span>, <span class="ident">StreamExt</span>, <span class="ident">TryFutureExt</span>};
+<span class="kw">use</span> <span class="ident">futures_core</span>::<span class="ident">Stream</span>;
+<span class="kw">use</span> <span class="ident">futures_util</span>::{<span class="ident">SinkExt</span>, <span class="ident">StreamExt</span>, <span class="ident">TryFutureExt</span>, <span class="ident">TryStreamExt</span>};
 <span class="kw">use</span> <span class="ident">log</span>::<span class="ident">debug</span>;
 <span class="kw">use</span> <span class="ident">reqwest</span>::{<span class="ident">Method</span>, <span class="ident">Response</span>, <span class="ident">StatusCode</span>};
 <span class="kw">use</span> <span class="ident">tokio</span>::<span class="ident">fs</span>::<span class="ident">File</span> <span class="kw">as</span> <span class="ident">AsyncFile</span>;
@@ -413,11 +416,31 @@
         <span class="self">self</span>.<span class="ident">stream</span>().<span class="ident">forward</span>(<span class="ident">out</span>).<span class="kw">await</span>
     }
 
+    <span class="doccomment">/// Get the full mod file as `Bytes`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Example</span>
+    <span class="doccomment">/// ```no_run</span>
+    <span class="doccomment">/// # async fn run() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {</span>
+    <span class="doccomment">/// #     let modio = modio::Modio::new(&quot;api-key&quot;)?;</span>
+    <span class="doccomment">/// let action = modio::DownloadAction::Primary {</span>
+    <span class="doccomment">///     game_id: 5,</span>
+    <span class="doccomment">///     mod_id: 19,</span>
+    <span class="doccomment">/// };</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let bytes = modio.download(action).bytes().await?;</span>
+    <span class="doccomment">/// #     Ok(())</span>
+    <span class="doccomment">/// # }</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">bytes</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Bytes</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">request_file</span>(<span class="self">self</span>.<span class="ident">modio</span>, <span class="self">self</span>.<span class="ident">action</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+        <span class="ident">resp</span>.<span class="ident">bytes</span>().<span class="ident">map_err</span>(<span class="ident">error</span>::<span class="ident">request</span>).<span class="kw">await</span>
+    }
+
     <span class="doccomment">/// `Stream` of bytes of the mod file.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Example</span>
     <span class="doccomment">/// ```no_run</span>
-    <span class="doccomment">/// use futures_util::{future, TryStreamExt};</span>
+    <span class="doccomment">/// use futures_util::TryStreamExt;</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # async fn run() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {</span>
     <span class="doccomment">/// #     let modio = modio::Modio::new(&quot;api-key&quot;)?;</span>
@@ -426,29 +449,16 @@
     <span class="doccomment">///     mod_id: 19,</span>
     <span class="doccomment">/// };</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// modio</span>
-    <span class="doccomment">///     .download(action)</span>
-    <span class="doccomment">///     .stream()</span>
-    <span class="doccomment">///     .try_for_each(|bytes| {</span>
-    <span class="doccomment">///         println!(&quot;Bytes: {:?}&quot;, bytes);</span>
-    <span class="doccomment">///         future::ok(())</span>
-    <span class="doccomment">///     })</span>
-    <span class="doccomment">///     .await?;</span>
+    <span class="doccomment">/// let mut st = Box::pin(modio.download(action).stream());</span>
+    <span class="doccomment">/// while let Some(bytes) = st.try_next().await? {</span>
+    <span class="doccomment">///     println!(&quot;Bytes: {:?}&quot;, bytes);</span>
+    <span class="doccomment">/// }</span>
     <span class="doccomment">/// #     Ok(())</span>
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">stream</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw">impl</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Bytes</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="ident">request_file</span>(<span class="self">self</span>.<span class="ident">modio</span>, <span class="self">self</span>.<span class="ident">action</span>)
-            .<span class="ident">and_then</span>(<span class="op">|</span><span class="kw-2">mut</span> <span class="ident">res</span><span class="op">|</span> {
-                <span class="kw">let</span> <span class="ident">st</span> <span class="op">=</span> <span class="ident">poll_fn</span>(
-                    <span class="kw">move</span> <span class="op">|</span><span class="ident">cx</span><span class="op">|</span> <span class="kw">match</span> <span class="macro">ready</span><span class="macro">!</span>(<span class="ident">Box</span>::<span class="ident">pin</span>(<span class="ident">res</span>.<span class="ident">chunk</span>()).<span class="ident">poll_unpin</span>(<span class="ident">cx</span>)) {
-                        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">bytes</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="ident">bytes</span>))),
-                        <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">error</span>::<span class="ident">request</span>(<span class="ident">e</span>)))),
-                        <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">None</span>),
-                    },
-                );
-                <span class="ident">future</span>::<span class="ident">ok</span>(<span class="ident">st</span>)
-            })
+            .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">res</span><span class="op">|</span> <span class="kw">async</span> { <span class="prelude-val">Ok</span>(<span class="ident">res</span>.<span class="ident">bytes_stream</span>().<span class="ident">map_err</span>(<span class="ident">error</span>::<span class="ident">request</span>)) })
             .<span class="ident">try_flatten_stream</span>()
     }
 }
