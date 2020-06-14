@@ -124,16 +124,16 @@
             <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game</span>,
             <span class="ident">mod_id</span>: <span class="self">self</span>.<span class="ident">mod_id</span>,
         };
-        <span class="ident">Query</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>, <span class="ident">route</span>, <span class="ident">Default</span>::<span class="ident">default</span>())
-            .<span class="ident">iter</span>()
-            .<span class="kw">await</span><span class="question-mark">?</span>
-            .<span class="ident">try_fold</span>(<span class="ident">MetadataMap</span>::<span class="ident">new</span>(), <span class="op">|</span><span class="kw-2">mut</span> <span class="ident">map</span>, <span class="ident">kv</span>: <span class="ident">KV</span><span class="op">|</span> <span class="kw">async</span> {
-                <span class="ident">map</span>.<span class="ident">entry</span>(<span class="ident">kv</span>.<span class="ident">metakey</span>)
-                    .<span class="ident">or_insert_with</span>(<span class="ident">Vec</span>::<span class="ident">new</span>)
-                    .<span class="ident">push</span>(<span class="ident">kv</span>.<span class="ident">metavalue</span>);
-                <span class="prelude-val">Ok</span>(<span class="ident">map</span>)
-            })
-            .<span class="kw">await</span>
+        <span class="kw">let</span> <span class="ident">filter</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">it</span> <span class="op">=</span> <span class="ident">Query</span>::<span class="op">&lt;</span><span class="ident">KV</span><span class="op">&gt;</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>, <span class="ident">route</span>, <span class="ident">filter</span>).<span class="ident">iter</span>().<span class="kw">await</span><span class="question-mark">?</span>;
+
+        <span class="kw">let</span> (<span class="ident">size</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">it</span>.<span class="ident">size_hint</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">map</span> <span class="op">=</span> <span class="ident">MetadataMap</span>::<span class="ident">with_capacity</span>(<span class="ident">size</span>);
+
+        <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">kv</span>) <span class="op">=</span> <span class="ident">it</span>.<span class="ident">try_next</span>().<span class="kw">await</span><span class="question-mark">?</span> {
+            <span class="ident">map</span>.<span class="ident">entry</span>(<span class="ident">kv</span>.<span class="ident">metakey</span>).<span class="ident">or_default</span>().<span class="ident">push</span>(<span class="ident">kv</span>.<span class="ident">metavalue</span>);
+        }
+        <span class="prelude-val">Ok</span>(<span class="ident">map</span>)
     }
 
     <span class="doccomment">/// Add metadata for a mod that this `Metadata` refers to.</span>
