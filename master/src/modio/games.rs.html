@@ -402,7 +402,6 @@
 <span id="402">402</span>
 <span id="403">403</span>
 <span id="404">404</span>
-<span id="405">405</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Games interface</span>
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">OsStr</span>;
@@ -412,10 +411,9 @@
 <span class="kw">use</span> <span class="ident">url</span>::<span class="ident">form_urlencoded</span>;
 <span class="kw">use</span> <span class="ident">url</span>::<span class="ident">Url</span>;
 
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">mods</span>::{<span class="ident">ModRef</span>, <span class="ident">Mods</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">multipart</span>::<span class="ident">FileSource</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">ModRef</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Mods</span>;
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">game</span>::{
     <span class="ident">ApiAccessOptions</span>, <span class="ident">CommunityOptions</span>, <span class="ident">CurationOption</span>, <span class="ident">Downloads</span>, <span class="ident">Game</span>, <span class="ident">HeaderImage</span>, <span class="ident">Icon</span>,

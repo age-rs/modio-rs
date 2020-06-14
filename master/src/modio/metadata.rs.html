@@ -90,7 +90,7 @@
 <span id="90">90</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Mod metadata KVP interface</span>
-<span class="kw">use</span> <span class="ident">futures_util</span>::<span class="ident">future</span>;
+<span class="kw">use</span> <span class="ident">futures_util</span>::<span class="ident">TryStreamExt</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">Deserialize</span>;
 <span class="kw">use</span> <span class="ident">url</span>::<span class="ident">form_urlencoded</span>;
 
@@ -127,11 +127,11 @@
         <span class="ident">Query</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">modio</span>, <span class="ident">route</span>, <span class="ident">Default</span>::<span class="ident">default</span>())
             .<span class="ident">iter</span>()
             .<span class="kw">await</span><span class="question-mark">?</span>
-            .<span class="ident">try_fold</span>(<span class="ident">MetadataMap</span>::<span class="ident">new</span>(), <span class="op">|</span><span class="kw-2">mut</span> <span class="ident">map</span>, <span class="ident">kv</span>: <span class="ident">KV</span><span class="op">|</span> {
+            .<span class="ident">try_fold</span>(<span class="ident">MetadataMap</span>::<span class="ident">new</span>(), <span class="op">|</span><span class="kw-2">mut</span> <span class="ident">map</span>, <span class="ident">kv</span>: <span class="ident">KV</span><span class="op">|</span> <span class="kw">async</span> {
                 <span class="ident">map</span>.<span class="ident">entry</span>(<span class="ident">kv</span>.<span class="ident">metakey</span>)
                     .<span class="ident">or_insert_with</span>(<span class="ident">Vec</span>::<span class="ident">new</span>)
                     .<span class="ident">push</span>(<span class="ident">kv</span>.<span class="ident">metavalue</span>);
-                <span class="ident">future</span>::<span class="ident">ok</span>(<span class="ident">map</span>)
+                <span class="prelude-val">Ok</span>(<span class="ident">map</span>)
             })
             .<span class="kw">await</span>
     }
