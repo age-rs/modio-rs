@@ -297,6 +297,29 @@
 <span id="297">297</span>
 <span id="298">298</span>
 <span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Client errors</span>
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
@@ -322,6 +345,7 @@
 
 <span class="kw">struct</span> <span class="ident">Inner</span> {
     <span class="ident">kind</span>: <span class="ident">Kind</span>,
+    <span class="ident">error_ref</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span>,
     <span class="ident">source</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">BoxError</span><span class="op">&gt;</span>,
 }
 
@@ -333,6 +357,20 @@
         <span class="ident">Error</span> {
             <span class="ident">inner</span>: <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">Inner</span> {
                 <span class="ident">kind</span>,
+                <span class="ident">error_ref</span>: <span class="prelude-val">None</span>,
+                <span class="ident">source</span>: <span class="ident">source</span>.<span class="ident">map</span>(<span class="ident">Into</span>::<span class="ident">into</span>),
+            }),
+        }
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new_error_ref</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>(<span class="ident">kind</span>: <span class="ident">Kind</span>, <span class="ident">error_ref</span>: <span class="ident">u16</span>, <span class="ident">source</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Error</span>
+    <span class="kw">where</span>
+        <span class="ident">E</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">BoxError</span><span class="op">&gt;</span>,
+    {
+        <span class="ident">Error</span> {
+            <span class="ident">inner</span>: <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">Inner</span> {
+                <span class="ident">kind</span>,
+                <span class="ident">error_ref</span>: <span class="prelude-val">Some</span>(<span class="ident">error_ref</span>),
                 <span class="ident">source</span>: <span class="ident">source</span>.<span class="ident">map</span>(<span class="ident">Into</span>::<span class="ident">into</span>),
             }),
         }
@@ -393,6 +431,13 @@
             <span class="ident">Kind</span>::<span class="ident">Decode</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
         }
+    }
+
+    <span class="doccomment">/// Returns modio&#39;s error reference code.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See the [Error Codes](https://docs.mod.io/#error-codes) docs for more information.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">error_ref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">error_ref</span>
     }
 
     <span class="doccomment">/// Returns status code if the error was generated from a response.</span>
@@ -501,8 +546,8 @@
     <span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">Kind</span>::<span class="ident">Auth</span>, <span class="prelude-val">Some</span>(<span class="ident">AuthError</span>::<span class="ident">TokenRequired</span>))
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">unauthorized</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Error</span> {
-    <span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">Kind</span>::<span class="ident">Auth</span>, <span class="prelude-val">Some</span>(<span class="ident">AuthError</span>::<span class="ident">Unauthorized</span>))
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">unauthorized</span>(<span class="ident">error_ref</span>: <span class="ident">u16</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Error</span> {
+    <span class="ident">Error</span>::<span class="ident">new_error_ref</span>(<span class="ident">Kind</span>::<span class="ident">Auth</span>, <span class="ident">error_ref</span>, <span class="prelude-val">Some</span>(<span class="ident">AuthError</span>::<span class="ident">Unauthorized</span>))
 }
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">builder_or_request</span>(<span class="ident">e</span>: <span class="ident">reqwest</span>::<span class="ident">Error</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Error</span> {
@@ -525,14 +570,15 @@
     <span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">Kind</span>::<span class="ident">Decode</span>, <span class="prelude-val">Some</span>(<span class="ident">e</span>))
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">error_for_status</span>(<span class="ident">code</span>: <span class="ident">StatusCode</span>, <span class="ident">error</span>: <span class="ident">ModioError</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Error</span> {
-    <span class="kw">match</span> <span class="ident">code</span> {
-        <span class="ident">StatusCode</span>::<span class="ident">UNPROCESSABLE_ENTITY</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Error</span>::<span class="ident">new</span>(
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">error_for_status</span>(<span class="ident">status</span>: <span class="ident">StatusCode</span>, <span class="ident">error</span>: <span class="ident">ModioError</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Error</span> {
+    <span class="kw">match</span> <span class="ident">status</span> {
+        <span class="ident">StatusCode</span>::<span class="ident">UNPROCESSABLE_ENTITY</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Error</span>::<span class="ident">new_error_ref</span>(
             <span class="ident">Kind</span>::<span class="ident">Validation</span>(<span class="ident">error</span>.<span class="ident">message</span>, <span class="ident">error</span>.<span class="ident">errors</span>.<span class="ident">unwrap_or_default</span>()),
+            <span class="ident">error</span>.<span class="ident">error_ref</span>,
             <span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Error</span><span class="op">&gt;</span>,
         ),
-        <span class="ident">StatusCode</span>::<span class="ident">UNAUTHORIZED</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">unauthorized</span>(),
-        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">Kind</span>::<span class="ident">Status</span>(<span class="ident">code</span>), <span class="prelude-val">Some</span>(<span class="ident">error</span>)),
+        <span class="ident">StatusCode</span>::<span class="ident">UNAUTHORIZED</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">unauthorized</span>(<span class="ident">error</span>.<span class="ident">error_ref</span>),
+        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Error</span>::<span class="ident">new_error_ref</span>(<span class="ident">Kind</span>::<span class="ident">Status</span>(<span class="ident">status</span>), <span class="ident">error</span>.<span class="ident">error_ref</span>, <span class="prelude-val">Some</span>(<span class="ident">error</span>)),
     }
 }
 
