@@ -258,17 +258,6 @@
 <span id="258">258</span>
 <span id="259">259</span>
 <span id="260">260</span>
-<span id="261">261</span>
-<span id="262">262</span>
-<span id="263">263</span>
-<span id="264">264</span>
-<span id="265">265</span>
-<span id="266">266</span>
-<span id="267">267</span>
-<span id="268">268</span>
-<span id="269">269</span>
-<span id="270">270</span>
-<span id="271">271</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Modfile interface</span>
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">OsStr</span>;
@@ -277,7 +266,6 @@
 
 <span class="kw">use</span> <span class="ident">mime</span>::<span class="ident">APPLICATION_OCTET_STREAM</span>;
 <span class="kw">use</span> <span class="ident">tokio</span>::<span class="ident">io</span>::<span class="ident">AsyncRead</span>;
-<span class="kw">use</span> <span class="ident">url</span>::<span class="ident">form_urlencoded</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">multipart</span>::<span class="ident">FileSource</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
@@ -326,7 +314,7 @@
         };
         <span class="self">self</span>.<span class="ident">modio</span>
             .<span class="ident">request</span>(<span class="ident">route</span>)
-            .<span class="ident">body</span>(<span class="ident">Form</span>::<span class="ident">from</span>(<span class="ident">options</span>))
+            .<span class="ident">multipart</span>(<span class="ident">Form</span>::<span class="ident">from</span>(<span class="ident">options</span>))
             .<span class="ident">send</span>()
             .<span class="kw">await</span>
     }
@@ -367,11 +355,7 @@
             <span class="ident">mod_id</span>: <span class="self">self</span>.<span class="ident">mod_id</span>,
             <span class="ident">file_id</span>: <span class="self">self</span>.<span class="ident">id</span>,
         };
-        <span class="self">self</span>.<span class="ident">modio</span>
-            .<span class="ident">request</span>(<span class="ident">route</span>)
-            .<span class="ident">body</span>(<span class="ident">options</span>.<span class="ident">to_query_string</span>())
-            .<span class="ident">send</span>()
-            .<span class="kw">await</span>
+        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">request</span>(<span class="ident">route</span>).<span class="ident">form</span>(<span class="kw-2">&amp;</span><span class="ident">options</span>).<span class="ident">send</span>().<span class="kw">await</span>
     }
 
     <span class="doccomment">/// Delete a modfile. [required: token]</span>
@@ -534,12 +518,6 @@
     <span class="macro">option</span><span class="macro">!</span>(<span class="ident">metadata_blob</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="string">&quot;metadata_blob&quot;</span>);
 }
 
-<span class="kw">impl</span> <span class="ident">QueryString</span> <span class="kw">for</span> <span class="ident">EditFileOptions</span> {
-    <span class="kw">fn</span> <span class="ident">to_query_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
-        <span class="ident">form_urlencoded</span>::<span class="ident">Serializer</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">new</span>())
-            .<span class="ident">extend_pairs</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">params</span>)
-            .<span class="ident">finish</span>()
-    }
-}
+<span class="macro">impl_serialize_params</span><span class="macro">!</span>(<span class="ident">EditFileOptions</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">params</span>);
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "modio";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

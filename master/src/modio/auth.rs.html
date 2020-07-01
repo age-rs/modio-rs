@@ -451,26 +451,15 @@
 <span id="451">451</span>
 <span id="452">452</span>
 <span id="453">453</span>
-<span id="454">454</span>
-<span id="455">455</span>
-<span id="456">456</span>
-<span id="457">457</span>
-<span id="458">458</span>
-<span id="459">459</span>
-<span id="460">460</span>
-<span id="461">461</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Authentication Flow interface</span>
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span> <span class="kw">as</span> <span class="ident">StdError</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
 
-<span class="kw">use</span> <span class="ident">url</span>::<span class="ident">form_urlencoded</span>;
-
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">routing</span>::<span class="ident">Route</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::{<span class="ident">AccessToken</span>, <span class="ident">Message</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Modio</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">QueryString</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="prelude-ty">Result</span>;
 
 <span class="doccomment">/// [mod.io](https://mod.io) credentials. API key with optional OAuth2 access token.</span>
@@ -604,13 +593,9 @@
 
     <span class="doccomment">/// Request a security code be sent to the email of the user. [required: apikey]</span>
     <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">request_code</span>(<span class="self">self</span>, <span class="ident">email</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">form_urlencoded</span>::<span class="ident">Serializer</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">new</span>())
-            .<span class="ident">append_pair</span>(<span class="string">&quot;email&quot;</span>, <span class="ident">email</span>)
-            .<span class="ident">finish</span>();
-
         <span class="self">self</span>.<span class="ident">modio</span>
             .<span class="ident">request</span>(<span class="ident">Route</span>::<span class="ident">AuthEmailRequest</span>)
-            .<span class="ident">body</span>(<span class="ident">data</span>)
+            .<span class="ident">form</span>(<span class="kw-2">&amp;</span>[(<span class="string">&quot;email&quot;</span>, <span class="ident">email</span>)])
             .<span class="ident">send</span>::<span class="op">&lt;</span><span class="ident">Message</span><span class="op">&gt;</span>()
             .<span class="kw">await</span><span class="question-mark">?</span>;
 
@@ -619,14 +604,10 @@
 
     <span class="doccomment">/// Get the access token for a security code. [required: apikey]</span>
     <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">security_code</span>(<span class="self">self</span>, <span class="ident">code</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Credentials</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">form_urlencoded</span>::<span class="ident">Serializer</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">new</span>())
-            .<span class="ident">append_pair</span>(<span class="string">&quot;security_code&quot;</span>, <span class="ident">code</span>)
-            .<span class="ident">finish</span>();
-
         <span class="kw">let</span> <span class="ident">t</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">modio</span>
             .<span class="ident">request</span>(<span class="ident">Route</span>::<span class="ident">AuthEmailExchange</span>)
-            .<span class="ident">body</span>(<span class="ident">data</span>)
+            .<span class="ident">form</span>(<span class="kw-2">&amp;</span>[(<span class="string">&quot;security_code&quot;</span>, <span class="ident">code</span>)])
             .<span class="ident">send</span>::<span class="op">&lt;</span><span class="ident">AccessToken</span><span class="op">&gt;</span>()
             .<span class="kw">await</span><span class="question-mark">?</span>;
 
@@ -677,14 +658,11 @@
         <span class="ident">T</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">AuthOptions</span><span class="op">&gt;</span>,
     {
         <span class="kw">let</span> <span class="ident">AuthOptions</span> { <span class="ident">route</span>, <span class="ident">params</span> } <span class="op">=</span> <span class="ident">auth_options</span>.<span class="ident">into</span>();
-        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">form_urlencoded</span>::<span class="ident">Serializer</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">new</span>())
-            .<span class="ident">extend_pairs</span>(<span class="ident">params</span>)
-            .<span class="ident">finish</span>();
 
         <span class="kw">let</span> <span class="ident">t</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">modio</span>
             .<span class="ident">request</span>(<span class="ident">route</span>)
-            .<span class="ident">body</span>(<span class="ident">data</span>)
+            .<span class="ident">form</span>(<span class="kw-2">&amp;</span><span class="ident">params</span>)
             .<span class="ident">send</span>::<span class="op">&lt;</span><span class="ident">AccessToken</span><span class="op">&gt;</span>()
             .<span class="kw">await</span><span class="question-mark">?</span>;
 
@@ -704,7 +682,7 @@
     <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">link</span>(<span class="self">self</span>, <span class="ident">options</span>: <span class="ident">LinkOptions</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">modio</span>
             .<span class="ident">request</span>(<span class="ident">Route</span>::<span class="ident">LinkAccount</span>)
-            .<span class="ident">body</span>(<span class="ident">options</span>.<span class="ident">to_query_string</span>())
+            .<span class="ident">form</span>(<span class="kw-2">&amp;</span><span class="ident">options</span>)
             .<span class="ident">send</span>::<span class="op">&lt;</span><span class="ident">Message</span><span class="op">&gt;</span>()
             .<span class="kw">await</span><span class="question-mark">?</span>;
 
@@ -899,18 +877,24 @@
     }
 }
 
-<span class="kw">impl</span> <span class="ident">QueryString</span> <span class="kw">for</span> <span class="ident">LinkOptions</span> {
-    <span class="kw">fn</span> <span class="ident">to_query_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+<span class="kw">impl</span> <span class="ident">serde</span>::<span class="ident">ser</span>::<span class="ident">Serialize</span> <span class="kw">for</span> <span class="ident">LinkOptions</span> {
+    <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">serializer</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">result</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span>::<span class="prelude-val">Ok</span>, <span class="ident">S</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">S</span>: <span class="ident">serde</span>::<span class="ident">ser</span>::<span class="ident">Serializer</span>,
+    {
+        <span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">ser</span>::<span class="ident">SerializeStruct</span>;
+
         <span class="kw">let</span> (<span class="ident">service</span>, <span class="ident">id</span>) <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">service</span> {
-            <span class="ident">Service</span>::<span class="ident">Steam</span>(<span class="ident">id</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="string">&quot;steam&quot;</span>, <span class="ident">id</span>.<span class="ident">to_string</span>()),
-            <span class="ident">Service</span>::<span class="ident">Gog</span>(<span class="ident">id</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="string">&quot;gog&quot;</span>, <span class="ident">id</span>.<span class="ident">to_string</span>()),
-            <span class="ident">Service</span>::<span class="ident">Itchio</span>(<span class="ident">id</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="string">&quot;itch&quot;</span>, <span class="ident">id</span>.<span class="ident">to_string</span>()),
+            <span class="ident">Service</span>::<span class="ident">Steam</span>(<span class="ident">id</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="string">&quot;steam&quot;</span>, <span class="ident">id</span>),
+            <span class="ident">Service</span>::<span class="ident">Gog</span>(<span class="ident">id</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="string">&quot;gog&quot;</span>, <span class="ident">id</span>),
+            <span class="ident">Service</span>::<span class="ident">Itchio</span>(<span class="ident">id</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="string">&quot;itch&quot;</span>, <span class="ident">id</span>),
         };
-        <span class="ident">form_urlencoded</span>::<span class="ident">Serializer</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">new</span>())
-            .<span class="ident">append_pair</span>(<span class="string">&quot;email&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">email</span>)
-            .<span class="ident">append_pair</span>(<span class="string">&quot;service&quot;</span>, <span class="ident">service</span>)
-            .<span class="ident">append_pair</span>(<span class="string">&quot;service_id&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">id</span>)
-            .<span class="ident">finish</span>()
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">opts</span> <span class="op">=</span> <span class="ident">serializer</span>.<span class="ident">serialize_struct</span>(<span class="string">&quot;LinkOptions&quot;</span>, <span class="number">3</span>)<span class="question-mark">?</span>;
+        <span class="ident">opts</span>.<span class="ident">serialize_field</span>(<span class="string">&quot;email&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">email</span>)<span class="question-mark">?</span>;
+        <span class="ident">opts</span>.<span class="ident">serialize_field</span>(<span class="string">&quot;service&quot;</span>, <span class="ident">service</span>)<span class="question-mark">?</span>;
+        <span class="ident">opts</span>.<span class="ident">serialize_field</span>(<span class="string">&quot;service_id&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">id</span>)<span class="question-mark">?</span>;
+        <span class="ident">opts</span>.<span class="ident">end</span>()
     }
 }
 

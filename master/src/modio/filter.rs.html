@@ -698,6 +698,31 @@
 <span id="698">698</span>
 <span id="699">699</span>
 <span id="700">700</span>
+<span id="701">701</span>
+<span id="702">702</span>
+<span id="703">703</span>
+<span id="704">704</span>
+<span id="705">705</span>
+<span id="706">706</span>
+<span id="707">707</span>
+<span id="708">708</span>
+<span id="709">709</span>
+<span id="710">710</span>
+<span id="711">711</span>
+<span id="712">712</span>
+<span id="713">713</span>
+<span id="714">714</span>
+<span id="715">715</span>
+<span id="716">716</span>
+<span id="717">717</span>
+<span id="718">718</span>
+<span id="719">719</span>
+<span id="720">720</span>
+<span id="721">721</span>
+<span id="722">722</span>
+<span id="723">723</span>
+<span id="724">724</span>
+<span id="725">725</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Filtering and sorting</span>
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeSet</span>;
@@ -1153,15 +1178,23 @@
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">Filter</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
-        <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">QueryString</span>;
-        <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">to_query_string</span>())
+        <span class="kw">match</span> <span class="ident">serde_json</span>::<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
+            <span class="prelude-val">Ok</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>),
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">fmt</span>::<span class="ident">Error</span>),
+        }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">sealed</span>::<span class="ident">FilterPriv</span> <span class="kw">for</span> <span class="ident">Filter</span> {}
 
-<span class="kw">impl</span> <span class="kw">crate</span>::<span class="ident">QueryString</span> <span class="kw">for</span> <span class="ident">Filter</span> {
-    <span class="kw">fn</span> <span class="ident">to_query_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+<span class="kw">impl</span> <span class="ident">serde</span>::<span class="ident">ser</span>::<span class="ident">Serialize</span> <span class="kw">for</span> <span class="ident">Filter</span> {
+    <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">serializer</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">result</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span>::<span class="prelude-val">Ok</span>, <span class="ident">S</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">S</span>: <span class="ident">serde</span>::<span class="ident">ser</span>::<span class="ident">Serializer</span>,
+    {
+        <span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">ser</span>::<span class="ident">SerializeMap</span>;
+
         <span class="kw">let</span> <span class="ident">map_filters</span> <span class="op">=</span> <span class="op">|</span><span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="ident">FilterEntry</span><span class="op">|</span> {
             <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">f</span>.<span class="ident">value</span> {
                 <span class="ident">OneOrMany</span>::<span class="ident">One</span>(<span class="kw-2">ref</span> <span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">v</span>.<span class="ident">to_string</span>(),
@@ -1173,12 +1206,26 @@
             };
             (<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}{}&quot;</span>, <span class="ident">f</span>.<span class="ident">name</span>, <span class="ident">f</span>.<span class="ident">op</span>), <span class="ident">value</span>)
         };
-        <span class="ident">url</span>::<span class="ident">form_urlencoded</span>::<span class="ident">Serializer</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">new</span>())
-            .<span class="ident">extend_pairs</span>(<span class="self">self</span>.<span class="ident">filters</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="ident">map_filters</span>))
-            .<span class="ident">extend_pairs</span>(<span class="self">self</span>.<span class="ident">order_by</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> (<span class="string">&quot;_sort&quot;</span>, <span class="ident">s</span>.<span class="ident">to_string</span>())))
-            .<span class="ident">extend_pairs</span>(<span class="self">self</span>.<span class="ident">offset</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">o</span><span class="op">|</span> (<span class="string">&quot;_offset&quot;</span>, <span class="ident">o</span>.<span class="ident">to_string</span>())))
-            .<span class="ident">extend_pairs</span>(<span class="self">self</span>.<span class="ident">limit</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">l</span><span class="op">|</span> (<span class="string">&quot;_limit&quot;</span>, <span class="ident">l</span>.<span class="ident">to_string</span>())))
-            .<span class="ident">finish</span>()
+
+        <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">filters</span>.<span class="ident">len</span>()
+            <span class="op">+</span> <span class="self">self</span>.<span class="ident">limit</span>.<span class="ident">as_ref</span>().<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="number">1</span>).<span class="ident">unwrap_or_default</span>()
+            <span class="op">+</span> <span class="self">self</span>.<span class="ident">offset</span>.<span class="ident">as_ref</span>().<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="number">1</span>).<span class="ident">unwrap_or_default</span>()
+            <span class="op">+</span> <span class="self">self</span>.<span class="ident">order_by</span>.<span class="ident">as_ref</span>().<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="number">1</span>).<span class="ident">unwrap_or_default</span>();
+
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">map</span> <span class="op">=</span> <span class="ident">serializer</span>.<span class="ident">serialize_map</span>(<span class="prelude-val">Some</span>(<span class="ident">len</span>))<span class="question-mark">?</span>;
+        <span class="kw">for</span> (<span class="ident">k</span>, <span class="ident">v</span>) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">filters</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="ident">map_filters</span>) {
+            <span class="ident">map</span>.<span class="ident">serialize_entry</span>(<span class="kw-2">&amp;</span><span class="ident">k</span>, <span class="kw-2">&amp;</span><span class="ident">v</span>)<span class="question-mark">?</span>;
+        }
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">limit</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">limit</span> {
+            <span class="ident">map</span>.<span class="ident">serialize_entry</span>(<span class="string">&quot;_limit&quot;</span>, <span class="ident">limit</span>)<span class="question-mark">?</span>;
+        }
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">offset</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">offset</span> {
+            <span class="ident">map</span>.<span class="ident">serialize_entry</span>(<span class="string">&quot;_offset&quot;</span>, <span class="ident">offset</span>)<span class="question-mark">?</span>;
+        }
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">order_by</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">order_by</span> {
+            <span class="ident">map</span>.<span class="ident">serialize_entry</span>(<span class="string">&quot;_sort&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">order_by</span>.<span class="ident">to_string</span>())<span class="question-mark">?</span>;
+        }
+        <span class="ident">map</span>.<span class="ident">end</span>()
     }
 }
 
@@ -1327,7 +1374,6 @@
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
     <span class="kw">fn</span> <span class="ident">filters</span>() {
         <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
-        <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">QueryString</span>;
 
         <span class="macro">filter</span><span class="macro">!</span>(<span class="ident">GameId</span>, <span class="ident">GAME_ID</span>, <span class="string">&quot;game_id&quot;</span>, <span class="ident">Eq</span>, <span class="ident">NotEq</span>, <span class="ident">Like</span>, <span class="ident">In</span>, <span class="ident">Cmp</span>, <span class="ident">OrderBy</span>);
         <span class="macro">filter</span><span class="macro">!</span>(<span class="ident">NameId</span>, <span class="ident">NAME_ID</span>, <span class="string">&quot;name_id&quot;</span>, <span class="ident">Eq</span>, <span class="ident">NotEq</span>, <span class="ident">Like</span>, <span class="ident">In</span>, <span class="ident">Cmp</span>, <span class="ident">OrderBy</span>);
@@ -1337,64 +1383,68 @@
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NAME_ID</span>, <span class="string">&quot;name_id&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">f</span> <span class="op">=</span> <span class="ident">GameId</span>::<span class="ident">eq</span>(<span class="number">1</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_query_string</span>(), <span class="string">&quot;game_id=1&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_string</span>(), <span class="string">r#&quot;{&quot;game_id&quot;:&quot;1&quot;}&quot;#</span>);
 
         <span class="kw">let</span> <span class="ident">f</span> <span class="op">=</span> <span class="ident">GameId</span>::<span class="ident">_in</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="number">1</span>, <span class="number">2</span>]).<span class="ident">and</span>(<span class="ident">NameId</span>::<span class="ident">like</span>(<span class="string">&quot;foobar*&quot;</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_query_string</span>(), <span class="string">&quot;game_id-in=1%2C2&amp;name_id-lk=foobar*&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">f</span>.<span class="ident">to_string</span>(),
+            <span class="string">r#&quot;{&quot;game_id-in&quot;:&quot;1,2&quot;,&quot;name_id-lk&quot;:&quot;foobar*&quot;}&quot;#</span>
+        );
 
         <span class="kw">let</span> <span class="ident">f</span> <span class="op">=</span> <span class="ident">GameId</span>::<span class="ident">eq</span>(<span class="number">1</span>).<span class="ident">and</span>(<span class="ident">GameId</span>::<span class="ident">eq</span>(<span class="number">2</span>)).<span class="ident">and</span>(<span class="ident">GameId</span>::<span class="ident">ne</span>(<span class="number">3</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_query_string</span>(), <span class="string">&quot;game_id=2&amp;game_id-not=3&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_string</span>(), <span class="string">r#&quot;{&quot;game_id&quot;:&quot;2&quot;,&quot;game_id-not&quot;:&quot;3&quot;}&quot;#</span>);
 
         <span class="kw">let</span> <span class="ident">f</span> <span class="op">=</span> <span class="ident">GameId</span>::<span class="ident">eq</span>(<span class="number">1</span>).<span class="ident">order_by</span>(<span class="ident">NameId</span>::<span class="ident">asc</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_query_string</span>(), <span class="string">&quot;game_id=1&amp;_sort=name_id&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_string</span>(), <span class="string">r#&quot;{&quot;game_id&quot;:&quot;1&quot;,&quot;_sort&quot;:&quot;name_id&quot;}&quot;#</span>);
 
         <span class="kw">let</span> <span class="ident">f</span> <span class="op">=</span> <span class="ident">NameId</span>::<span class="ident">like</span>(<span class="string">&quot;foo*&quot;</span>).<span class="ident">and</span>(<span class="ident">NameId</span>::<span class="ident">not_like</span>(<span class="string">&quot;bar*&quot;</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_query_string</span>(), <span class="string">&quot;name_id-lk=foo*&amp;name_id-not-lk=bar*&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">f</span>.<span class="ident">to_string</span>(),
+            <span class="string">r#&quot;{&quot;name_id-lk&quot;:&quot;foo*&quot;,&quot;name_id-not-lk&quot;:&quot;bar*&quot;}&quot;#</span>
+        );
 
         <span class="kw">let</span> <span class="ident">f</span> <span class="op">=</span> <span class="ident">NameId</span>::<span class="ident">gt</span>(<span class="number">1</span>).<span class="ident">and</span>(<span class="ident">NameId</span>::<span class="ident">lt</span>(<span class="number">2</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_query_string</span>(), <span class="string">&quot;name_id-st=2&amp;name_id-gt=1&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_string</span>(), <span class="string">r#&quot;{&quot;name_id-st&quot;:&quot;2&quot;,&quot;name_id-gt&quot;:&quot;1&quot;}&quot;#</span>);
 
         <span class="kw">let</span> <span class="ident">f</span> <span class="op">=</span> <span class="ident">NameId</span>::<span class="ident">ge</span>(<span class="number">1</span>).<span class="ident">and</span>(<span class="ident">NameId</span>::<span class="ident">le</span>(<span class="number">2</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_query_string</span>(), <span class="string">&quot;name_id-min=1&amp;name_id-max=2&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_string</span>(), <span class="string">r#&quot;{&quot;name_id-min&quot;:&quot;1&quot;,&quot;name_id-max&quot;:&quot;2&quot;}&quot;#</span>);
 
         <span class="kw">let</span> <span class="ident">f</span> <span class="op">=</span> <span class="ident">BitOption</span>::<span class="ident">bit_and</span>(<span class="number">1</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_query_string</span>(), <span class="string">&quot;bit_option-bitwise-and=1&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_string</span>(), <span class="string">r#&quot;{&quot;bit_option-bitwise-and&quot;:&quot;1&quot;}&quot;#</span>);
 
         <span class="kw">let</span> <span class="ident">f</span> <span class="op">=</span> <span class="ident">NameId</span>::<span class="ident">desc</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_query_string</span>(), <span class="string">&quot;_sort=-name_id&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_string</span>(), <span class="string">r#&quot;{&quot;_sort&quot;:&quot;-name_id&quot;}&quot;#</span>);
 
         <span class="kw">let</span> <span class="ident">f</span> <span class="op">=</span> <span class="ident">with_limit</span>(<span class="number">10</span>).<span class="ident">and</span>(<span class="ident">with_limit</span>(<span class="number">20</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_query_string</span>(), <span class="string">&quot;_limit=20&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_string</span>(), <span class="string">r#&quot;{&quot;_limit&quot;:20}&quot;#</span>);
 
         <span class="kw">let</span> <span class="ident">f</span> <span class="op">=</span> <span class="ident">with_offset</span>(<span class="number">10</span>).<span class="ident">and</span>(<span class="ident">with_offset</span>(<span class="number">20</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_query_string</span>(), <span class="string">&quot;_offset=20&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_string</span>(), <span class="string">r#&quot;{&quot;_offset&quot;:20}&quot;#</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">custom_filters</span>() {
         <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
         <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-        <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">QueryString</span>;
 
         <span class="macro">filter</span><span class="macro">!</span>(<span class="ident">GameId</span>, <span class="ident">GAME_ID</span>, <span class="string">&quot;game_id&quot;</span>, <span class="ident">Eq</span>);
 
         <span class="kw">let</span> <span class="ident">f</span> <span class="op">=</span> <span class="ident">GameId</span>::<span class="ident">eq</span>(<span class="number">1</span>).<span class="ident">and</span>(<span class="ident">custom_filter</span>(<span class="string">&quot;foo&quot;</span>, <span class="ident">Operator</span>::<span class="ident">Equals</span>, <span class="string">&quot;bar&quot;</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_query_string</span>(), <span class="string">&quot;foo=bar&amp;game_id=1&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_string</span>(), <span class="string">r#&quot;{&quot;foo&quot;:&quot;bar&quot;,&quot;game_id&quot;:&quot;1&quot;}&quot;#</span>);
 
         <span class="kw">let</span> <span class="ident">f</span> <span class="op">=</span> <span class="ident">custom_order_by_asc</span>(<span class="string">&quot;foo&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_query_string</span>(), <span class="string">&quot;_sort=foo&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_string</span>(), <span class="string">r#&quot;{&quot;_sort&quot;:&quot;foo&quot;}&quot;#</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">std_ops_add</span>() {
         <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
-        <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">QueryString</span>;
 
         <span class="kw">let</span> <span class="ident">f</span> <span class="op">=</span> <span class="ident">Id</span>::<span class="ident">eq</span>(<span class="number">1</span>) <span class="op">+</span> <span class="ident">Id</span>::<span class="ident">eq</span>(<span class="number">2</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_query_string</span>(), <span class="string">&quot;id=2&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_string</span>(), <span class="string">r#&quot;{&quot;id&quot;:&quot;2&quot;}&quot;#</span>);
 
         <span class="kw">let</span> <span class="ident">f</span> <span class="op">=</span> <span class="ident">Id</span>::<span class="ident">eq</span>(<span class="number">1</span>) <span class="op">+</span> <span class="ident">NameId</span>::<span class="ident">eq</span>(<span class="string">&quot;foo&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_query_string</span>(), <span class="string">&quot;id=1&amp;name_id=foo&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">to_string</span>(), <span class="string">r#&quot;{&quot;id&quot;:&quot;1&quot;,&quot;name_id&quot;:&quot;foo&quot;}&quot;#</span>);
     }
 }
 

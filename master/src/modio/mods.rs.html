@@ -898,13 +898,23 @@
 <span id="898">898</span>
 <span id="899">899</span>
 <span id="900">900</span>
+<span id="901">901</span>
+<span id="902">902</span>
+<span id="903">903</span>
+<span id="904">904</span>
+<span id="905">905</span>
+<span id="906">906</span>
+<span id="907">907</span>
+<span id="908">908</span>
+<span id="909">909</span>
+<span id="910">910</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Mods Interface</span>
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">OsStr</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>::<span class="ident">Path</span>;
 
 <span class="kw">use</span> <span class="ident">mime</span>::{<span class="ident">APPLICATION_OCTET_STREAM</span>, <span class="ident">IMAGE_STAR</span>};
-<span class="kw">use</span> <span class="ident">url</span>::{<span class="ident">form_urlencoded</span>, <span class="ident">Url</span>};
+<span class="kw">use</span> <span class="ident">url</span>::<span class="ident">Url</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">comments</span>::<span class="ident">Comments</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::<span class="ident">Kind</span>;
@@ -951,7 +961,7 @@
         <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">Route</span>::<span class="ident">AddMod</span> { <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game</span> };
         <span class="self">self</span>.<span class="ident">modio</span>
             .<span class="ident">request</span>(<span class="ident">route</span>)
-            .<span class="ident">body</span>(<span class="ident">Form</span>::<span class="ident">from</span>(<span class="ident">options</span>))
+            .<span class="ident">multipart</span>(<span class="ident">Form</span>::<span class="ident">from</span>(<span class="ident">options</span>))
             .<span class="ident">send</span>()
             .<span class="kw">await</span>
     }
@@ -1056,11 +1066,7 @@
             <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game</span>,
             <span class="ident">mod_id</span>: <span class="self">self</span>.<span class="ident">id</span>,
         };
-        <span class="self">self</span>.<span class="ident">modio</span>
-            .<span class="ident">request</span>(<span class="ident">route</span>)
-            .<span class="ident">body</span>(<span class="ident">options</span>.<span class="ident">to_query_string</span>())
-            .<span class="ident">send</span>()
-            .<span class="kw">await</span>
+        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">request</span>(<span class="ident">route</span>).<span class="ident">form</span>(<span class="kw-2">&amp;</span><span class="ident">options</span>).<span class="ident">send</span>().<span class="kw">await</span>
     }
 
     <span class="doccomment">/// Delete a mod. [required: token]</span>
@@ -1080,7 +1086,7 @@
         };
         <span class="self">self</span>.<span class="ident">modio</span>
             .<span class="ident">request</span>(<span class="ident">route</span>)
-            .<span class="ident">body</span>(<span class="ident">Form</span>::<span class="ident">from</span>(<span class="ident">options</span>))
+            .<span class="ident">multipart</span>(<span class="ident">Form</span>::<span class="ident">from</span>(<span class="ident">options</span>))
             .<span class="ident">send</span>::<span class="op">&lt;</span><span class="ident">Message</span><span class="op">&gt;</span>()
             .<span class="kw">await</span><span class="question-mark">?</span>;
 
@@ -1093,11 +1099,7 @@
             <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game</span>,
             <span class="ident">mod_id</span>: <span class="self">self</span>.<span class="ident">id</span>,
         };
-        <span class="self">self</span>.<span class="ident">modio</span>
-            .<span class="ident">request</span>(<span class="ident">route</span>)
-            .<span class="ident">body</span>(<span class="ident">options</span>.<span class="ident">to_query_string</span>())
-            .<span class="ident">send</span>()
-            .<span class="kw">await</span>
+        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">request</span>(<span class="ident">route</span>).<span class="ident">form</span>(<span class="kw-2">&amp;</span><span class="ident">options</span>).<span class="ident">send</span>().<span class="kw">await</span>
     }
 
     <span class="doccomment">/// Submit a positive or negative rating for a mod. [required: token]</span>
@@ -1108,7 +1110,7 @@
         };
         <span class="self">self</span>.<span class="ident">modio</span>
             .<span class="ident">request</span>(<span class="ident">route</span>)
-            .<span class="ident">body</span>(<span class="ident">rating</span>.<span class="ident">to_query_string</span>())
+            .<span class="ident">form</span>(<span class="kw-2">&amp;</span><span class="ident">rating</span>)
             .<span class="ident">send</span>::<span class="op">&lt;</span><span class="ident">Message</span><span class="op">&gt;</span>()
             .<span class="kw">await</span>
             .<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ())
@@ -1198,7 +1200,7 @@
         };
         <span class="self">self</span>.<span class="ident">modio</span>
             .<span class="ident">request</span>(<span class="ident">route</span>)
-            .<span class="ident">body</span>(<span class="ident">options</span>.<span class="ident">to_query_string</span>())
+            .<span class="ident">form</span>(<span class="kw-2">&amp;</span><span class="ident">options</span>)
             .<span class="ident">send</span>::<span class="op">&lt;</span><span class="ident">Message</span><span class="op">&gt;</span>()
             .<span class="kw">await</span><span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(())
@@ -1210,11 +1212,7 @@
             <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game_id</span>,
             <span class="ident">mod_id</span>: <span class="self">self</span>.<span class="ident">mod_id</span>,
         };
-        <span class="self">self</span>.<span class="ident">modio</span>
-            .<span class="ident">request</span>(<span class="ident">route</span>)
-            .<span class="ident">body</span>(<span class="ident">options</span>.<span class="ident">to_query_string</span>())
-            .<span class="ident">send</span>()
-            .<span class="kw">await</span>
+        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">request</span>(<span class="ident">route</span>).<span class="ident">form</span>(<span class="kw-2">&amp;</span><span class="ident">options</span>).<span class="ident">send</span>().<span class="kw">await</span>
     }
 }
 
@@ -1264,7 +1262,7 @@
         };
         <span class="self">self</span>.<span class="ident">modio</span>
             .<span class="ident">request</span>(<span class="ident">route</span>)
-            .<span class="ident">body</span>(<span class="ident">options</span>.<span class="ident">to_query_string</span>())
+            .<span class="ident">form</span>(<span class="kw-2">&amp;</span><span class="ident">options</span>)
             .<span class="ident">send</span>::<span class="op">&lt;</span><span class="ident">Message</span><span class="op">&gt;</span>()
             .<span class="kw">await</span><span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(())
@@ -1276,11 +1274,7 @@
             <span class="ident">game_id</span>: <span class="self">self</span>.<span class="ident">game_id</span>,
             <span class="ident">mod_id</span>: <span class="self">self</span>.<span class="ident">mod_id</span>,
         };
-        <span class="self">self</span>.<span class="ident">modio</span>
-            .<span class="ident">request</span>(<span class="ident">route</span>)
-            .<span class="ident">body</span>(<span class="ident">options</span>.<span class="ident">to_query_string</span>())
-            .<span class="ident">send</span>()
-            .<span class="kw">await</span>
+        <span class="self">self</span>.<span class="ident">modio</span>.<span class="ident">request</span>(<span class="ident">route</span>).<span class="ident">form</span>(<span class="kw-2">&amp;</span><span class="ident">options</span>).<span class="ident">send</span>().<span class="kw">await</span>
     }
 }
 
@@ -1450,15 +1444,20 @@
     <span class="ident">Negative</span>,
 }
 
-<span class="kw">impl</span> <span class="ident">QueryString</span> <span class="kw">for</span> <span class="ident">Rating</span> {
-    <span class="kw">fn</span> <span class="ident">to_query_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
-        <span class="macro">format</span><span class="macro">!</span>(
-            <span class="string">&quot;rating={}&quot;</span>,
-            <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-                <span class="ident">Rating</span>::<span class="ident">Negative</span> <span class="op">=</span><span class="op">&gt;</span> <span class="op">-</span><span class="number">1</span>,
-                <span class="ident">Rating</span>::<span class="ident">Positive</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">1</span>,
-            }
-        )
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+<span class="kw">impl</span> <span class="ident">serde</span>::<span class="ident">ser</span>::<span class="ident">Serialize</span> <span class="kw">for</span> <span class="ident">Rating</span> {
+    <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">serializer</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">result</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span>::<span class="prelude-val">Ok</span>, <span class="ident">S</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">S</span>: <span class="ident">serde</span>::<span class="ident">ser</span>::<span class="ident">Serializer</span>,
+    {
+        <span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">ser</span>::<span class="ident">SerializeMap</span>;
+
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">map</span> <span class="op">=</span> <span class="ident">serializer</span>.<span class="ident">serialize_map</span>(<span class="prelude-val">Some</span>(<span class="number">1</span>))<span class="question-mark">?</span>;
+        <span class="kw">match</span> <span class="self">self</span> {
+            <span class="ident">Rating</span>::<span class="ident">Negative</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">map</span>.<span class="ident">serialize_entry</span>(<span class="string">&quot;rating&quot;</span>, <span class="string">&quot;-1&quot;</span>)<span class="question-mark">?</span>,
+            <span class="ident">Rating</span>::<span class="ident">Positive</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">map</span>.<span class="ident">serialize_entry</span>(<span class="string">&quot;rating&quot;</span>, <span class="string">&quot;1&quot;</span>)<span class="question-mark">?</span>,
+        }
+        <span class="ident">map</span>.<span class="ident">end</span>()
     }
 }
 
@@ -1598,13 +1597,7 @@
     <span class="macro">option</span><span class="macro">!</span>(<span class="ident">metadata_blob</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="string">&quot;metadata_blob&quot;</span>);
 }
 
-<span class="kw">impl</span> <span class="ident">QueryString</span> <span class="kw">for</span> <span class="ident">EditModOptions</span> {
-    <span class="kw">fn</span> <span class="ident">to_query_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
-        <span class="ident">form_urlencoded</span>::<span class="ident">Serializer</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">new</span>())
-            .<span class="ident">extend_pairs</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">params</span>)
-            .<span class="ident">finish</span>()
-    }
-}
+<span class="macro">impl_serialize_params</span><span class="macro">!</span>(<span class="ident">EditModOptions</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">params</span>);
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EditDependenciesOptions</span> {
     <span class="ident">dependencies</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
@@ -1624,15 +1617,19 @@
     }
 }
 
-<span class="kw">impl</span> <span class="ident">QueryString</span> <span class="kw">for</span> <span class="ident">EditDependenciesOptions</span> {
-    <span class="kw">fn</span> <span class="ident">to_query_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
-        <span class="ident">form_urlencoded</span>::<span class="ident">Serializer</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">new</span>())
-            .<span class="ident">extend_pairs</span>(
-                <span class="self">self</span>.<span class="ident">dependencies</span>
-                    .<span class="ident">iter</span>()
-                    .<span class="ident">map</span>(<span class="op">|</span><span class="ident">d</span><span class="op">|</span> (<span class="string">&quot;dependencies[]&quot;</span>, <span class="ident">d</span>.<span class="ident">to_string</span>())),
-            )
-            .<span class="ident">finish</span>()
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+<span class="kw">impl</span> <span class="ident">serde</span>::<span class="ident">ser</span>::<span class="ident">Serialize</span> <span class="kw">for</span> <span class="ident">EditDependenciesOptions</span> {
+    <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">serializer</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">result</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span>::<span class="prelude-val">Ok</span>, <span class="ident">S</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">S</span>: <span class="ident">serde</span>::<span class="ident">ser</span>::<span class="ident">Serializer</span>,
+    {
+        <span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">ser</span>::<span class="ident">SerializeMap</span>;
+
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">map</span> <span class="op">=</span> <span class="ident">serializer</span>.<span class="ident">serialize_map</span>(<span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">dependencies</span>.<span class="ident">len</span>()))<span class="question-mark">?</span>;
+        <span class="kw">for</span> <span class="ident">d</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">dependencies</span> {
+            <span class="ident">map</span>.<span class="ident">serialize_entry</span>(<span class="string">&quot;dependencies[]&quot;</span>, <span class="ident">d</span>)<span class="question-mark">?</span>;
+        }
+        <span class="ident">map</span>.<span class="ident">end</span>()
     }
 }
 
@@ -1648,11 +1645,19 @@
     }
 }
 
-<span class="kw">impl</span> <span class="ident">QueryString</span> <span class="kw">for</span> <span class="ident">EditTagsOptions</span> {
-    <span class="kw">fn</span> <span class="ident">to_query_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
-        <span class="ident">form_urlencoded</span>::<span class="ident">Serializer</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">new</span>())
-            .<span class="ident">extend_pairs</span>(<span class="self">self</span>.<span class="ident">tags</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">t</span><span class="op">|</span> (<span class="string">&quot;tags[]&quot;</span>, <span class="ident">t</span>)))
-            .<span class="ident">finish</span>()
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+<span class="kw">impl</span> <span class="ident">serde</span>::<span class="ident">ser</span>::<span class="ident">Serialize</span> <span class="kw">for</span> <span class="ident">EditTagsOptions</span> {
+    <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">serializer</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">result</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span>::<span class="prelude-val">Ok</span>, <span class="ident">S</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">S</span>: <span class="ident">serde</span>::<span class="ident">ser</span>::<span class="ident">Serializer</span>,
+    {
+        <span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">ser</span>::<span class="ident">SerializeMap</span>;
+
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">map</span> <span class="op">=</span> <span class="ident">serializer</span>.<span class="ident">serialize_map</span>(<span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">tags</span>.<span class="ident">len</span>()))<span class="question-mark">?</span>;
+        <span class="kw">for</span> <span class="ident">t</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">tags</span> {
+            <span class="ident">map</span>.<span class="ident">serialize_entry</span>(<span class="string">&quot;tags[]&quot;</span>, <span class="ident">t</span>)<span class="question-mark">?</span>;
+        }
+        <span class="ident">map</span>.<span class="ident">end</span>()
     }
 }
 
@@ -1784,19 +1789,34 @@
     }
 }
 
-<span class="kw">impl</span> <span class="ident">QueryString</span> <span class="kw">for</span> <span class="ident">DeleteMediaOptions</span> {
-    <span class="kw">fn</span> <span class="ident">to_query_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ser</span> <span class="op">=</span> <span class="ident">form_urlencoded</span>::<span class="ident">Serializer</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">new</span>());
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+<span class="kw">impl</span> <span class="ident">serde</span>::<span class="ident">ser</span>::<span class="ident">Serialize</span> <span class="kw">for</span> <span class="ident">DeleteMediaOptions</span> {
+    <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">serializer</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">result</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span>::<span class="prelude-val">Ok</span>, <span class="ident">S</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">S</span>: <span class="ident">serde</span>::<span class="ident">ser</span>::<span class="ident">Serializer</span>,
+    {
+        <span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">ser</span>::<span class="ident">SerializeMap</span>;
+
+        <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">images</span>.<span class="ident">as_ref</span>().<span class="ident">map</span>(<span class="ident">Vec</span>::<span class="ident">len</span>).<span class="ident">unwrap_or_default</span>()
+            <span class="op">+</span> <span class="self">self</span>.<span class="ident">youtube</span>.<span class="ident">as_ref</span>().<span class="ident">map</span>(<span class="ident">Vec</span>::<span class="ident">len</span>).<span class="ident">unwrap_or_default</span>()
+            <span class="op">+</span> <span class="self">self</span>.<span class="ident">sketchfab</span>.<span class="ident">as_ref</span>().<span class="ident">map</span>(<span class="ident">Vec</span>::<span class="ident">len</span>).<span class="ident">unwrap_or_default</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">map</span> <span class="op">=</span> <span class="ident">serializer</span>.<span class="ident">serialize_map</span>(<span class="prelude-val">Some</span>(<span class="ident">len</span>))<span class="question-mark">?</span>;
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">images</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">images</span> {
-            <span class="ident">ser</span>.<span class="ident">extend_pairs</span>(<span class="ident">images</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> (<span class="string">&quot;images[]&quot;</span>, <span class="ident">i</span>)));
+            <span class="kw">for</span> <span class="ident">e</span> <span class="kw">in</span> <span class="ident">images</span> {
+                <span class="ident">map</span>.<span class="ident">serialize_entry</span>(<span class="string">&quot;images[]&quot;</span>, <span class="ident">e</span>)<span class="question-mark">?</span>;
+            }
         }
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">urls</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">youtube</span> {
-            <span class="ident">ser</span>.<span class="ident">extend_pairs</span>(<span class="ident">urls</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">u</span><span class="op">|</span> (<span class="string">&quot;youtube[]&quot;</span>, <span class="ident">u</span>)));
+            <span class="kw">for</span> <span class="ident">e</span> <span class="kw">in</span> <span class="ident">urls</span> {
+                <span class="ident">map</span>.<span class="ident">serialize_entry</span>(<span class="string">&quot;youtube[]&quot;</span>, <span class="ident">e</span>)<span class="question-mark">?</span>;
+            }
         }
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">urls</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">sketchfab</span> {
-            <span class="ident">ser</span>.<span class="ident">extend_pairs</span>(<span class="ident">urls</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">u</span><span class="op">|</span> (<span class="string">&quot;sketchfab[]&quot;</span>, <span class="ident">u</span>)));
+            <span class="kw">for</span> <span class="ident">e</span> <span class="kw">in</span> <span class="ident">urls</span> {
+                <span class="ident">map</span>.<span class="ident">serialize_entry</span>(<span class="string">&quot;sketchfab[]&quot;</span>, <span class="ident">e</span>)<span class="question-mark">?</span>;
+            }
         }
-        <span class="ident">ser</span>.<span class="ident">finish</span>()
+        <span class="ident">map</span>.<span class="ident">end</span>()
     }
 }
 </pre></div>
