@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/routing.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>routing.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../modio/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/routing.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>routing.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../modio/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -181,6 +181,9 @@
 <span id="181">181</span>
 <span id="182">182</span>
 <span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">borrow</span>::<span class="ident">Cow</span>;
 
@@ -191,7 +194,7 @@
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">define_routes</span> {
     <span class="comment">// Start rule.</span>
     <span class="comment">// Note: `$(,)*` is a trick to eat any number of trailing commas.</span>
-    ( $( {$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">route</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>} ),<span class="op">*</span> $(,)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    ( $( {$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">route</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>} ),<span class="op">*</span> $(,)<span class="kw-2">*</span>) <span class="op">=&gt;</span> {
         <span class="comment">// This starts the parse, giving the initial state of the output</span>
         <span class="comment">// (i.e. empty).  Note that the route come after the semicolon.</span>
         <span class="macro">define_routes</span><span class="macro">!</span> { @<span class="ident">parse</span> {}, {}; $({$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">route</span>)<span class="kw-2">*</span>},)<span class="op">*</span> }
@@ -205,14 +208,14 @@
         <span class="comment">// $pout will be the body of the `pieces` match.</span>
         {$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">pout</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>};
         <span class="comment">// See, nothing here?</span>
-    ) <span class="op">=</span><span class="op">&gt;</span> {
+    ) <span class="op">=&gt;</span> {
         <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>)]</span>
         <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Route</span> {
             $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">eout</span>)<span class="op">*</span>
         }
 
         <span class="kw">impl</span> <span class="ident">Route</span> {
-            <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">pieces</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">Method</span>, <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">str</span><span class="op">&gt;</span>, <span class="ident">AuthMethod</span>) {
+            <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">pieces</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">Method</span>, <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">str</span><span class="op">&gt;</span>, <span class="ident">AuthMethod</span>) {
                 <span class="kw">match</span> <span class="self">self</span> {
                     $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">pout</span>)<span class="op">*</span>
                 }
@@ -229,7 +232,7 @@
             <span class="macro-nonterminal">$</span><span class="macro-nonterminal">required</span>:<span class="ident">ident</span> $(,)<span class="op">*</span>
         },
         $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tail</span>:<span class="ident">tt</span>)<span class="op">*</span>
-    ) <span class="op">=</span><span class="op">&gt;</span> {
+    ) <span class="op">=&gt;</span> {
         <span class="macro">define_routes</span><span class="macro">!</span> {
             @<span class="ident">parse</span>
             {
@@ -238,7 +241,7 @@
             },
             {
                 $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">pout</span>)<span class="op">*</span>
-                <span class="ident">Route</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rname</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Route</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rname</span> <span class="op">=&gt;</span> {
                     (<span class="ident">Method</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">method</span>, <span class="ident">Cow</span>::<span class="ident">from</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">path</span>), <span class="ident">AuthMethod</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">required</span>)
                 },
             };
@@ -256,7 +259,7 @@
             <span class="macro-nonterminal">$</span><span class="macro-nonterminal">required</span>:<span class="ident">ident</span> $(,)<span class="op">*</span>
         },
         $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tail</span>:<span class="ident">tt</span>)<span class="op">*</span>
-    ) <span class="op">=</span><span class="op">&gt;</span> {
+    ) <span class="op">=&gt;</span> {
         <span class="macro">define_routes</span><span class="macro">!</span> {
             @<span class="ident">parse</span>
             {
@@ -267,7 +270,7 @@
                 $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">pout</span>)<span class="op">*</span>
                 <span class="ident">Route</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rname</span> {
                     $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">args</span>,)<span class="op">*</span>
-                }<span class="op">=</span><span class="op">&gt;</span> {
+                }<span class="op">=&gt;</span> {
                     (<span class="ident">Method</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">method</span>, <span class="ident">Cow</span>::<span class="ident">from</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">path</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">args</span>,)<span class="kw-2">*</span>)), <span class="ident">AuthMethod</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">required</span>)
                 },
             };
@@ -290,6 +293,7 @@
     { <span class="ident">AuthGog</span>, <span class="ident">POST</span>: <span class="string">&quot;/external/galaxyauth&quot;</span>, <span class="ident">ApiKey</span> },
     { <span class="ident">AuthItchio</span>, <span class="ident">POST</span>: <span class="string">&quot;/external/itchioauth&quot;</span>, <span class="ident">ApiKey</span> },
     { <span class="ident">AuthOculus</span>, <span class="ident">POST</span>: <span class="string">&quot;/external/oculusauth&quot;</span>, <span class="ident">ApiKey</span> },
+    { <span class="ident">AuthXbox</span>, <span class="ident">POST</span>: <span class="string">&quot;/external/xboxauth&quot;</span>, <span class="ident">ApiKey</span> },
     { <span class="ident">LinkAccount</span>, <span class="ident">POST</span>: <span class="string">&quot;/external/link&quot;</span>, <span class="ident">Token</span> },
     { <span class="ident">GetGames</span>, <span class="ident">GET</span>: <span class="string">&quot;/games&quot;</span>, <span class="ident">Any</span> },
     { <span class="ident">GetGame</span>, <span class="ident">GET</span>: <span class="string">&quot;/games/{}&quot;</span>, [<span class="ident">game_id</span>], <span class="ident">Any</span> },
@@ -328,6 +332,8 @@
     { <span class="ident">DeleteTeamMember</span>, <span class="ident">DELETE</span>: <span class="string">&quot;/games/{}/mods/{}/team/{}&quot;</span>, [<span class="ident">game_id</span>, <span class="ident">mod_id</span>, <span class="ident">member_id</span>], <span class="ident">Token</span> },
     { <span class="ident">GetModComments</span>, <span class="ident">GET</span>: <span class="string">&quot;/games/{}/mods/{}/comments&quot;</span>, [<span class="ident">game_id</span>, <span class="ident">mod_id</span>], <span class="ident">Any</span> },
     { <span class="ident">GetModComment</span>, <span class="ident">GET</span>: <span class="string">&quot;/games/{}/mods/{}/comments/{}&quot;</span>, [<span class="ident">game_id</span>, <span class="ident">mod_id</span>, <span class="ident">comment_id</span>], <span class="ident">Any</span> },
+    { <span class="ident">AddModComment</span>, <span class="ident">POST</span>: <span class="string">&quot;/games/{}/mods/{}/comments&quot;</span>, [<span class="ident">game_id</span>, <span class="ident">mod_id</span>], <span class="ident">Token</span> },
+    { <span class="ident">EditModComment</span>, <span class="ident">PUT</span>: <span class="string">&quot;/games/{}/mods/{}/comments/{}&quot;</span>, [<span class="ident">game_id</span>, <span class="ident">mod_id</span>, <span class="ident">comment_id</span>], <span class="ident">Token</span> },
     { <span class="ident">DeleteModComment</span>, <span class="ident">DELETE</span>: <span class="string">&quot;/games/{}/mods/{}/comments/{}&quot;</span>, [<span class="ident">game_id</span>, <span class="ident">mod_id</span>, <span class="ident">comment_id</span>], <span class="ident">Token</span> },
     { <span class="ident">GetFiles</span>, <span class="ident">GET</span>: <span class="string">&quot;/games/{}/mods/{}/files&quot;</span>, [<span class="ident">game_id</span>, <span class="ident">mod_id</span>], <span class="ident">Any</span> },
     { <span class="ident">GetFile</span>, <span class="ident">GET</span>: <span class="string">&quot;/games/{}/mods/{}/files/{}&quot;</span>, [<span class="ident">game_id</span>, <span class="ident">mod_id</span>, <span class="ident">file_id</span>], <span class="ident">Any</span> },
