@@ -1115,8 +1115,8 @@
             .<span class="ident">send</span>::<span class="op">&lt;</span><span class="ident">Message</span><span class="op">&gt;</span>()
             .<span class="kw">await</span>
             .<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ())
-            .<span class="ident">or_else</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">err</span>.<span class="ident">kind</span>() {
-                <span class="ident">Kind</span>::<span class="ident">Status</span>(<span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            .<span class="ident">or_else</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="kw">match</span> (<span class="ident">err</span>.<span class="ident">kind</span>(), <span class="ident">err</span>.<span class="ident">error_ref</span>()) {
+                (<span class="ident">Kind</span>::<span class="ident">Status</span>(<span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>), <span class="prelude-val">Some</span>(<span class="number">15028</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
                 <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>),
             })
     }
@@ -1132,8 +1132,8 @@
             .<span class="ident">send</span>::<span class="op">&lt;</span><span class="ident">Mod</span><span class="op">&gt;</span>()
             .<span class="kw">await</span>
             .<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ())
-            .<span class="ident">or_else</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">err</span>.<span class="ident">kind</span>() {
-                <span class="ident">Kind</span>::<span class="ident">Status</span>(<span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            .<span class="ident">or_else</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="kw">match</span> (<span class="ident">err</span>.<span class="ident">kind</span>(), <span class="ident">err</span>.<span class="ident">error_ref</span>()) {
+                (<span class="ident">Kind</span>::<span class="ident">Status</span>(<span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>), <span class="prelude-val">Some</span>(<span class="number">15004</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
                 <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>),
             })
     }
@@ -1148,8 +1148,8 @@
             .<span class="ident">request</span>(<span class="ident">route</span>)
             .<span class="ident">send</span>()
             .<span class="kw">await</span>
-            .<span class="ident">or_else</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">err</span>.<span class="ident">kind</span>() {
-                <span class="ident">Kind</span>::<span class="ident">Status</span>(<span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            .<span class="ident">or_else</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="kw">match</span> (<span class="ident">err</span>.<span class="ident">kind</span>(), <span class="ident">err</span>.<span class="ident">error_ref</span>()) {
+                (<span class="ident">Kind</span>::<span class="ident">Status</span>(<span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>), <span class="prelude-val">Some</span>(<span class="number">15005</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
                 <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>),
             })
     }
